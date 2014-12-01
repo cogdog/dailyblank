@@ -1,0 +1,47 @@
+.jumbotron {
+	background-color:transparent;
+}
+
+.page-header {
+	padding-bottom: 9px;
+	margin: 0;
+	border:none;
+	
+}
+
+.page-header h1, .page-header .meta {
+	margin: 0;
+	text-align:center;
+}
+
+
+h1, .h1, h2, .h2, h3, .h3 {
+	margin-top: 1em;
+	margin-bottom: 0;
+}
+
+#commentform textarea {
+	width: 60%;
+	height: 150px;
+}
+
+.centertext {
+	text-align:center;
+}
+
+/* ----------------------------= Forms =------------------------------------- */
+#dailyform {
+
+}
+
+#dailyform input[type="text"], #dailyform textarea {
+	width:90%;
+}
+
+#dailyform label {
+	font-weight: bold;
+}
+
+#dailyform fieldset  {
+	margin: 0 0 20px 0;
+}
