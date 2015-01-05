@@ -1,7 +1,6 @@
 <?php
 
 
-
 # -----------------------------------------------------------------
 # Set up the table and put the napkins out
 # -----------------------------------------------------------------
@@ -36,7 +35,8 @@ function dailyblank_query_mods( $query ) {
 }
 
 // change the name of admin menu items from "New Posts"
-// -- h/t
+// -- h/t http://wordpress.stackexchange.com/questions/8427/change-order-of-custom-columns-for-edit-panels
+// and of course the Codex http://codex.wordpress.org/Function_Reference/add_submenu_page
 
 add_action( 'admin_menu', 'dailyblank_change_post_label' );
 add_action( 'init', 'dailyblank_change_post_object' );
@@ -79,7 +79,8 @@ function dailyblank_change_post_object() {
  
 
 function dailyblank_scheduled_menu() {
-	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'manage_options', 'edit.php?post_status=future&post_type=post' ); }
+	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'manage_options', 'edit.php?post_status=future&post_type=post' ); 
+}
 
 # -----------------------------------------------------------------
 # Options Panel for Admin
@@ -649,7 +650,6 @@ function cogdogbug($var) {
 	echo '<pre>';
 	var_dump($var);
 	echo '</pre>';
-
 }
 
 

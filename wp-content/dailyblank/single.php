@@ -19,10 +19,10 @@
 						<header>
 						
 						<div class="clearfix row">
-							<div class="col-md-2 center-block">
+							<div class="col-md-2 btnnav">
 								<?php 
 									if ($prev_post_id) {
-										echo '<a href="' . get_permalink($prev_post_id). '" class="btn btn-primary btn-medium">Previous ' . dailyblank_option('dailykind') . '</a>';
+										echo '<a href="' . get_permalink($prev_post_id). '" class="btn btn-primary btn-medium"><span class="fa fa-chevron-circle-left fa-lg"></span> Previous ' . dailyblank_option('dailykind') . '</a>';
 									}
 								?>
 							</div>
@@ -33,10 +33,10 @@
 								<p class="meta"><?php _e("This " . dailyblank_option('dailykind') .   " was published", "wpbootstrap"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></p>
 							</div>
 						
-							<div class="col-md-2 center-block">
+							<div class="col-md-2 btnnav">
 								<?php 
 									if ($next_post_id) {
-										echo '<a href="' . get_permalink($next_post_id). '" class="btn btn-primary btn-medium">Next ' . dailyblank_option('dailykind') . '</a>';
+										echo '<a href="' . get_permalink($next_post_id). '" class="btn btn-primary btn-medium nav-right">Next ' . dailyblank_option('dailykind') . ' <span class="fa fa-chevron-circle-right fa-lg"></span></a>';
 									}
 								?>
 							</div>
