@@ -82,6 +82,18 @@ function dailyblank_scheduled_menu() {
 	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'manage_options', 'edit.php?post_status=future&post_type=post' ); 
 }
 
+
+add_filter( 'wp_title', 'dailyblank_wp_title_for_home' );
+
+function dailyblank_wp_title_for_home( $title )
+{
+  if( empty( $title ) && ( is_home() || is_front_page() ) ) {
+    return __( 'The Daily ', 'wp_bootstrap' ) . ' | ' . get_bloginfo( 'description' );
+  }
+  return $title;
+}
+
+
 # -----------------------------------------------------------------
 # Options Panel for Admin
 # -----------------------------------------------------------------
@@ -394,11 +406,23 @@ function dailyblank_update_post($post_id, $dailyblank_tag, $dailyblank_date)
 	// Update post content with templates for each TDC type
   	$dailyblank_post = array();
   	$dailyblank_post['ID'] = $post_id;
+  	
+  	// append the hash tag to the title if it's not there
+  	$ptitle = get_the_title( $post_id );
+  	
+  	if ( strpos( $ptitle, ' #' . $dailyblank_tag) === false ) { 
+  		$dailyblank_post['post_title'] = $ptitle . ' #' . $dailyblank_tag;
+  	}
+  	
+  	// use the tag for the slug
   	$dailyblank_post['post_name'] = $dailyblank_tag;
+  	
+  	// set the clock, jaque
   	$dailyblank_post['edit_date'] = true; 
-
   	$dailyblank_post['post_date'] = date('Y-m-d', $dailyblank_date) . ' ' . dailyblank_option('dailytime') . ':00';
   	$dailyblank_post['post_date_gmt'] = gmdate('Y-m-d', $dailyblank_date) . ' ' . dailyblank_option('dailytime') .':00';
+  	
+  	// make it a scheduled post
   	$dailyblank_post['post_status'] = 'future';
   	
   	// set the post author to be user id 1, the site admin
@@ -409,10 +433,9 @@ function dailyblank_update_post($post_id, $dailyblank_tag, $dailyblank_date)
   	$postinfo = get_post( $post_id ); 
   	$dailyblank_post['post_content'] = $postinfo->post_content . "\n\n";
   	
-  	// now append  post content with directions
+  	// now append post content with directions
   	
-  	$dailyblank_post['post_content'] .= 'Tweet a link to your response to @' . dailyblank_option('twitteraccount') . ' and be sure to include the hashtag #' . $dailyblank_tag;
-  	
+  	$dailyblank_post['post_content'] .= 'Tweet a link for your response to <a href="https://twitter.com/' . dailyblank_option('twitteraccount') . '">@' . dailyblank_option('twitteraccount') . '</a> and be sure to include the hashtag <a href="https://twitter.com/hashtag/' . $dailyblank_tag .'">#' . $dailyblank_tag . '</a>';
   	
 	// Update the post into the database
   	wp_update_post( $dailyblank_post );
@@ -514,10 +537,10 @@ if ( ! wp_next_scheduled( 'dailyblank_hello_twitter' ) ) {
 }
 
 // custom action triggered by event
-add_action( 'dailyblank_hello_twitter', 'dailyblank_get_tweets');
+add_action( 'dailyblank_hello_twitter', 'dailyblank_get_tweets', 10, 1);
 
 
-function dailyblank_get_tweets() {
+function dailyblank_get_tweets( $show_fb = false ) {
 	 // fetch the twitter account timeline for replies, grab 100 at a time (200 is max), we want replies and user deets
 	 
 	 $tweets = getTweets( dailyblank_option('twitteraccount'), 100,  array('exclude_replies'=>false, 'trim_user' => false ) );
@@ -559,6 +582,10 @@ function dailyblank_get_tweets() {
 		update_option( 'dailyblank_last_tweet', $tweets[0]['id_str'] );
 		
 		add_dailyblank_responses( $new_responses );
+		
+		if ($show_fb) {
+			echo 'Cowabunga! we managed to add <strong>' . count( $new_responses  ) . '</strong> fresh tweets.';
+		}
 }
 
 
@@ -609,7 +636,13 @@ Utility to add new items to custom post types that represent tweeted responses. 
 }
 
 
+add_action( 'admin_post_seek_tweets', 'prefix_admin_seek_tweets' );
 
+
+function prefix_admin_seek_tweets() {
+	// go get some tweets
+	dailyblank_get_tweets(true);
+}
 
 # -----------------------------------------------------------------
 # Spanners and gizmos- misc functions

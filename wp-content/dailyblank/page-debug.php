@@ -20,24 +20,42 @@
 							
 							
 							
-							Got a scheduled event?<br />
-							<pre><?php
-													
-							echo wp_next_scheduled( 'dailyblank_hello_twitter' );
+							Get mentions?
 							
-							$dt = new DateTime();
-							
-							?></pre>
-							
-							or in human format
-							
-							<pre><?php echo date("M d Y h:m a", wp_next_scheduled( 'dailyblank_hello_twitter' ) );?> vs now <?php echo date('M d Y h:m a', $dt->getTimestamp() );?></pre>
-							
-							Check cronies?
-							<pre><?php var_dump( get_option('cron') )?></pre>
-							
+							<?php 
+							// fetch the twitter account timeline for replies
+ 						 		$tweets = getTweets( dailyblank_option('twitteraccount'), 40,  array('exclude_replies'=>false, 'trim_user' => false ) );
+ 						 
+ 						 		  // cogdogbug( $tweets );
+ 						 		  
+ 						 	?>
+ 						 	
+ 						 	
+ 						 	<?php // set up an array to hold responses
+							$new_responses = array();
+		
+							// walk through the tweets
+							foreach($tweets as $tweet) {
+		
+									// array for hashtags
+									$hashtags = extract_hashtags( $tweet['entities']['hashtags'] );
+				
+									// We want only replies with hashtags and URLs in 'em
+									if ( $hashtags AND $tweet['entities']['urls']  ) {
+				
+										// check for hashtag match against our dailyblank base
+										if ( dailyblank_tag_in_hashtags( $hashtags, dailyblank_option('basetag')  ) ) {
 
+											$t_url = 'https://twitter.com/' . $tweet['user']['screen_name'] . '/status/' . $tweet['id_str'];
 
+					
+											echo wp_oembed_get( $t_url );				
+										}
+									}
+							}
+		
+		?>
+ 						 	
 						</section> <!-- end article section -->
 						
 						<footer>

@@ -46,7 +46,7 @@
 						</header> <!-- end article header -->
 					
 						<div class="clearfix row">
-							<div class=" col-md-offset-2 col-md-8">
+							<div class="col-md-offset-2 col-md-8">
 							<section class="post_content clearfix" itemprop="articleBody">
 								<?php the_content(); ?>
 							
@@ -62,6 +62,8 @@
 							// get the right tag so we can find the responses
 							$dailyblank_tag = get_post_meta( $post->ID, 'dailyblank_tag', 1 ); 
 							
+							// First get total count of all responses
+							
 							// query to get responses
 							$responses_query = new WP_Query( 
 								array(
@@ -73,36 +75,47 @@
 						
 							$response_count = $responses_query->post_count;
 							$plural = ( $response_count == 1) ? '' : 's';
+							
+							// query to get first set of responses
+							$responses_query = new WP_Query( 
+								array(
+									'posts_per_page' =>'9', 
+									'post_type' => 'response',
+									'hashtags'=> $dailyblank_tag, 
+								)
+							);
+							
+							$first_set_count = $responses_query->post_count;
 						
-							$item_counter = 0;
 							?>
 							<footer>
 							
 							<div class="clearfix row">	<!-- begin row for tweeted responses -->
-							
+							<div class="col-md-offset-3 col-md-6">
 							<h3><?php echo $response_count?> Response<?php echo $plural?> Tweeted for this <?php echo dailyblank_option('dailykind')?></h3>
+							</div>
 							
 							<?php while ( $responses_query->have_posts() ) : $responses_query->the_post();?>
-							
-								<?php
-									// start a new column?
-									if ( $item_counter % 3 == 0)  {
-										echo '<div class="col-md-4">'; 
-									} 
-						
-									// bump counter
-									$item_counter++;
-						
-									echo wp_oembed_get( get_post_meta( $post->ID, 'tweet_url', 1 ) );
-						
-									if ( $item_counter % 3 == 0 ) echo '</div>'; // -- end of row 
-								?>
-
+								<div class="col-md-offset-3 col-md-6">
+								<?php echo wp_oembed_get( get_post_meta( $post->ID, 'tweet_url', 1 ) );?>
+								</div>
 							<?php endwhile; ?>
 							
+							
 							</div><!-- end row for tweeted responses -->
-															
-							<?php wp_reset_query(); ?>
+													
+							
+							
+							
+							
+							<?php if ( $response_count > 9) :?>
+							
+								
+								<?php
+								echo do_shortcode ('[ajax_load_more" post_type="response" taxonomy="hashtags" taxonomy_terms="' . $dailyblank_tag . '" offset="9" posts_per_page="9" button_label="More Responses"]');					?>
+							<?php endif ?>
+									
+							
 							
 							<?php 
 							// only show edit button if user has permission to edit posts

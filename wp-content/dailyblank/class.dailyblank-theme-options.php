@@ -235,7 +235,19 @@ class dailyblank_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);	
-				
+
+
+		// ------- give some button power	
+		$this->settings['seeker'] = array(
+			'section' => 'general',
+			'title'   => '', // Not used for headings.
+			'desc'	 => 'Seek Some Tweets',
+			'std'    => '<a href="' . admin_url('admin-post.php?action=seek_tweets') . '" target="_blank">Look for tweets</a>',
+			'type'    => 'heading'
+		);
+
+
+/*				
 		$this->settings['use_captcha'] = array(
 			'section' => 'general',
 			'title'   => __( 'Use reCaptcha' ),
@@ -275,8 +287,7 @@ class dailyblank_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);
-
-
+*/
 
 				
 

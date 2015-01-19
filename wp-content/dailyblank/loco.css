@@ -6,8 +6,24 @@
 	padding-bottom: 9px;
 	margin: 0;
 	border:none;
+	margin: 0 -10px;
+	background-color: #fff;
+	opacity: 0.8;
 	
 }
+
+.page-header h2 {
+	padding: 2px 10px;
+}
+
+#main .meta {
+	color: #808080;
+	background-color: #fff;
+	opacity: 0.8;
+	font-weight: 400;
+	margin: 0 -10px;
+}
+
 
 .page-header h1, .page-header .meta {
 	margin: 0;

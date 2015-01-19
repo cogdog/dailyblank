@@ -12,12 +12,32 @@
 <?php get_header(); ?>
 			
 			<div id="content" class="clearfix row">
+			
+				<?php while( $home_query->have_posts() ) : $home_query->the_post(); ?>	
 				
-    			<div id="main" class="col-lg-8 col-lg-offset-2 centertext" role="main">
+									
+					<?php 
+						// previous post ids for navigation purposes						
+						$prev_post_id = get_previous_post()->ID;
+					?>
+									
+				<div class="col-lg-2 btnnav">
+					<?php 
+						if ($prev_post_id) {
+							echo '<a href="' . get_permalink($prev_post_id). '" class="btn btn-primary btn-medium"><span class="fa fa-chevron-circle-left fa-lg"></span> Previous ' . dailyblank_option('dailykind') . '</a>';
+						}
+					?>
+				</div>
+
+				
+    			<div id="main" class="col-lg-8  centertext" role="main">
     			<h1><?php bloginfo(); ?></h1>
     			<p><?php bloginfo( 'description' ); ?></p>
     						
-					<?php while( $home_query->have_posts() ) : $home_query->the_post(); ?>
+					
+					
+
+
 					
 					<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 						
