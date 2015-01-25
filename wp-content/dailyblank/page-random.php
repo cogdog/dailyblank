@@ -35,7 +35,7 @@ while ( $my_random_post->have_posts () ) {
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>connecting to tweet</title>
+	<title>connecting to a random daily</title>
 	<meta http-equiv="refresh" content="0;url=<?php echo $gotolink?>">
 </head>
 <body>
