@@ -2,12 +2,6 @@
 	background-color:transparent;
 }
 
-h1, .h1, h2, .h2, h3, .h3 {
-	margin-top: 1em;
-	margin-bottom: 0;
-}
-
-
 .page-header {
 	padding-bottom: 9px;
 	margin: 0;
@@ -36,6 +30,12 @@ h1, .h1, h2, .h2, h3, .h3 {
 	text-align:center;
 }
 
+
+h1, .h1, h2, .h2, h3, .h3 {
+	margin-top: 1em;
+	margin-bottom: 0;
+}
+
 #commentform textarea {
 	width: 60%;
 	height: 150px;
@@ -54,18 +54,11 @@ h1, .h1, h2, .h2, h3, .h3 {
 	width:90%;
 }
 
-/* ----------------------------= Tweet Button =------------------------------ */
-p.tweet-deets {
-text-align: center;
-font-weight: bold;
-background-color: rgb(234, 240, 240);
-padding: 10px;
-width: 75%;
-margin: 1em auto;
-}
-
 
 /* ----------------------------= Forms =------------------------------------- */
+#dailyform {
+
+}
 
 #dailyform input[type="text"], #dailyform textarea {
 	width:90%;

@@ -61,14 +61,14 @@
 							<?php the_content( __("Read more &raquo;","wpbootstrap") ); ?>
 							
 														
-							<?php //dailyblank_twitter_button( $post->ID );?>
+							<?php dailyblank_twitter_button( $post->ID );?>
 
 
 						</section> <!-- end article section -->
 						
 						<footer>
-						<br />
-						<a class="btn btn-primary btn-medium" href="<?php the_permalink()?>" >Respond to Today's <?php echo dailyblank_option('dailykind') ?></a>
+						See all responses for<br />
+						<a class="btn btn-primary btn-medium" href="<?php the_permalink()?>" >Today's <?php echo dailyblank_option('dailykind') ?></a>
 
 						</footer> <!-- end article footer -->
 					

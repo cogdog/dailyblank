@@ -203,7 +203,7 @@ class dailyblank_Theme_Options {
 		$this->settings['basetag'] = array(
 			'section' => 'general',
 			'title'   => __( 'Base Name for Tags' ),
-			'desc'    => __( 'Used for identifying each challenge like \'daily112\' as tags on this site and hashtags in twitter, so keep it short (do not include #). Keep them lower case (or we will lower it for you)' ),
+			'desc'    => __( 'Used for identifying each challenge like \'daily112\'  as tags on this site and hashtags in twitter, so keep it short (do not include #)' ),
 			'std'     => 'td',
 			'type'    => 'text',
 			'section' => 'general'
@@ -535,9 +535,6 @@ class dailyblank_Theme_Options {
 				}
 				
 			}
-			
-			// make sure the basetag is lower case
-			$input['basetag']  =  strtolower( $input['basetag'] );
 
 				
 							

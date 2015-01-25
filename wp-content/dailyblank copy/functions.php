@@ -94,23 +94,6 @@ function dailyblank_wp_title_for_home( $title )
 }
 
 
-add_filter('comment_form_defaults', 'dailyblank_comment_mod');
-
-function dailyblank_comment_mod( $defaults ) {
-	$defaults['logged_in_as'] = '';
-	$defaults['title_reply'] = 'Respond Here';
-	$defaults['title_reply_to'] = 'Add a comment to %s';
-	
-	$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'If twitter does not work or you want to respond directly, enter below ', 'wordpress-bootstrap' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
-    
-	$defaults['comment_notes_after'] = '<p>If you place a flickr, twitter, youtube URL on a blank line, it should be automatically embedded when you submit your response</p>';
-	$defaults['label_submit'] = 'Post Response';
-	return $defaults;
-}
-
-
-
-
 # -----------------------------------------------------------------
 # Options Panel for Admin
 # -----------------------------------------------------------------
@@ -452,7 +435,7 @@ function dailyblank_update_post($post_id, $dailyblank_tag, $dailyblank_date)
   	
   	// now append post content with directions
   	
-  	$dailyblank_post['post_content'] .= '<p class="tweet-deets">Tweet a link for your response to <a href="https://twitter.com/' . dailyblank_option('twitteraccount') . '">@' . dailyblank_option('twitteraccount') . '</a> and be sure to include the hashtag <a href="https://twitter.com/hashtag/' . $dailyblank_tag .'">#' . $dailyblank_tag . '</a></p>';
+  	$dailyblank_post['post_content'] .= 'Tweet a link for your response to <a href="https://twitter.com/' . dailyblank_option('twitteraccount') . '">@' . dailyblank_option('twitteraccount') . '</a> and be sure to include the hashtag <a href="https://twitter.com/hashtag/' . $dailyblank_tag .'">#' . $dailyblank_tag . '</a>';
   	
 	// Update the post into the database
   	wp_update_post( $dailyblank_post );
@@ -514,11 +497,8 @@ function dailyblank_tag_in_hashtags( $hashtags, $basetag) {
 // runs check on all input tags from twitter API ("#" not include) for match on the base tag
 // pattern (e.g. if the base tag is "tdb" it looks for any tag like "tdb100" or "tdb45")
 
-	// make sure the pattern to look for is lower case
-	$matchtag = strtolower($basetag);
-	
 	foreach ($hashtags as $atag) {
-		if ( strpos( strtolower($atag), $matchtag ) !== false ) return true;
+		if ( strpos( $atag, $basetag) !== false) return true;
 	}
 	
 	return false;
@@ -531,10 +511,9 @@ function extract_hashtags ( $hashtags ) {
 
 	$taglist = array();
 	
-	// walk the twitter hash tag array, and pluck out the values for 'text'
-	// set 'em all to lowercase
-	foreach ( $hashtags as $tagdata ) {
-		$taglist[] = strtolower( $tagdata['text'] );
+	// walk the twitter hash yag array, and pluck out the values for 'text'
+	foreach ( $hashtags as $tagdata) {
+		$taglist[] = $tagdata['text'];
 	}
 	
 	return ( $taglist );
@@ -544,8 +523,8 @@ function dailyblank_twitter_button ( $postid ) {
 	$dailyblank_tag = get_post_meta( $postid, 'dailyblank_tag', 1 );						
 	$tweet_text = '#' . $dailyblank_tag   . rawurlencode( ' ' . dailyblank_option('tweetstr') );							
 	
-	echo '<p style="text-align:center;"><a href=\"https://twitter.com/intent/tweet?screen_name=' .  dailyblank_option('twitteraccount') . '&text=' . $tweet_text . ' class="twitter-mention-button" data-size="large">Tweet your response to ' .  dailyblank_option('twitteraccount'). "</a>\n
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>";
+	echo '<a href=\"https://twitter.com/intent/tweet?screen_name=' .  dailyblank_option('twitteraccount') . '&text=' . $tweet_text . ' class="twitter-mention-button" data-size="large">Tweet Response to ' .  dailyblank_option('twitteraccount'). "</a>\n
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
 
 }
 
@@ -576,6 +555,7 @@ function dailyblank_get_tweets( $show_fb = false ) {
 				$hashtags = extract_hashtags( $tweet['entities']['hashtags'] );
 				
 				// We want only replies with hashtags and URLs in 'em
+				//if ( $hashtags AND $tweet['entities']['urls']  ) {
 				if ( $hashtags ) {
 				
 					// check for hashtag match against our dailyblank base
@@ -598,14 +578,14 @@ function dailyblank_get_tweets( $show_fb = false ) {
 					}
 				}
 		}
-				
-		$new_tweets = add_dailyblank_responses( $new_responses );
+		
+		// keep track of the last tweet id so we can use the since_id value in the next API call
+		// update_option( 'dailyblank_last_tweet', $tweets[0]['id_str'] );
+		
+		add_dailyblank_responses( $new_responses );
 		
 		if ($show_fb) {
-			echo 'Cowabunga! we managed to add <strong>' . $new_tweets . '</strong> fresh ones out of <strong>'  .  count( $new_responses  ) . '</strong> found tweets.';
-			
-			
-			
+			echo 'Cowabunga! we managed to add <strong>' . count( $new_responses  ) . '</strong> fresh tweets.';
 		}
 }
 
@@ -622,14 +602,10 @@ Utility to add new items to custom post types that represent tweeted responses. 
 
 */
 
-	$new_ones = 0;
-	
 	foreach ($responses as $tweet) {
 	
 		// Skip existing responses if they match by the slug (post_name) matching twitter ID
 		if ( the_slug_exists( $tweet['id_str'] ) ) continue;
-		 
-		 $new_ones++;
 		 
 		// append the tweet username as a tag
 		$tweet['tags'][] = '@' . $tweet['tweeter'];
@@ -648,6 +624,7 @@ Utility to add new items to custom post types that represent tweeted responses. 
 		// Insert the new content type into  database, store it's ID
 		$post_id = wp_insert_post( $response_type, $wp_error );
 		
+		
 		// add tags to hashtags taxonomy
 		wp_set_post_terms( $post_id, $tweet['tags'], 'hashtags' );
 			
@@ -657,8 +634,6 @@ Utility to add new items to custom post types that represent tweeted responses. 
 		// add custom field data for the tweet's URL
 		update_post_meta($post_id, 'tweet_by', $tweet['tweeter']);	
 	}
-	
-	return ($new_ones);
 }
 
 

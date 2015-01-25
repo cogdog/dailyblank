@@ -19,34 +19,7 @@
 							
 							
 
-							<?php 
-							
-							$tweets = getTweets( dailyblank_option('twitteraccount'), 200,  array('exclude_replies'=>false, 'trim_user' => false ) );
-		
-							// walk through the tweets
-							foreach($tweets as $tweet) {
-		
-									// array for hashtags
-									$hashtags = extract_hashtags( $tweet['entities']['hashtags'] );
-				
-									// We want only replies with hashtags and URLs in 'em
-									if ( $hashtags ) {
-				
-										// check for hashtag match against our dailyblank base
-										if ( dailyblank_tag_in_hashtags( $hashtags, dailyblank_option('basetag')  ) ) {
-
-											// bingo we got a winner; 
-											// form URL for the tweet
-											$t_url = 'https://twitter.com/' . $tweet['user']['screen_name'] . '/status/' . $tweet['id_str'];
-											echo wp_oembed_get( $t_url );
-					
-										}
-									}
-							}
-							
-							
-							
-							?>
+							<?php dailyblank_get_tweets()?>
 
 						</section> <!-- end article section -->
 						
