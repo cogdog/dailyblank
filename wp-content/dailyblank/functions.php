@@ -80,6 +80,7 @@ function dailyblank_change_post_object() {
 
 function dailyblank_scheduled_menu() {
 	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'manage_options', 'edit.php?post_status=future&post_type=post' ); 
+	add_submenu_page('edit.php', 'Submitted/Draft Daily Blanks', 'Submitted Daily Blanks', 'manage_options', 'edit.php?post_status=draft&post_type=post' ); 
 }
 
 
@@ -99,11 +100,11 @@ add_filter('comment_form_defaults', 'dailyblank_comment_mod');
 function dailyblank_comment_mod( $defaults ) {
 	$defaults['logged_in_as'] = '';
 	$defaults['title_reply'] = 'Respond Here';
-	$defaults['title_reply_to'] = 'Add a comment to %s';
+	$defaults['title_reply_to'] = 'Add a comment ';
 	
 	$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'If twitter does not work or you want to respond directly, enter below ', 'wordpress-bootstrap' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
     
-	$defaults['comment_notes_after'] = '<p>If you place a flickr, twitter, youtube URL on a blank line, it should be automatically embedded when you submit your response</p>';
+	$defaults['comment_notes_after'] = '<p>If you place a flickr, twitter, YouTube URL on a blank line, it should be automatically embedded when you submit your response</p>';
 	$defaults['label_submit'] = 'Post Response';
 	return $defaults;
 }
@@ -148,6 +149,23 @@ function dailyblank_load_theme_options() {
 	if ( file_exists( get_stylesheet_directory()  . '/class.dailyblank-theme-options.php' ) ) {
 		include_once( get_stylesheet_directory()  . '/class.dailyblank-theme-options.php' );
 	}
+}
+
+
+# -----------------------------------------------------------------
+# For the Form
+# -----------------------------------------------------------------
+
+add_action('wp_enqueue_scripts', 'add_dailyblank_scripts');
+
+function add_dailyblank_scripts() {	 
+ 
+ 	if ( is_page('add') ) { // use on just our form page
+    		// custom jquery for the uploader on the form
+		wp_register_script( 'jquery.dailyblank' , get_stylesheet_directory_uri() . '/js/jquery.add-daily.js', null , '1.0', TRUE );
+		wp_enqueue_script( 'jquery.dailyblank' );
+	}
+
 }
 
 # -----------------------------------------------------------------
@@ -668,6 +686,11 @@ add_action( 'admin_post_seek_tweets', 'prefix_admin_seek_tweets' );
 function prefix_admin_seek_tweets() {
 	// go get some tweets
 	dailyblank_get_tweets(true);
+}
+
+
+function getResponseCount() {
+	return wp_count_posts('response')->publish;
 }
 
 # -----------------------------------------------------------------

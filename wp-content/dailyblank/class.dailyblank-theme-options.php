@@ -225,6 +225,15 @@ class dailyblank_Theme_Options {
 			'type'    => 'medialoader',
 			'section' => 'general'
 		);
+
+		$this->settings['tweetperview'] = array(
+			'section' => 'general',
+			'title'   => __( 'Number of Responses to Display at a Time' ),
+			'desc'    => __( 'How many to show per click of \'More\' button. Decrease to improve page loading.' ),
+			'std'     => '8',
+			'type'    => 'text',
+			'section' => 'general'
+		);	
 			
 
 		$this->settings['dailytime'] = array(
@@ -235,6 +244,10 @@ class dailyblank_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);	
+
+
+
+
 
 
 		// ------- give some button power	

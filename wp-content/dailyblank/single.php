@@ -30,7 +30,15 @@
 							<div class="col-md-8 page-header">
 								<h1 class="single-title" itemprop="headline"><?php the_title(); ?></h1>
 							
-								<p class="meta"><?php _e("This " . dailyblank_option('dailykind') .   " was published", "wpbootstrap"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></p>
+								<p class="meta"><?php _e("This " . dailyblank_option('dailykind') .   " was published", "wpbootstrap"); ?> <strong><time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></strong> 
+								<?php 
+								if ( get_post_meta( $post->ID, 'wAuthor', 1 ) ) {
+									echo 'shared by <strong>' .  get_post_meta( $post->ID, 'wAuthor', 1 ) . '</strong>';
+								}
+									
+								?>
+								
+								</p>
 							</div>
 						
 							<div class="col-md-2 btnnav">
@@ -62,10 +70,14 @@
 							// get the right tag so we can find the responses
 							$dailyblank_tag = get_post_meta( $post->ID, 'dailyblank_tag', 1 ); 
 							
+							
+							// how many tweets to show at a time (using ajax loader for more)
+							$tweets_per_view = dailyblank_option('tweetsperpage');
+							
 							// First get total count of all responses
 							
 							// query to get responses
-							$responses_query = new WP_Query( 
+							$responses_count_query = new WP_Query( 
 								array(
 									'posts_per_page' =>'-1', 
 									'post_type' => 'response',
@@ -73,19 +85,18 @@
 								)
 							);
 						
-							$response_count = $responses_query->post_count;
+							$response_count = $responses_count_query->post_count;
 							$plural = ( $response_count == 1) ? '' : 's';
 							
 							// query to get first set of responses
 							$responses_query = new WP_Query( 
 								array(
-									'posts_per_page' =>'9', 
+									'posts_per_page' => $tweets_per_view, 
 									'post_type' => 'response',
 									'hashtags'=> $dailyblank_tag, 
 								)
 							);
 							
-							$first_set_count = $responses_query->post_count;
 						
 							?>
 							<footer>
@@ -102,20 +113,20 @@
 							<?php endwhile; ?>
 							
 							
-							</div><!-- end row for tweeted responses -->
 													
 							
 							
 							
 							
-							<?php if ( $response_count > 9) :?>
+							<?php if ( $response_count > $tweets_per_view ) :?>
 							
-								
-								<?php
-								echo do_shortcode ('[ajax_load_more" post_type="response" taxonomy="hashtags" taxonomy_terms="' . $dailyblank_tag . '" offset="9" posts_per_page="9" button_label="More Responses"]');					?>
+							<div class="col-md-offset-3 col-md-6">	
+							<?php echo do_shortcode ('[ajax_load_more" post_type="response" taxonomy="hashtags" taxonomy_terms="' . $dailyblank_tag . '" offset="' . $tweets_per_view . '" posts_per_page="' . $tweets_per_view . '" scroll="false" pause="true" transition="fade"  button_label="More Responses"]');?>
+							</div>
 							<?php endif ?>
 									
-							
+							</div><!-- end row for tweeted responses -->
+
 							
 							<?php 
 							// only show edit button if user has permission to edit posts

@@ -6,27 +6,16 @@
 				
 					<div class="page-header">
 						<h1 class="archive_title">Recent <?php echo dailyblank_option('dailykind')?> Responses</h1>
+						<p class="centertext">Out of <strong><?php echo getResponseCount()?></strong> total responses</p>
+						
 					</div>
-					
-					<?php $item_counter = 0; // item counter for row breaks ?>
-					
+										
 					<div class="clearfix row">	<!-- begin row for tweeted responses -->
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-					
-						<?php
-							// start a new column?
-							if ( $item_counter % 3 == 0)  {
-								echo '<div class="col-md-4">'; 
-							} 
-						
-							// bump counter
-							$item_counter++;
-						
-							echo wp_oembed_get( get_post_meta( $post->ID, 'tweet_url', 1 ) );
-						
-							if ( $item_counter % 3 == 0 ) echo '</div>'; // -- end of row 
-						?>
+						<div class="col-md-4">
+						<?php echo wp_oembed_get( get_post_meta( $post->ID, 'tweet_url', 1 ) );?>
+						</div>
 					
 					<?php endwhile; ?>	
 					
