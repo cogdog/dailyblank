@@ -166,6 +166,22 @@ margin: 1em auto;
 .notify-green { background: #e9ffd9; border-color: #D1FAB6; }
 
 
+
+.alignleft {
+  margin-right: 10px;
+  float: left;
+}
+.alignright {
+  margin-left: 10px;
+  float: right;
+}
+.aligncenter {
+  display: block;
+  margin: 0 auto;
+}
+
+
+
 /* ----------------------------= Forms =------------------------------------- */
 
 #dailyform input[type="text"], #dailyform textarea {

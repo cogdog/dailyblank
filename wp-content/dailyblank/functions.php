@@ -162,7 +162,7 @@ function add_dailyblank_scripts() {
  
  	if ( is_page('add') ) { // use on just our form page
     		// custom jquery for the uploader on the form
-		wp_register_script( 'jquery.dailyblank' , get_stylesheet_directory_uri() . '/js/jquery.add-daily.js', null , '1.0', TRUE );
+		wp_register_script( 'jquery.dailyblank' , get_stylesheet_directory_uri() . '/js/jquery.add-thing.js', null , '1.0', TRUE );
 		wp_enqueue_script( 'jquery.dailyblank' );
 	}
 
@@ -335,7 +335,7 @@ function dailyblank_get_next_tag()
 }
 
 function dailyblank_get_last_date() {
-	// Used to get the date of the last schedule TDC
+	// Used to get the date of the last scheduled daily blank
 	
 	// we will query to get all future dated posts
 	$args = array( 'numberposts' => 1, 'post_status'=> 'future' );
@@ -349,8 +349,8 @@ function dailyblank_get_last_date() {
 		}
 	} else {
 	
-		//  no scheduled posts, look for most recent published post
-		$args = array( 'numberposts' => 1, 'post_status'=> 'publish' );
+		//  no scheduled posts, look for most recent published post that has a post meta used by daily blanks
+		$args = array( 'numberposts' => 1, 'post_status'=> 'publish', 'meta_key' => 'dailyblank_tag' );
 		$lastposts = get_posts( $args );
 		
 		if ($lastposts) {
@@ -434,10 +434,12 @@ function dailyblank_update_post($post_id, $dailyblank_tag, $dailyblank_date)
 	if( isset( $_POST['dailyblank_tag'] ) )
 		update_post_meta( $post_id, 'dailyblank_tag', $dailyblank_tag ); 
 		
-	// set the tag	
+	// set the tag that identifies this dailyblank
 	wp_set_post_terms( $post_id, $dailyblank_tag, 'post_tag' );
-
 	
+	// assign the category to mark all the daily blanks
+	wp_set_post_categories( $post_id, array( dailyblank_option('all_cat') ), true );
+
 	// Update post content with templates for each TDC type
   	$dailyblank_post = array();
   	$dailyblank_post['ID'] = $post_id;
@@ -593,7 +595,7 @@ function dailyblank_get_tweets( $show_fb = false ) {
 				// array for hashtags
 				$hashtags = extract_hashtags( $tweet['entities']['hashtags'] );
 				
-				// We want only replies with hashtags and URLs in 'em
+				// We want only replies with hashtags in 'em
 				if ( $hashtags ) {
 				
 					// check for hashtag match against our dailyblank base

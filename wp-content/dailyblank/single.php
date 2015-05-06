@@ -72,7 +72,7 @@
 							
 							
 							// how many tweets to show at a time (using ajax loader for more)
-							$tweets_per_view = dailyblank_option('tweetsperpage');
+							$tweets_per_view = dailyblank_option('tweetperview');
 							
 							// First get total count of all responses
 							
@@ -86,6 +86,7 @@
 							);
 						
 							$response_count = $responses_count_query->post_count;
+							
 							$plural = ( $response_count == 1) ? '' : 's';
 							
 							// query to get first set of responses
@@ -137,12 +138,10 @@
 							
 						</footer> <!-- end article footer -->
 					</article> <!-- end article -->
-							
 					
+					<?php endwhile; ?>	
 					
-					<?php comments_template('',true); ?>
-					
-					<?php endwhile; ?>			
+					<?php comments_template('', true); ?>		
 					
 					<?php else : ?>
 					

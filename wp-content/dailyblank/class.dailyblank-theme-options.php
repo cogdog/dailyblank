@@ -207,11 +207,27 @@ class dailyblank_Theme_Options {
 			'std'     => 'td',
 			'type'    => 'text',
 			'section' => 'general'
-		);		
+		);	
+		
+  		// Build array to hold options for select, an array of post categories
+		// Walk those cats, store as array index=ID 
+	  	$all_cats = get_categories('hide_empty=0'); 
+		foreach ( $all_cats as $item ) {
+  			$cat_options[$item->term_id] =  $item->name;
+  		}
+ 
+		$this->settings['all_cat'] = array(
+			'section' => 'general',
+			'title'   => __( 'Category for All Daily Blanks'),
+			'desc'    => 'Choose a category to apply to all Daily Blanks (so you can have a category archive)',
+			'type'    => 'select',
+			'std'     => 0,
+			'choices' => $cat_options
+		);	
  
 		$this->settings['startnum'] = array(
 			'section' => 'general',
-			'title'   => __( 'Starting Tag Numbers at' ),
+			'title'   => __( 'Start Tag Numbers at' ),
 			'desc'    => __( 'Start daily tags at number? This wil only be put into use the first time you create a Daily item.' ),
 			'std'     => '1',
 			'type'    => 'text',
