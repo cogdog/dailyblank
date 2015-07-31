@@ -23,11 +23,11 @@
 						</h1>
 					<?php } elseif (is_month()) { ?>
 					    <h1 class="archive_title h2">
-					    	<span><?php _e("Monthly Archives:", "wpbootstrap"); ?>:</span> <?php the_time('F Y'); ?>
+					    	<span><?php _e("Monthly Archives:", "wpbootstrap"); ?></span> <?php the_time('F Y'); ?>
 					    </h1>
 					<?php } elseif (is_year()) { ?>
 					    <h1 class="archive_title h2">
-					    	<span><?php _e("Yearly Archives:", "wpbootstrap"); ?>:</span> <?php the_time('Y'); ?>
+					    	<span><?php _e("Yearly Archives:", "wpbootstrap"); ?></span> <?php the_time('Y'); ?>
 					    </h1>
 					<?php } ?>
 					</div>
@@ -60,9 +60,9 @@
 					
 					<?php endwhile; ?>	
 					
-					<?php if (function_exists('page_navi')) { // if expirimental feature is active ?>
+					<?php if (function_exists('wp_bootstrap_page_navi')) { // if expirimental feature is active ?>
 						
-						<?php page_navi(); // use the page navi function ?>
+						<?php wp_bootstrap_page_navi(); // use the page navi function ?>
 
 					<?php } else { // if it is disabled, display regular wp prev & next links ?>
 						<nav class="wp-prev-next">

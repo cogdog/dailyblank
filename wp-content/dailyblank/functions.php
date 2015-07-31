@@ -1,4 +1,11 @@
 <?php
+/* The Daily Blank
+   https://github.com/cogdog/dailyblank
+   Alan Levine
+   
+   All the functions and then some here
+
+*/
 
 
 # -----------------------------------------------------------------
@@ -17,15 +24,11 @@ function dailyblank_rewrite_flush() {
 }
 
 
-
 // set up front page query to show most recent post only
 
 add_action( 'pre_get_posts', 'dailyblank_query_mods' );
 
 function dailyblank_query_mods( $query ) {
-
-   // if ( is_admin() || ! $query->is_main_query() )
-   //     return;
     
     if ( is_archive('response') ) {
         // Display  12 results for response archive
@@ -34,14 +37,13 @@ function dailyblank_query_mods( $query ) {
     }    
 }
 
-// change the name of admin menu items from "New Posts"
+// change the name of admin menu items from "New Posts" to "New Daily Blank" etc
 // -- h/t http://wordpress.stackexchange.com/questions/8427/change-order-of-custom-columns-for-edit-panels
 // and of course the Codex http://codex.wordpress.org/Function_Reference/add_submenu_page
 
 add_action( 'admin_menu', 'dailyblank_change_post_label' );
 add_action( 'init', 'dailyblank_change_post_object' );
 add_action('admin_menu', 'dailyblank_scheduled_menu');
-
 
 function dailyblank_change_post_label() {
     global $menu;
@@ -56,6 +58,7 @@ function dailyblank_change_post_label() {
     $submenu['edit.php'][16][0] = $daily_blank_thing .' Tags';
     echo '';
 }
+
 function dailyblank_change_post_object() {
 
     $daily_blank_thing = 'Daily Blank';
@@ -77,13 +80,14 @@ function dailyblank_change_post_object() {
     $labels->name_admin_bar =  $daily_blank_thing;
 }
  
-
+// Add some admin menus for scheduled and drafts, because these are handy to have
 function dailyblank_scheduled_menu() {
 	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'manage_options', 'edit.php?post_status=future&post_type=post' ); 
 	add_submenu_page('edit.php', 'Submitted/Draft Daily Blanks', 'Submitted Daily Blanks', 'manage_options', 'edit.php?post_status=draft&post_type=post' ); 
 }
 
 
+// There was a reason for this, now I forget. #senility
 add_filter( 'wp_title', 'dailyblank_wp_title_for_home' );
 
 function dailyblank_wp_title_for_home( $title )
@@ -95,20 +99,33 @@ function dailyblank_wp_title_for_home( $title )
 }
 
 
+// Modify the comment form to be relevant for single posts
 add_filter('comment_form_defaults', 'dailyblank_comment_mod');
 
 function dailyblank_comment_mod( $defaults ) {
 	$defaults['logged_in_as'] = '';
-	$defaults['title_reply'] = 'Respond Here';
-	$defaults['title_reply_to'] = 'Add a comment ';
+	$defaults['title_reply'] = "Don't Want to Tweet Your Response? Really?";
+	$defaults['title_reply_to'] = 'Add a response ';
 	
-	$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'If twitter does not work or you want to respond directly, enter below ', 'wordpress-bootstrap' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
+	$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'This site works best when you tweet your response as instructed above, but if you prefer you can enter it below as a comment ', 'wordpress-bootstrap' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
     
-	$defaults['comment_notes_after'] = '<p>If you place a flickr, twitter, YouTube URL on a blank line, it should be automatically embedded when you submit your response</p>';
 	$defaults['label_submit'] = 'Post Response';
 	return $defaults;
 }
 
+# -----------------------------------------------------------------
+# Plugin Detectors
+# -----------------------------------------------------------------
+
+function dailyblank_alm_installed() {
+	// return status for Ajax Load More Plugin
+	if ( function_exists('alm_install' ) ) {
+		return ('The Ajax Load More plugin <strong>is installed</strong> and will be used to sequentially load responses (with the value entered) if there are many of them. Check documentation tab for details on setting up the custom template in the plugin.'); 
+		
+	} else {
+		return ('Ajax Load More plugin <strong>is not installed</strong>. This means all tweet responses will be loaded on a single Daily Blank and the number entered is ignored. If you start getting many responses, you may want to install this plugin. '); 
+	}
+}
 
 
 
@@ -151,6 +168,55 @@ function dailyblank_load_theme_options() {
 	}
 }
 
+# -----------------------------------------------------------------
+# Shortcodes
+# -----------------------------------------------------------------
+
+
+/* ----- shortcode to generate lists of top contributors -------- */
+add_shortcode("dailyleaders", "dailyblank_leaders");  
+
+function dailyblank_leaders ( $atts ) {  
+
+	// return a list of the top responders to dailies
+		
+	// get the value of any passed attributes to our function
+	// we want a number of results we should return (0=all)
+	// and an indicator if we are looking for responders (hashtag taxonony) or contributors (tag tax)
+	// Allow for exclusion based on ID of the hashtag taxonony
+ 	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "" ), $atts ) );  
+
+	// Arguments to search hashtag terms
+	// search for @ in order of highest frequency
+	$args = array(
+		'number' => $number,
+		'orderby' => 'count',
+		'order' => 'DESC',
+		'exclude' =>  $exclude,
+		'name__like' => '@'
+	);
+	
+	if ( $type == 'contributors') {
+		// search for terms in the custom taxonomy for regular tags
+		$terms = get_tags( $args );
+		$taxpath = 'tag';
+	} else {
+		// search for terms in the custom taxonomy for response tags
+		$terms = get_terms('hashtags',  $args );
+		$taxpath = 'hashtags';
+	}
+	
+	$out = '<ol>';
+	// here come the leaders!
+	foreach ( $terms as $term) {
+		$out .= '<li><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $term->count . ')</a></li>';
+	}
+	$out .= '</ol>';
+	
+	// here ya go!
+	return ($out);
+
+}
 
 # -----------------------------------------------------------------
 # For the Form
@@ -162,7 +228,7 @@ function add_dailyblank_scripts() {
  
  	if ( is_page('add') ) { // use on just our form page
     		// custom jquery for the uploader on the form
-		wp_register_script( 'jquery.dailyblank' , get_stylesheet_directory_uri() . '/js/jquery.add-thing.js', null , '1.0', TRUE );
+		wp_register_script( 'jquery.dailyblank' , get_stylesheet_directory_uri() . '/js/jquery.add-daily.js', null , '1.0', TRUE );
 		wp_enqueue_script( 'jquery.dailyblank' );
 	}
 
@@ -171,8 +237,6 @@ function add_dailyblank_scripts() {
 # -----------------------------------------------------------------
 # Custom Content Types
 # -----------------------------------------------------------------
-
-
 
 function dailyblank_make_post_types() {
 	// create post type for responses to a Dailyblank, they will come from
@@ -362,7 +426,7 @@ function dailyblank_get_last_date() {
 		} else {
 		
 			// return today's date at the designated time of day (stored as option like "05:00" for 5am)
-			return ( strtotime('today + ' . dailyblank_option('dailytime') ) );
+			return ( strtotime('today+' . dailyblank_option('dailytime') ) );
 		}
 		
 	}
@@ -401,11 +465,12 @@ function dailyblank_meta_box_cb($post) {
 	// the tag to use
 	$dailyblank_tag = isset( $values['dailyblank_tag'] ) ? esc_attr( $values['dailyblank_tag'][0] ) : $last_tag; 
 	
+	// get unix time for last published  daily blank
+	$last_dailyblank_date = strtotime( dailyblank_get_last_date() );
 	
-	
-	
-	// add a day to the last tdc
-	$next_dailyblank_date = strtotime( dailyblank_get_last_date() ) + 3600*24;
+	// if it's been more than 24 hours since the last published daily blank, set the next date to be on the 
+	// day after current; otherwise, set the next one to be 24 hours after the last published one
+	$next_dailyblank_date = ( ( time() - $last_dailyblank_date ) > 3600*24) ? strtotime('today+' . dailyblank_option('dailytime') ) +  3600*24 :  $last_dailyblank_date + 3600*24;
 	
 	
 	// Output form, including nonce field   
@@ -448,7 +513,8 @@ function dailyblank_update_post($post_id, $dailyblank_tag, $dailyblank_date)
   	$ptitle = get_the_title( $post_id );
   	
   	if ( strpos( $ptitle, ' #' . $dailyblank_tag) === false ) { 
-  		$dailyblank_post['post_title'] = $ptitle . ' #' . $dailyblank_tag;
+  		// put hashtag in front of title
+  		$dailyblank_post['post_title'] =  '#' . $dailyblank_tag . ' ' . $ptitle;
   	}
   	
   	// use the tag for the slug
@@ -512,21 +578,26 @@ function dailyblank_settings_save( $post_id )
 function dailyblank_twitter_auth() {
 	// Status check for the Oauth Twitter Feed for developers
 	if ( function_exists('getTweets' ) ) {
-		$fb_str = ('Twitter Oauth plugin <strong>is installed</strong>. '); 
+		$fb_str = 'Twitter Oauth plugin <strong>is installed</strong>. '; 
+		
+		// check for the custom function added for this theme.
+		if ( ! (function_exists('cleanTweetCache' ) ) ) {
+			$fb_str .=  'But this is not the special version required for the Daily Blank Theme. Please install the plugin version from the <a href="https://github.com/cogdog/dailyblank" target="_blank">Theme github repo</a>';
+		}
 		
 		// ping twitter for current user name
 		$test_tweets = getTweets( dailyblank_option('twitteraccount'), 1 );
 	
 		if ( $test_tweets["error"] ) {
-			$fb_str .= 'Uh oh, we have a problem Houston accessing tweets from @' . dailyblank_option('twitteraccount') . ': ' .  $test_tweets["error"];
+			$fb_str .= 'Uh oh, we have a problem Houston accessing tweets from @' . dailyblank_option('twitteraccount') . ': ' .  $test_tweets["error"] . ' Maybe check the <a href="' . admin_url( 'admin.php?page=options-general.php?page=tdf_settings') .'">Twitter Oauth Settings</a>?'; ;
 		} else {
-			$fb_str .= 'Successful connection to tweets from @' . dailyblank_option('twitteraccount');
+			$fb_str .= 'Successful connection to collect tweets replied to <a href="http://twitter.com/' . dailyblank_option('twitteraccount') . '"  target="_blank">@' . dailyblank_option('twitteraccount') . '</a>. This site is ready to collect responses.';
 		}
 		
 		
 		return ( $fb_str );	
 	} else {
-		return ('Twitter Oauth plugin <strong>is NOT installed</strong>. To enable the twitter responder for this site, install the <a href="https://wordpress.org/plugins/oauth-twitter-feed-for-developers/" target="_blank">oAuth Twitter Feed for Developers</a> via the Add New Plugin interface. Check the documentation tab for information on how to set this up.'); 
+		return ('Twitter Oauth plugin <strong>is NOT installed</strong>. To enable the twitter responder for this site, install the <a href="https://github.com/cogdog/dailyblank" target="_blank">oAuth Twitter Feed for Developers</a> (use the special version that comes with this theme, not the one from Wordpress). Check the documentation tab for information on how to configure the plugin.'); 
 	}
 }
 
@@ -686,6 +757,10 @@ add_action( 'admin_post_seek_tweets', 'prefix_admin_seek_tweets' );
 
 
 function prefix_admin_seek_tweets() {
+
+	// clean the cache via the Twitter Oauth Developers plugin
+	cleanTweetCache();
+	
 	// go get some tweets
 	dailyblank_get_tweets(true);
 }
@@ -693,6 +768,10 @@ function prefix_admin_seek_tweets() {
 
 function getResponseCount() {
 	return wp_count_posts('response')->publish;
+}
+
+function is_twitter_name( $str ) {
+	return ( $str[0] == '@' and str_word_count( $str ) == 1 );
 }
 
 # -----------------------------------------------------------------
@@ -729,7 +808,7 @@ function the_slug_exists( $slug ) {
 }
 
 
-// handy dandy debug dumper.
+// handy dandy debug dumper. Dump this baby
 function cogdogbug($var) {
 	echo '<pre>';
 	var_dump($var);
@@ -761,8 +840,4 @@ function iso8601_gmt_to_local( $date_string, $format = 'c', $tzID = null ) {
     $date->setTimezone( $tz );
     return $date->format( $format );
 }
-
-
-
-
 ?>

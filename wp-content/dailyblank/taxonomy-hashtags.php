@@ -11,31 +11,47 @@ $hashtag_term =	$wp_query->queried_object; // the term being used for this
 			
 			<div id="content" class="clearfix row">
 			
-				<div id="main" class="col-lg-12" role="main">
+				<div id="main" class="col-sm-12" role="main">
 				
 					<div class="page-header">
 					
+						<h1 class="archive_title">
 					
-					<?php if ( strpos($hashtag_term->name, "@") !== false  ) :?>
+						<?php 
+						// how many items found
+						$found_count = $wp_query->found_posts;
+						
+						
+						// first part of title
+						echo ' Daily ' .  dailyblank_option('dailykind') . ' Responses' ;
+						
+						if ( strpos($hashtag_term->name, "@") !== false  ) {
+							// this is a tag for a twitter account
+							echo  ' Tweeted by ' .  $hashtag_term->name;
 					
-					<h1 class="archive_title"><?php echo dailyblank_option('dailykind')?> Responses Tweeted by <?php echo $hashtag_term->name?></h1>
+						} else {
+							// normal tag
+							echo ' Tagged "' . $hashtag_term->name . '"';
 					
-					<?php else:?>
-					<h1 class="archive_title"><?php echo dailyblank_option('dailykind')?> Responses Tagged "<?php echo $hashtag_term->name?>"</h1>
-					
-					<?php endif?>
+						}
+						?>
+						
+						</h1>
+						<p class="text-center"><strong><?php echo $found_count?></strong> total responses found</p>
 					</div>
+					
+					
 					
 					<?php $item_counter = 0; // item counter for row breaks ?>
 
-					<div class="clearfix row">	<!-- begin row for tweeted responses -->
+					<div class="clearfix row well">	<!-- begin row for tweeted responses -->
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
 						<?php
 							// start a new column?
 							if ( $item_counter % 3 == 0)  {
-								echo '<div class="col-md-4">'; 
+								echo '<div class="col-sm-4">'; 
 							} 
 						
 							// bump counter
@@ -50,9 +66,10 @@ $hashtag_term =	$wp_query->queried_object; // the term being used for this
 					
 					</div><!-- end row for tweeted responses -->
 
-					<?php if (function_exists('page_navi')) { // if expirimental feature is active ?>
+					<div class="col-sm-12 text-center">
+					<?php if (function_exists('wp_bootstrap_page_navi')) { // if expirimental feature is active ?>
 						
-						<?php page_navi(); // use the page navi function ?>
+						<?php wp_bootstrap_page_navi(); // use the page navi function ?>
 
 					<?php } else { // if it is disabled, display regular wp prev & next links ?>
 						<nav class="wp-prev-next">
@@ -62,7 +79,10 @@ $hashtag_term =	$wp_query->queried_object; // the term being used for this
 							</ul>
 						</nav>
 					<?php } ?>
-								
+
+
+
+					</div>		
 					
 					<?php else : ?>
 					

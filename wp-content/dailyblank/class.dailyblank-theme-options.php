@@ -177,8 +177,8 @@ class dailyblank_Theme_Options {
 
 		$this->settings['dailykind'] = array(
 			'title'   => __( 'Name For What is Done Daily' ),
-			'desc'    => __( 'What is the thing you are asking people to do? (omit \'The\'' ),
-			'std'     => 'Daily Blank',
+			'desc'    => __( 'What is the thing you are asking people to do? e.g. "Create", "Challenge" (omit "The Daily" we will add that for you)' ),
+			'std'     => 'Blank',
 			'type'    => 'text',
 			'section' => 'general'
 		);
@@ -186,7 +186,7 @@ class dailyblank_Theme_Options {
 	
 		$this->settings['twitteraccount'] = array(
 			'title'   => __( 'Twitter Account' ),
-			'desc'    => __( 'User name (without the @) that replies will be sent to (add steps for authorize)' . dailyblank_twitter_auth() ),
+			'desc'    => __( 'User name (without the @) that replies will be sent to.' . dailyblank_twitter_auth() ),
 			'std'     => 'dailyblank',
 			'type'    => 'text',
 			'section' => 'general'
@@ -245,7 +245,7 @@ class dailyblank_Theme_Options {
 		$this->settings['tweetperview'] = array(
 			'section' => 'general',
 			'title'   => __( 'Number of Responses to Display at a Time' ),
-			'desc'    => __( 'How many to show per click of \'More\' button. Decrease to improve page loading.' ),
+			'desc'    => __( 'How many to show per click of \'More\' button. ' . dailyblank_alm_installed() ),
 			'std'     => '8',
 			'type'    => 'text',
 			'section' => 'general'

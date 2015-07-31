@@ -2,7 +2,7 @@
 			
 			<div id="content" class="clearfix row">
 			
-				<div id="main" class="col-lg-12" role="main">
+				<div id="main" class="col-sm-12" role="main">
 				
 					<div class="page-header">
 						<h1 class="archive_title">Recent <?php echo dailyblank_option('dailykind')?> Responses</h1>
@@ -10,20 +10,22 @@
 						
 					</div>
 										
-					<div class="clearfix row">	<!-- begin row for tweeted responses -->
+					<div class="clearfix row well">	<!-- begin row for tweeted responses -->
 					
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-						<div class="col-md-4">
+						<div class="col-sm-4">
 						<?php echo wp_oembed_get( get_post_meta( $post->ID, 'tweet_url', 1 ) );?>
 						</div>
 					
 					<?php endwhile; ?>	
 					
 					</div><!-- end row for tweeted responses -->
-					
-					<?php if (function_exists('page_navi')) { // if expirimental feature is active ?>
+					<div class="clearfix row">
 						
-						<?php page_navi(); // use the page navi function ?>
+					<div class="col-sm-12 text-center">
+					<?php if (function_exists('wp_bootstrap_page_navi')) { // if expirimental feature is active ?>
+						
+						<?php wp_bootstrap_page_navi(); // use the page navi function ?>
 
 					<?php } else { // if it is disabled, display regular wp prev & next links ?>
 						<nav class="wp-prev-next">
@@ -33,6 +35,10 @@
 							</ul>
 						</nav>
 					<?php } ?>
+
+
+
+					</div>		
 								
 					
 					<?php else : ?>

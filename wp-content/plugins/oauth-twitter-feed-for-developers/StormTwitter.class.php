@@ -60,6 +60,7 @@ class StormTwitter {
       return $this->cropTweets($result,$count);
     }
     
+    
     //If we're here, we need to load.
     $result = $this->oauthGetTweets($screenname,$options);
     
@@ -79,6 +80,15 @@ class StormTwitter {
       }
     }
     
+  }
+  
+  function cleanTweetCache() {
+  // added by @cogdog for Daily Blank purposes
+  	$file = $this->getCacheLocation();
+  	if (is_file($file)) {
+  		file_put_contents($file, '');
+  	}
+  
   }
   
   private function cropTweets($result,$count) {
@@ -152,6 +162,8 @@ class StormTwitter {
     
     $connection = new TwitterOAuth($key, $secret, $token, $token_secret);
     //$result = $connection->get('statuses/user_timeline', $options);
+    
+    // mod by @cogdog for Daily Blank, we want mentions. Someone should make this an option!
     $result = $connection->get('statuses/mentions_timeline', $options);
     
     if (is_file($this->getCacheLocation())) {

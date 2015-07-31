@@ -1,15 +1,11 @@
 <?php
-
 /*
+Template Name: Random Daily Picker
 
-Random Daily Post Picker
 Send viewer to random post optionally
 
 */
 
-
-// load wordpress functionality so we can do stuff
-require( 'wp-load.php' );
 
 // set arguments for WP_Query on published posts to get 1 at random
 $args = array(
@@ -19,27 +15,14 @@ $args = array(
     'orderby' => 'rand'
 );
 
-// It's time! Go get a random post from the database
+// run query run
 $my_random_post = new WP_Query ( $args );
 
 while ( $my_random_post->have_posts () ) {
   $my_random_post->the_post ();
   
-  // get permalink
-  $gotolink = get_permalink();
-
-}	
+  // It's time! Go someplace random, have a great time
+  wp_redirect ( get_permalink () );
+  exit;
+}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<title>connecting to a random daily</title>
-	<meta http-equiv="refresh" content="0;url=<?php echo $gotolink?>">
-</head>
-<body>
-
-</body>
-</html>
-

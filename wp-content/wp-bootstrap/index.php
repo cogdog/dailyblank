@@ -14,7 +14,7 @@
 							
 							<div class="page-header"><h1 class="h2"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h1></div>
 							
-							<p class="meta"><?php _e("Posted", "wpbootstrap"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time(); ?></time> <?php _e("by", "wpbootstrap"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "wpbootstrap"); ?> <?php the_category(', '); ?>.</p>
+							<p class="meta"><?php _e("Posted", "wpbootstrap"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time> <?php _e("by", "wpbootstrap"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "wpbootstrap"); ?> <?php the_category(', '); ?>.</p>
 						
 						</header> <!-- end article header -->
 					
@@ -32,9 +32,9 @@
 					
 					<?php endwhile; ?>	
 					
-					<?php if (function_exists('page_navi')) { // if expirimental feature is active ?>
+					<?php if (function_exists('wp_bootstrap_page_navi')) { // if expirimental feature is active ?>
 						
-						<?php page_navi(); // use the page navi function ?>
+						<?php wp_bootstrap_page_navi(); // use the page navi function ?>
 						
 					<?php } else { // if it is disabled, display regular wp prev & next links ?>
 						<nav class="wp-prev-next">

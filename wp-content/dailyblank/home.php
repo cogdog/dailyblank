@@ -1,5 +1,5 @@
 <?php
-
+	// one post only, please!
 	$args = array(
 		'posts_per_page' => 1
 	);
@@ -13,7 +13,7 @@
 			
 			<div id="content" class="clearfix row">
 			
-				<?php while( $home_query->have_posts() ) : $home_query->the_post(); ?>	
+				<?php if ( $home_query->have_posts() ) : while( $home_query->have_posts() ) : $home_query->the_post(); ?>	
 				
 									
 					<?php 
@@ -24,7 +24,7 @@
 				<div class="col-lg-2 btnnav">
 					<?php 
 						if ($prev_post_id) {
-							echo '<a href="' . get_permalink($prev_post_id). '" class="btn btn-primary btn-medium"><span class="fa fa-chevron-circle-left fa-lg"></span> Previous ' . dailyblank_option('dailykind') . '</a>';
+							echo '<a href="' . get_permalink($prev_post_id). '" class="btn btn-primary btn-medium"><span class="glyphicon glyphicon-hand-left" aria-hidden="true"></span> Previous ' . dailyblank_option('dailykind') . '</a>';
 						}
 					?>
 				</div>
@@ -33,11 +33,6 @@
     			<div id="main" class="col-lg-8  centertext" role="main">
     			<h1><?php bloginfo(); ?></h1>
     			<p><?php bloginfo( 'description' ); ?></p>
-    						
-					
-					
-
-
 					
 					<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 						
@@ -58,7 +53,7 @@
 						</header> <!-- end article header -->
 					
 						<section class="post_content clearfix">
-							<?php the_content( __("Read more &raquo;","wpbootstrap") ); ?>
+							<?php the_content( __("But wait, there's more &raquo;","wpbootstrap") ); ?>
 							
 														
 							<?php //dailyblank_twitter_button( $post->ID );?>
@@ -68,7 +63,7 @@
 						
 						<footer>
 						<br />
-						<a class="btn btn-primary btn-medium" href="<?php the_permalink()?>" >Respond to Today's <?php echo dailyblank_option('dailykind') ?></a>
+						<a class="btn btn-primary btn-large" href="<?php the_permalink()?>" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Go to Today's Daily <?php echo dailyblank_option('dailykind') ?></a>
 
 						</footer> <!-- end article footer -->
 					
@@ -76,6 +71,21 @@
 					
 					<?php endwhile; ?>	
 					
+					
+					<?php else : ?>
+					
+					<article id="post-not-found">
+					    <header>
+					    	<h1><?php _e("No Daily " . dailyblank_option('dailykind') . "s Found!", "wpbootstrap"); ?></h1>
+					    </header>
+					    <section class="post_content">
+					    	<p><?php _e("You ought to create the first one, ok?", "wpbootstrap"); ?></p>
+					    </section>
+					    <footer>
+					    </footer>
+					</article>
+					
+					<?php endif; ?>
 			
 				</div> <!-- end #main -->
 			</div> <!-- end #content -->
