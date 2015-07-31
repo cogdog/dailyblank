@@ -13,7 +13,7 @@ Look for a working versions at
 ## How to Install
 I will make the big leap in that you have a self hosted Wordpress site and can install themes. The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide the one in this repository  I have used on all sites listed.
 
-Very very crucial. Do not just use the zip of this repo as a theme upload. It will not work. If you are uploading in the wordpress admin, you will need to make separate zips of the two themes (*dailyblank* and *wp-bootstrap*, and upload each.) In addition, you must upload the Twitter Oauth For Developers plugin that comes in this repo; it has modifications critical  to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).  
+**Very very crucial.** Do not just use the zip of this repo as a theme upload. It will not work. If you are uploading in the wordpress admin, you will need to make separate zips of the two themes and the one plugin inside the `wp-content folder` (*dailyblank* and *wp-bootstrap*, and upload each.) In addition, you must upload the Twitter Oauth For Developers plugin that comes in this repo; it has modifications critical  to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).  
 
 ### Wobbly Documentation
 These are also available internally under the Daily Blank Options menu. I say Wobbly because this is the first draft, and it feels like there are a lot of nitpicky steps I almost can do in my sleep. That does not help you.
@@ -42,7 +42,7 @@ The Daily Blank uses Twitter Oauth For Developers plugin to access twitter and r
 
 Enter your own credentials in the four fields (in general the default cache expiry of 3600, 1 hour, is fine for most sites):
 
-![](images/twitter-auth-settings.jpg "Twitter Oauth Settings")
+![](wp-content/dailyblank/images/twitter-auth-settings.jpg "Twitter Oauth Settings")
 
 #### Useful General Setup Items
 Time is important to the Daily, so make sure the `Time Zone settings`  match the reference time you want your site to be publishing new items in.
@@ -55,7 +55,7 @@ Access the Options at any time from the `Daily Blank Options` link from the top 
 
 *(The values in the fields come from the instance of this running as the [UdG Agora Daily Try site](http://udg.theagoraonline.net/daily)*
 
-![](images/general-settings-1.jpg "First Part General Settings")
+![](wp-content/dailyblank/images/general-settings-1.jpg "First Part General Settings")
 
 * **Name For What is Done Daily** (capitalized first letter) This should be the kind of daily activity, written as singular, and without "Daily" in front of it. The example shown is for the Daily Try, so each one is a "Try".
 * **Twitter Account** This is the user name account you are using as a receiver of responses; enter it without the "@". The text below will provide an indicator if the Twitter Oauth plugin is installed and set up correctly.
@@ -69,7 +69,7 @@ Following this is a media selector used to create a background image shown in th
 
 Then two more settings...
 
-![](images/general-settings-2.jpg "Second Part General Settings")
+![](wp-content/dailyblank/images/general-settings-2.jpg "Second Part General Settings")
 
 
 * **Number of Responses to Display at a Time** For a new site, this can be ignored. If your Daily Blank site starts to get regularly more than 10 responses, you may want to consider installing the [Ajax Load More plugin](https://wordpress.org/plugins/ajax-load-more/) (see below for configuration details). This allows the number specified by the value of the field to be loaded, and subsequent sets are appended by ajax.
@@ -81,7 +81,7 @@ Notice also the link for `Look for Tweets` -- the site is set up with its own ti
 #### Using the Ajax Load More Plugin
 Install this plugin to create paginate loadings of twitter responses for busier sites (regularly receiving more than 10 responses). The only critical setting is to customize the `Repeater Template` so it embeds the tweets the same way the theme does:
 
-![](images/ajax-load-more-templates.jpg "Ajax Load More Template Settings")
+![](wp-content/dailyblank/images/ajax-load-more-templates.jpg "Ajax Load More Template Settings")
 
 
 Replace the default code with:
@@ -95,7 +95,7 @@ Replace the default code with:
 #### Creating New Daily Blanks</h2>
 Write new items as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:
 
-![](images/create-daily-blank.jpg "Creating a Daily Blank")
+![](wp-content/dailyblank/images/create-daily-blank.jpg "Creating a Daily Blank")
 
 
 The box in the upper right should never need to be edited. It will let you know the next tag available that is used for your daily blank; in this case, "agoratry69" will be used internally as a tag, and the hashtag "#agoratry69" will be added to the title when saved.
