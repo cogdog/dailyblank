@@ -104,12 +104,16 @@ add_filter('comment_form_defaults', 'dailyblank_comment_mod');
 
 function dailyblank_comment_mod( $defaults ) {
 	$defaults['logged_in_as'] = '';
-	$defaults['title_reply'] = "Don't Want to Tweet Your Response? Really?";
-	$defaults['title_reply_to'] = 'Add a response ';
 	
-	$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'This site works best when you tweet your response as instructed above, but if you prefer you can enter it below as a comment ', 'wordpress-bootstrap' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
-    
-	$defaults['label_submit'] = 'Post Response';
+	if ( is_single() ) {
+		$defaults['title_reply'] = "Don't Want to Tweet Your Response? Really?";
+		$defaults['title_reply_to'] = 'Add a response ';
+	
+		$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'This site works best when you tweet your response as instructed above, but if you prefer you can enter it below as a comment ', 'wordpress-bootstrap' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
+	
+		$defaults['label_submit'] = 'Post Response';
+	}
+	
 	return $defaults;
 }
 

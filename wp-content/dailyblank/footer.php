@@ -17,7 +17,7 @@
 					
 					<p class="pull-right"><a href="http://cogdog.info" id="credit320" title="By the dog">blame @cogdog</a></p>
 			
-					<p class="attribution">A SPLOT on the web: <?php bloginfo('name'); ?></p>
+					<p class="attribution"><strong><?php bloginfo('name'); ?></strong> is a version of the <a href="http://tdc.ds106.us/">DS106 Daily Create</a> as a Wordpress theme (<a href="https://github.com/cogdog/dailyblank" target="_blank">available on Github</a>)</p>
 				
 				</div> <!-- end #inner-footer -->
 				

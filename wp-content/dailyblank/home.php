@@ -21,7 +21,7 @@
 						$prev_post_id = get_previous_post()->ID;
 					?>
 									
-				<div class="col-lg-2 btnnav">
+				<div class="col-sm-2 btnnav">
 					<?php 
 						if ($prev_post_id) {
 							echo '<a href="' . get_permalink($prev_post_id). '" class="btn btn-primary btn-medium"><span class="glyphicon glyphicon-hand-left" aria-hidden="true"></span> Previous ' . dailyblank_option('dailykind') . '</a>';
@@ -30,7 +30,7 @@
 				</div>
 
 				
-    			<div id="main" class="col-lg-8  centertext" role="main">
+    			<div id="main" class="col-sm-8  centertext" role="main">
     			<h1><?php bloginfo(); ?></h1>
     			<p><?php bloginfo( 'description' ); ?></p>
 					
