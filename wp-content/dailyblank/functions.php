@@ -176,6 +176,18 @@ function dailyblank_load_theme_options() {
 # Shortcodes
 # -----------------------------------------------------------------
 
+// ----- short code for number of published Daily Blanks (just count posts)
+add_shortcode('dailycount', 'getdailyCount');
+
+function getdailyCount() {
+	return wp_count_posts('post')->publish;
+}
+
+// ----- short code for number of responses in the site
+add_shortcode('responsecount', 'getResponseCount');
+
+
+
 
 /* ----- shortcode to generate lists of top contributors -------- */
 add_shortcode("dailyleaders", "dailyblank_leaders");  

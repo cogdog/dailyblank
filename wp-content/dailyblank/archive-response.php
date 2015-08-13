@@ -6,7 +6,7 @@
 				
 					<div class="page-header">
 						<h1 class="archive_title">Recent <?php echo dailyblank_option('dailykind')?> Responses</h1>
-						<p class="centertext">Out of <strong><?php echo getResponseCount()?></strong> total responses</p>
+						<p class="centertext">Out of <strong><?php echo getResponseCount()?></strong> total responses to <strong><?php echo getdailyCount()?></strong> dailies.</p>
 						
 					</div>
 										
