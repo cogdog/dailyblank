@@ -117,6 +117,8 @@ If you create a new Wordpress Page with a permalink of `add` it will be publishe
 
 Submitted items end up as drafts on the site, which you can review via the `Daily Blanks` menu -&gt; `Submitted Daily Blanks`. To activate one, simple edit it, save as draft, and it becomes the next one in line.
 
+For long winded blog posts about its development, see http://cogdogblog.com/tag/dailyblank/
+
 #### Random Daily Blank
 Create a Wordpress page with a permalink of *random* (it needs no content); when opened, it rediects to a randomly chosen  published Daily Blank.
 
