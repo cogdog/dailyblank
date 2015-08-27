@@ -10,6 +10,8 @@ Look for a working versions at
 * [The Daily Stillness](http://daily.stillweb.org/)
 * [UdG Agora Daily Try](http://udg.theagoraonline.net/daily)
 
+You can also find some long-winded code laden blog posts on the development http://cogdogblog.com/tag/dailyblank/
+
 ## How to Install
 I will make the big leap in that you have a self hosted Wordpress site and can install themes. The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide the one in this repository  I have used on all sites listed.
 
