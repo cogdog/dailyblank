@@ -421,22 +421,24 @@ function dailyblank_get_last_date() {
 	$args = array( 'numberposts' => 1, 'post_status'=> 'future' );
 	$lastposts = get_posts( $args );
 		
-	if ($lastposts) {
+	if ( count($lastposts) ) {
 		// simple loop to get the post_date for the last scheduled post
-		foreach($lastposts as $post) {
-			//setup_postdata($post);
-			return ($post->post_date);
+		// and return that date
+		foreach( $lastposts as $post ) {
+			return  ( $post->post_date );
 		}
+		
 	} else {
 	
 		//  no scheduled posts, look for most recent published post that has a post meta used by daily blanks
 		$args = array( 'numberposts' => 1, 'post_status'=> 'publish', 'meta_key' => 'dailyblank_tag' );
 		$lastposts = get_posts( $args );
 		
-		if ($lastposts) {
-			foreach($lastposts as $post) {
-				setup_postdata($post);
-				return ($post->post_date);
+		
+		if ( count( $lastposts ) ) {
+			foreach( $lastposts as $post ) {
+				setup_postdata( $post );
+				return ( $post->post_date );
 			}
 			
 		} else {
@@ -554,7 +556,7 @@ function dailyblank_update_post($post_id, $dailyblank_tag, $dailyblank_date)
   	
   	// now append post content with directions
   	
-  	$dailyblank_post['post_content'] .= '<p class="tweet-deets">Tweet a link for your response to <a href="https://twitter.com/' . dailyblank_option('twitteraccount') . '">@' . dailyblank_option('twitteraccount') . '</a> and be sure to include the hashtag <a href="https://twitter.com/hashtag/' . $dailyblank_tag .'">#' . $dailyblank_tag . '</a></p>';
+  	$dailyblank_post['post_content'] .= '<p class="tweet-deets">Tweet your response to <a href="https://twitter.com/' . dailyblank_option('twitteraccount') . '">@' . dailyblank_option('twitteraccount') . '</a> and be sure to include the hashtag <a href="https://twitter.com/hashtag/' . $dailyblank_tag .'">#' . $dailyblank_tag . '</a></p>';
   	
 	// Update the post into the database
   	wp_update_post( $dailyblank_post );

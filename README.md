@@ -51,6 +51,9 @@ Time is important to the Daily, so make sure the `Time Zone settings`  match the
 
 Now is also a good time to `create/customize the Default Category` (and optionally and other categories) you will want to use for your Daily Blank. The Default category will be applied to ever new Daily Blank, serving as a way to show a complete archive.
 
+It's best to set your `Permalink` structure  (under `Settings`) to be Custom (the last option) and use for the setting field
+
+    /%postname%/
 
 #### Set Daily Blank Options
 Access the Options at any time from the `Daily Blank Options` link from the top admin bar or also under the `Appearance` menu. Here comes the explanation for all settings!
@@ -88,9 +91,9 @@ Install this plugin to create paginate loadings of twitter responses for busier 
 
 Replace the default code with:
 
-	&lt;div&gt;
-	&lt;?php echo wp_oembed_get( get_post_meta( get_the_ID(), 'tweet_url', 1 ) );?&gt;					
-	&lt;/div&gt;
+	<div>
+	<?php echo wp_oembed_get( get_post_meta( get_the_ID(), 'tweet_url', 1 ) );?>					
+	</div>
 
 
 

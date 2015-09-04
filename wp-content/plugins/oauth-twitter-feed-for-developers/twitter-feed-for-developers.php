@@ -45,9 +45,11 @@ function cleanTweetCache() {
    h/t https://www.dessol.com/blog/disable-plugin-updates-specific-plugin-wordpress-3-8/
 */
 
+/*
 add_filter('site_transient_update_plugins', 'dailyblank_remove_update_nag');
 
 function dailyblank_remove_update_nag( $value ) {
  unset( $value->response[ plugin_basename(__FILE__) ] );
  return $value;
 }
+*/

@@ -30,7 +30,7 @@
 							<div class="col-sm-8 page-header">
 								<h1 class="single-title" itemprop="headline"><?php the_title(); ?></h1>
 							
-								<p class="meta"><?php _e("This " . dailyblank_option('dailykind') .   " was published", "wpbootstrap"); ?> <strong><time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></strong> 
+								<p class="meta"><?php _e("This Daily " . dailyblank_option('dailykind') .   " was published", "wpbootstrap"); ?> <strong><time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></strong> 
 								<?php 
 								
 								$wAuthor = get_post_meta( $post->ID, 'wAuthor', 1 );
