@@ -202,12 +202,13 @@ function dailyblank_leaders ( $atts ) {
 	// Allow for exclusion based on ID of the hashtag taxonony
  	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "" ), $atts ) );  
 
+	// temp filter to use name as secondary sort (first by tag count, then by name)
+	add_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
+
 	// Arguments to search hashtag terms
 	// search for @ in order of highest frequency
 	$args = array(
 		'number' => $number,
-		'orderby' => 'count',
-		'order' => 'DESC',
 		'exclude' =>  $exclude,
 		'name__like' => '@'
 	);
@@ -222,6 +223,11 @@ function dailyblank_leaders ( $atts ) {
 		$taxpath = 'hashtags';
 	}
 	
+
+	
+	// clean up after ourselves
+	remove_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
+	
 	$out = '<ol>';
 	// here come the leaders!
 	foreach ( $terms as $term) {
@@ -232,6 +238,16 @@ function dailyblank_leaders ( $atts ) {
 	// here ya go!
 	return ($out);
 
+}
+
+
+// adds name as secondary order by term for get terms 
+// h/t https://wordpress.org/support/topic/get_terms-multiple-order_by-options?replies=2#post-7396104
+//   & https://wordpress.org/support/topic/get_terms-multiple-order_by-options?replies=5#post-7401630
+
+function dailyblank_second_orderby( $pieces, $taxonomies, $args ) {
+	$pieces['orderby'] = 'ORDER BY tt.count DESC,t.name';
+	return $pieces;
 }
 
 # -----------------------------------------------------------------
