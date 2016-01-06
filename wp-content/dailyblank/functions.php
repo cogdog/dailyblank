@@ -200,10 +200,13 @@ function dailyblank_leaders ( $atts ) {
 	// we want a number of results we should return (0=all)
 	// and an indicator if we are looking for responders (hashtag taxonony) or contributors (tag tax)
 	// Allow for exclusion based on ID of the hashtag taxonony
- 	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "" ), $atts ) );  
+ 	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "", "showbars" => 0, "barstyle" => 3 ), $atts ) );  
 
 	// temp filter to use name as secondary sort (first by tag count, then by name)
 	add_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
+	
+	// the class for the bars, must be 1, 2, or 3
+	$barstyle = ($barstyle > 3 or $barstyle < 1) ? 3 : $barstyle;
 
 	// Arguments to search hashtag terms
 	// search for @ in order of highest frequency
@@ -228,12 +231,28 @@ function dailyblank_leaders ( $atts ) {
 	// clean up after ourselves
 	remove_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
 	
-	$out = '<ol>';
+	
 	// here come the leaders!
-	foreach ( $terms as $term) {
-		$out .= '<li><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $term->count . ')</a></li>';
+	
+	if ( $showbars) {
+		$out = '<p>So far <strong>' . count($terms) . '</strong> people have responded to <strong>' . getdailyCount() . '</strong> dailies.</p> <ul class="leader-list">';
+		foreach ( $terms as $term) { 
+			$percent = intval( $term->count / count( $terms ) * 100); 
+			
+			 $out .= '<li class="leader"><h3><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $term->count . ')</a></h3><progress class="leader-' . $barstyle . '" max="100" value="' . $percent . '"><strong>Completion Level: ' . $percent . '%</strong></progress></li>';
+		}
+		$out .= '</ul>';
+	
+	} else {
+		// no progress bars
+		$out = '<ol>';
+		foreach ( $terms as $term) { 
+			$out .= '<li><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $term->count . ')</a></li>';
+		}
+		$out .= '</ol>';
 	}
-	$out .= '</ol>';
+	
+	
 	
 	// here ya go!
 	return ($out);

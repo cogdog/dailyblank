@@ -128,7 +128,7 @@
 									<?php if ( $response_count > $tweets_per_view ) :?>
 							
 										<div class="col-sm-offset-3 col-sm-6">	
-										<?php echo do_shortcode ('[ajax_load_more" post_type="response" taxonomy="hashtags" taxonomy_terms="' . $dailyblank_tag . '" offset="' . $tweets_per_view . '" posts_per_page="' . $tweets_per_view . '" scroll="false" pause="true" transition="fade"  button_label="See More Responses"]');?>
+										<?php echo do_shortcode ('[ajax_load_more post_type="response" taxonomy="hashtags" taxonomy_terms="' . $dailyblank_tag . '" offset="' . $tweets_per_view . '" posts_per_page="' . $tweets_per_view . '" scroll="false" pause="true" transition="fade"  button_label="See More Responses"]');?>
 										</div>
 									<?php endif ?>
 								

@@ -120,6 +120,88 @@ margin: 1em auto;
   margin: 0 auto;
 }
 
+/* ----------------------------= Progress bars =------------------------------------- */
+
+progress, progress[role] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-size: auto;
+  height: 30px;
+  width: 100%;
+}
+
+.leader-list {
+  list-style: none;
+  margin: 0;
+  padding: 1em;
+}
+
+.leader {
+  margin-bottom: 1em;
+  position: relative;
+}
+.leader h3 {
+  color: #fff;
+  left: 5px;
+  line-height: 1;
+  position: absolute;
+  bottom: 12px;
+  font-size: 18px;
+}
+
+.leader h3 a {
+	color: #fff;
+}
+
+.leader ::-webkit-progress-value {
+  -webkit-animation: bar-fill 2s;
+  width: 0px;
+}
+.leader ::-webkit-progress-bar {
+  background-color: #D3D3D3;
+}
+.leader ::-moz-progress-bar {
+  background-color: #D3D3D3;
+}
+
+.leader-1::-webkit-progress-value {
+  background: #ff9e2c;
+}
+
+.leader-1::-moz-progress-bar {
+  background: #ff9e2c;
+}
+
+.leader-2::-webkit-progress-value {
+  background: #4ecdc4;
+}
+
+.leader-2::-moz-progress-bar {
+  background: #4ecdc4;
+}
+
+.leader-3::-webkit-progress-value {
+  background: #ff6b6b;
+}
+
+.leader-3::-moz-progress-bar {
+  background: #ff6b6b;
+}
+
+@-webkit-keyframes bar-fill {
+  0% {
+    width: 0;
+  }
+}
+@keyframes bar-fill {
+  0% {
+    width: 0;
+  }
+}
+
+
 
 
 /* ----------------------------= Forms =------------------------------------- */
