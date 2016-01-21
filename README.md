@@ -150,8 +150,37 @@ List all the twitter names that have contributed new Daily Blanks via the submis
 
 	[dailyleaders type="contributors"]
 
-#### The Site Does NOT Automatically Tweet New Daily Blanks
-Numerous plugins offer a capability to autotweet new posts; this is not built into the site. The best tool for doing this we have found is to set up a routing on  [dlvr.it](https://dlvr.it/) which can be triggered to publish via an RSS feed from your site. Your mileage may/will vary.
+
+#### Automatic Tweeting
+The site does NOT automatically tweet new Daily Blanks. Numerous plugins offer a capability to autotweet new posts; this is not built into the site.
+
+The best tool for doing this we have found is to set up a routing on  [dlvr.it](https://dlvr.it/) a free web service can be triggered to publish to a twitter account via an RSS feed from your site. Your mileage may/will vary. The examples below are for the [DS106 Daily Create](http://daily.ds106.us/)  which sends out its creative activities via [@ds106dc](https://twitter.com/ds106dc).
+
+To use dlvr.it, first create an account on the site. You will create a *Route* which has a source (in this case an RSS Feed) and a *Destination* (in this case a twitter account).  [Go to the routes editor](https://app.dlvr.it/deliveries/routes) and click *+Add Route*. 
+
+Under Sources on the left, click *+add*, then click the RSS icon (first on left), then the *Connect Feed* button. This opens the Source Feed Details tab. Enter the RSS feed for your site, which is the full URL of the site with <code>/feed</code> appended to it and give it a name.
+
+![](wp-content/dailyblank/images/dlvrit-source-feed-details.jpg "Feed details")
+
+
+On the next tab, *Feed Update* enter the following settings to make sure it does one per day.
+
+![](wp-content/dailyblank/images/dlvrit-feed-update.jpg "Feed Update Settings")
+
+
+And lastly, on the *Item text tab* you can insert any specific extra text to add to the tweets, e.g. hashtags for all tweets.
+
+![](wp-content/dailyblank/images/dlvrit-item-text.jpgg "Extra Item Text for Feeds")
+
+
+No other settings are required for the feed. Now on the right side, under destinations, click *+add*.  Click the twitter icon, and then authenticate with the account you want to be sending out the tweets.
+
+Under the *Post Content* tab, we suggest tweeting the title and the link:
+
+![](wp-content/dailyblank/images/dlvrit-twitter-destination-account.jpg "Twitter Destination Account")
+
+
+This is the only setting you should need to make. Your twitter account should automatically send out a tweet in an hour after your next scheduled Daily Blank is published.
 
 
 
