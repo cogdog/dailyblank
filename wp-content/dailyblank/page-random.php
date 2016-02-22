@@ -6,7 +6,6 @@ Send viewer to random post optionally
 
 */
 
-
 // set arguments for WP_Query on published posts to get 1 at random
 $args = array(
     'post_type' => 'post',

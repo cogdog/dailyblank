@@ -36,7 +36,7 @@
 								$wAuthor = get_post_meta( $post->ID, 'wAuthor', 1 );
 								if ( $wAuthor ) {
 									// link to tag archive if twitter name
-									$credits = ( is_twitter_name( $wAuthor ) ) ? '<a href="' . site_url() . '/tag/' . $wAuthor . '">' . $wAuthor . '</a>' : $wAuthor;
+									$credits = ( is_twitter_name( $wAuthor ) ) ? '<a href="https://twitter.com/' . $wAuthor . '">' . $wAuthor . '</a>' : $wAuthor;
 									echo 'shared by <strong>' .  $credits . '</strong>';
 								}
 									
@@ -61,8 +61,33 @@
 							<div class="col-sm-offset-2 col-sm-8">
 							<section class="post_content clearfix" itemprop="articleBody">
 								<?php the_content(); ?>
-							
+								
 								<?php dailyblank_twitter_button( $post->ID );?>	
+								
+								
+																<?php
+									// try loading any recycled IDs
+									$wRecycled = get_post_meta( $post->ID, 'wRecycled', 1 ); 
+									
+									// if we have recycled is, lets set them up for sitting out
+									if ( ! empty ( $wRecycled ) ) {
+										echo '<h4 class="text-center"><br /><br /></strong>This Daily ' . dailyblank_option('dailykind') . ' has been recycled from previously published ones:</h4><p class="text-center">';
+										
+										
+										// pop the into an array
+										$recycle_ids = explode(',', $wRecycled );
+										
+										// walk the ids after sorting them
+										sort (  $recycle_ids ) ;
+										foreach ( $recycle_ids as $rid ) {
+											echo '&bull; <a href="' . get_permalink( $rid ) . '">' . get_the_title( $rid ) . '</a> (' . get_the_date( 'M j, Y', $rid ) . ")<br />\n";
+										}
+										echo '</p>';
+									}
+								
+								
+								?>
+	
 
 							</section> <!-- end article section -->	
 							</div>

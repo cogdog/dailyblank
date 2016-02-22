@@ -31,8 +31,8 @@ if ( isset( $_POST['dailyblank_form_make_submitted'] ) && wp_verify_nonce( $_POS
  		$wTitle = 		sanitize_text_field( stripslashes( $_POST['wTitle'] ) );
  		$wAuthor = 		( isset ($_POST['wAuthor'] ) ) ? sanitize_text_field( stripslashes($_POST['wAuthor']) ) : 'Anonymous';		
  		$wText = 		$_POST['wText'];
- 		
- 		
+ 
+  		
  		// let's do some validation, store an error message for each problem found
  		$errors = array();
  		
@@ -42,7 +42,9 @@ if ( strlen( $wTitle ) > $tweetlength ) $errors['wTitle'] = '<span class="label 
  		
  		if ( $wAuthor == '' ) $errors['wAuthor'] = '<span class="label label-danger">Credit Name Missing</span> - enter your name or at least some sort of secret identity to take credit for thos contribution.'; 
  		
- 		
+ 		// This is for one spammer that has been bothering all these sites. 
+ 		if ( strpos( $wText, 'http://www.FyLitCl7Pf7kjQdDUOLQOuaxTXbj5iNG.com' ) !== false OR $wAuthor == 'Mark'  ) die ('Hey "Mark" stop wasting your time and my time spamming this form. Your link is going nowhere. Please stop.');
+ 			
  		 		
  		if ( count($errors) > 0 ) {
  			// form errors, build feedback string to display the errors
@@ -70,7 +72,7 @@ if ( strlen( $wTitle ) > $tweetlength ) $errors['wTitle'] = '<span class="label 
 			// twitter name used for author name
 			if ( is_twitter_name( $wAuthor )  ) {
 				 //add twitter name as a tag
-				$w_information['tags_input'] = $wAuthor;
+				$w_information['tags_input'] = array('post_tag' => $wAuthor);
 				$fb_extra = 'Once published, this will be added to <a href="' . site_url() . '/tag/' . $wAuthor .  '">your collection of published Dailies</a>.' ;
 			}
 			
@@ -141,11 +143,21 @@ if ( strlen( $wTitle ) > $tweetlength ) $errors['wTitle'] = '<span class="label 
 				
 							<div class="form-group<?php if ( is_array($errors) AND  array_key_exists("wText",$errors)) echo ' has-error ';?>">
 									<label for="wText"><?php _e('Additional Instructions, Details, Description to make it Interesting', 'wpbootstrap') ?></label>
-									<span id="wTextHelpBlock" class="help-block">Use the editing area below to add any other instructions that will help explain what to do (no limit) or suggestions for media to use (please provide media via  a URL). We will use anything you provide to add to the details for the published Daily <?php echo $dailykind?>.</span>
-									<textarea name="wText" id="wText" rows="15"  tabindex="9" aria-describedby="wTextHelpBlock"><?php echo stripslashes( $wText );?></textarea>
+									<span id="wTextHelpBlock" class="help-block">Use the editing area below to add and format that will help explain what to do (no limit) or suggestions for media to use. Images can be added (last button on right) if they are available at a public URL. We will try to use all information you provide to add to the details for the published Daily <?php echo $dailykind?> (we reserve some right to edit).</span>
+									<!--textarea name="wText" id="wText" rows="15"  tabindex="9" aria-describedby="wTextHelpBlock"><?php echo stripslashes( $wText );?></textarea -->
+									
+									
+									
+								<?php
+								// set up for inserting the WP post editor
+								$settings = array( 'textarea_name' => 'wText',  'tabindex'  => "6", 'media_buttons' => false, 'textarea_rows' => 15);
+
+								wp_editor(  stripslashes( $wText ), 'wTextHTML', $settings );
+								?>
 							</fieldset>
+						</div>
 							
-			
+										
 							<fieldset>
 								<?php wp_nonce_field( 'dailyblank_form_make', 'dailyblank_form_make_submitted' ); ?>
 				
