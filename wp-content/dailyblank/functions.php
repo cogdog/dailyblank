@@ -82,8 +82,8 @@ function dailyblank_change_post_object() {
  
 // Add some admin menus for scheduled and drafts, because these are handy to have
 function dailyblank_scheduled_menu() {
-	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'manage_options', 'edit.php?post_status=future&post_type=post' ); 
-	add_submenu_page('edit.php', 'Submitted/Draft Daily Blanks', 'Submitted Daily Blanks', 'manage_options', 'edit.php?post_status=draft&post_type=post' ); 
+	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'edit_pages', 'edit.php?post_status=future&post_type=post' ); 
+	add_submenu_page('edit.php', 'Submitted/Draft Daily Blanks', 'Submitted Daily Blanks', 'edit_pages', 'edit.php?post_status=draft&post_type=post' ); 
 }
 
 
@@ -545,15 +545,20 @@ function dailyblank_meta_box_cb($post) {
     <?php  	
 }
 
-function dailyblank_update_post($post_id, $dailyblank_tag, $dailyblank_date)
+function dailyblank_update_post( $post_id, $dailyblank_tag, $dailyblank_date ) {
 // update a post using the provided type and tag
-{
 
 	if( isset( $_POST['dailyblank_tag'] ) )
 		update_post_meta( $post_id, 'dailyblank_tag', $dailyblank_tag ); 
+	
+	// do we have an author?
+	$wAuthor = get_post_meta( $post_id, 'wAuthor', 1 );
+	
+	// add author to new terms if we have one, otherwise just use the tag
+	$newterms = ( $wAuthor ) ? $dailyblank_tag . ',' .  $wAuthor : $dailyblank_tag;
 		
 	// set the tag that identifies this dailyblank
-	wp_set_post_terms( $post_id, $dailyblank_tag, 'post_tag' );
+	wp_set_post_terms( $post_id, $newterms, 'post_tag' );
 	
 	// assign the category to mark all the daily blanks
 	wp_set_post_categories( $post_id, array( dailyblank_option('all_cat') ), true );
@@ -613,10 +618,8 @@ function dailyblank_settings_save( $post_id )
 	// unhook this function so it doesn't loop infinitely
 	remove_action('save_post', 'dailyblank_settings_save');
 	
-
 	// send type and tag to function to update post
 	dailyblank_update_post( $post_id, esc_attr( $_POST['dailyblank_tag'] ), esc_attr( $_POST['dailyblank_date'] ) );
-
 
   	// re-hook this function
 	add_action('save_post', 'dailyblank_settings_save');
@@ -632,7 +635,7 @@ add_action( 'admin_post_dailyblank_recycle', 'prefix_admin_dailyblank_recycle' )
 
 
 function prefix_admin_dailyblank_recycle() {
-// looks for a post[= value in URL and makes a copy of Daily Blank with that ID as a new one
+// looks for a post= value in URL and makes a copy of Daily Blank with that ID as a new one
 
 	// make sure we got something to work with
 	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'dailyblank_recyle' == $_REQUEST['action'] ) ) ) {

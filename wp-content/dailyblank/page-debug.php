@@ -17,56 +17,36 @@
 						<section class="post_content clearfix" itemprop="articleBody">
 							<?php the_content(); ?>
 									
-									
-							<?php					
-							// test gettweets
+								<ol>	
+								<?php	
+								
+								// fix for missing author tags in dailies!				
 
-	 // fetch the twitter account timeline for replies, grab 100 at a time (200 is max), we want replies and user deets
-	 
-	 
-	$tweets = getTweets( dailyblank_option('twitteraccount'), 100,  array('exclude_replies'=>false, 'trim_user' => false ) );
-	 	
-	 	cogdogbug ( $tweets );
-	 
-		// set up an array to hold responses
-		/*
-		$new_responses = array();
-		
-		// walk through the tweets
-		foreach($tweets as $tweet) {
-		
-				// array for hashtags
-				$hashtags = extract_hashtags( $tweet['entities']['hashtags'] );
-				
-				// We want only replies with hashtags and URLs in 'em
-				if ( $hashtags AND $tweet['entities']['urls']  ) {
-				
-					// check for hashtag match against our dailyblank base
-					if ( dailyblank_tag_in_hashtags( $hashtags, dailyblank_option('basetag')  ) ) {
+								$args = array(
+									'posts_per_page'   => -1,
+									'meta_key'         => 'wAuthor',
+									'post_type'        => 'post',
+									'post_status'      => 'publish',
+								);
 
-						// bingo we got a winner; 
-						// form URL for the tweet
-						$t_url = 'https://twitter.com/' . $tweet['user']['screen_name'] . '/status/' . $tweet['id_str'];
-						// build data array for each response found
-					
-						$new_responses[] = array(
-							'id_str' => $tweet['id_str'], // twitter id for tweet
-							'tweeter' => $tweet['user']['screen_name'], // tweet author
-							'text' => $tweet['text'], // da tweet
-							'url' => $t_url, // full url
-							'tstamp' => $tweet['created_at'], // timestamp
-							'tags' => $hashtags // gimme tags
-						);
-					
-					}
-				}
-		}
-		
-		
-		add_dailyblank_responses( $new_responses );							
-		*/					
-							
-							?>
+								$myposts = get_posts( $args );
+								foreach ( $myposts as $post ) {
+									setup_postdata( $post );
+
+									// do we have an author?
+									$wAuthor = get_post_meta( $post->ID, 'wAuthor', 1 );
+	
+									echo '<li>Fixing tags for "' . $post->post_title . '" adding tag for ' . $wAuthor . '</li>';
+	
+									// add author to new terms if we have one, otherwise just use the tag
+									$newterms = ( $wAuthor ) ? $post->post_name . ',' .  $wAuthor : $post->post_name;
+	
+									wp_set_post_terms( $post->ID, $newterms, 'post_tag' );
+
+									wp_reset_postdata();
+								}
+								?>
+								</ol>
 
 
 						</section> <!-- end article section -->
