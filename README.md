@@ -151,10 +151,10 @@ List all the twitter names that have contributed new Daily Blanks via the submis
 	[dailyleaders type="contributors"]
 
 
-#### Automatic Tweeting
+#### Automatic Tweeting With dlvr.it
 The site does NOT automatically tweet new Daily Blanks. Numerous plugins offer a capability to autotweet new posts; this is not built into the site.
 
-The best tool for doing this we have found is to set up a routing on  [dlvr.it](https://dlvr.it/) a free web service can be triggered to publish to a twitter account via an RSS feed from your site. Your mileage may/will vary. The examples below are for the [DS106 Daily Create](http://daily.ds106.us/)  which sends out its creative activities via [@ds106dc](https://twitter.com/ds106dc).
+One tool for doing this we have found is to set up a routing on  [dlvr.it](https://dlvr.it/) a free web service can be triggered to publish to a twitter account via an RSS feed from your site. Your mileage may/will vary. The examples below are for the [DS106 Daily Create](http://daily.ds106.us/)  which sends out its creative activities via [@ds106dc](https://twitter.com/ds106dc).
 
 To use dlvr.it, first create an account on the site. You will create a *Route* which has a source (in this case an RSS Feed) and a *Destination* (in this case a twitter account).  [Go to the routes editor](https://app.dlvr.it/deliveries/routes) and click *+Add Route*. 
 
@@ -179,8 +179,15 @@ Under the *Post Content* tab, we suggest tweeting the title and the link:
 
 ![](wp-content/dailyblank/images/dlvrit-twitter-destination-account.jpg "Twitter Destination Account")
 
-
 This is the only setting you should need to make. Your twitter account should automatically send out a tweet in an hour after your next scheduled Daily Blank is published.
+
+#### Automatic Tweeting with IFTTT
+We have seen some problems using dlvr.it on the DS106 Daily Create (I think we hit some capacity limit). 
+
+As an alternative, you can [try a recipe we made in IFTTT](https://ifttt.com/recipes/413425-tweeting-daily-blank-challenges) where you can enter your site's RSS feed, any hashtags you want to use. You wiull have to use an IFTTT account authorized to post to the twitter account you want to be tweeting for you.
+
+
+
 
 
 

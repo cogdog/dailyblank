@@ -65,7 +65,7 @@
 								<?php dailyblank_twitter_button( $post->ID );?>	
 								
 								
-																<?php
+								<?php
 									// try loading any recycled IDs
 									$wRecycled = get_post_meta( $post->ID, 'wRecycled', 1 ); 
 									
@@ -84,8 +84,7 @@
 										}
 										echo '</p>';
 									}
-								
-								
+
 								?>
 	
 
