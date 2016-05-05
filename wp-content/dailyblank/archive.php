@@ -13,7 +13,7 @@ get_header(); ?>
 							<span><?php _e("The Daily " . $dailykind . " Categorized:", "wpbootstrap"); ?></span> <?php single_cat_title(); ?>
 						</h1>		
 						<p><?php echo category_description( ); ?></p>
-						<p class="centertext"><a class="btn btn-info" href="?random" >Gimme a Random One</a></p>
+						<p class="centertext"><a class="btn btn-info" href="<?php echo site_url()?>/random" >Gimme a Random One</a></p>
 						
 					<?php } elseif (is_tag()) { ?> 
 						<h1 class="archive_title h2"><span>The Daily 
