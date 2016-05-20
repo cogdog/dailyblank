@@ -1,4 +1,8 @@
-<?php get_header(); ?>
+<?php 
+	get_header(); 
+	// flag if the Ajax Load More plugin is loaded
+	$use_ajax_load_more = ( function_exists('alm_install' ) ) ? true : false;
+?>
 			
 			<div id="content" class="clearfix row">
 			
@@ -30,15 +34,44 @@
 							<div class="col-sm-8 page-header">
 								<h1 class="single-title" itemprop="headline"><?php the_title(); ?></h1>
 							
-								<p class="meta"><?php _e("This Daily " . dailyblank_option('dailykind') .   " was published", "wpbootstrap"); ?> <strong><time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></strong> 
+								<p class="meta"><?php _e("This Daily " . dailyblank_option('dailykind') .   " published", "wpbootstrap"); ?> <strong><time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></strong> 
 								<?php 
 								
 								$wAuthor = get_post_meta( $post->ID, 'wAuthor', 1 );
 								if ( $wAuthor ) {
 									// link to tag archive if twitter name
 									$credits = ( is_twitter_name( $wAuthor ) ) ? '<a href="https://twitter.com/' . $wAuthor . '">' . $wAuthor . '</a>' : $wAuthor;
-									echo 'shared by <strong>' .  $credits . '</strong>';
+									echo '-- shared by <strong>' .  $credits . '</strong>-- ';
 								}
+								
+								// get the right tag so we can find the responses
+								$dailyblank_tag = get_post_meta( $post->ID, 'dailyblank_tag', 1 ); 
+
+								// query to get sll responses
+								$responses_count_query = new WP_Query( 
+									array(
+										'posts_per_page' =>'-1', 
+										'post_type' => 'response',
+										'hashtags'=> $dailyblank_tag, 
+									)
+								);
+
+								// store total count of all responses
+								$response_count = $responses_count_query->post_count;
+								// because grammar
+								$r_plural = ( $response_count == 1) ? '' : 's';
+								
+								// update pronto
+								dailyblank_update_meta( $post->ID, $response_count);
+
+								// get view count
+								$view_count = ( get_post_meta($post->ID, 'daily_visits', 1)) ? get_post_meta($post->ID, 'daily_visits', 1) : 0;
+								
+								// more grammar
+								$v_plural = ( $view_count == 1) ? '' : 's';
+								
+								// add response and visit counts
+								echo ' has <strong>' . $response_count . '</strong> response' . $r_plural . ' and <strong>' . $view_count . '</strong> view' . $v_plural;
 									
 								?>
 								
@@ -94,37 +127,11 @@
 						</div>
 						
 							
-							<?php
-							// get the right tag so we can find the responses
-							$dailyblank_tag = get_post_meta( $post->ID, 'dailyblank_tag', 1 ); 
-							
-							// flag if the Ajax Load More plugin is loaded
-							$use_ajax_load_more = ( function_exists('alm_install' ) ) ? true : false;
-							
-							
-							// First get total count of all responses
-							
-							// query to get responses
-							$responses_count_query = new WP_Query( 
-								array(
-									'posts_per_page' =>'-1', 
-									'post_type' => 'response',
-									'hashtags'=> $dailyblank_tag, 
-								)
-							);
-						
-							$response_count = $responses_count_query->post_count;
-							
-							$plural = ( $response_count == 1) ? '' : 's';
-							
-							
-						
-							?>
 							<footer>
 							
 							<div class="clearfix row">	<!-- begin row for tweeted responses -->
 								<div class="col-sm-offset-3 col-sm-6">
-								<h3><?php echo $response_count?> Response<?php echo $plural?> Tweeted for this Daily <?php echo dailyblank_option('dailykind')?></h3>
+								<h3><?php echo $response_count?> Response<?php echo $r_plural?> Tweeted for this Daily <?php echo dailyblank_option('dailykind')?></h3>
 								</div>
 							
 							
@@ -173,9 +180,13 @@
 					
 					<?php endwhile; ?>	
 					
-					<?php wp_reset_query(); ?>
+					<?php 
 					
-					<?php comments_template('', true); ?>		
+					wp_reset_query(); 
+					
+					comments_template('', true); 
+					
+					?>		
 					
 					<?php else : ?>
 					

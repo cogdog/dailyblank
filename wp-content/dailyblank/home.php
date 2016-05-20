@@ -19,6 +19,10 @@
 					<?php 
 						// previous post ids for navigation purposes						
 						$prev_post_id = get_previous_post()->ID;
+						
+						// get response count
+						$response_count = ( get_post_meta($post->ID, 'response_count', 1)) ? get_post_meta($post->ID, 'response_count', 1) : 0;
+						$r_plural = ( $response_count == 1) ? '' : 's';
 					?>
 									
 				<div class="col-sm-2 btnnav">
@@ -48,7 +52,7 @@
 							
 							<div class="page-header"><h2 class="h2"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2></div>
 							
-							<p class="meta"><?php _e("Published", "wpbootstrap"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></p>
+							<p class="meta"><?php _e("published", "wpbootstrap"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time> &bull; <?php echo $response_count?> response<?php echo $r_plural?></p>
 						
 						</header> <!-- end article header -->
 					

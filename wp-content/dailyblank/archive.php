@@ -61,12 +61,23 @@ get_header(); ?>
 							
 							<h2><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
 							
-								<p class="meta"><?php _e("This Daily " . dailyblank_option('dailykind') .   " was published", "wpbootstrap"); ?> <strong><time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></strong> 
+								<p class="meta"><?php _e("This Daily " . dailyblank_option('dailykind') .   " published", "wpbootstrap"); ?> <strong><time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php echo get_the_date('F jS, Y', '','', FALSE); ?></time></strong> 
 								<?php 
 								if ( get_post_meta( $post->ID, 'wAuthor', 1 ) ) {
-									echo 'shared by <strong>' .  get_post_meta( $post->ID, 'wAuthor', 1 ) . '</strong>';
+									echo '--shared by <strong>' .  get_post_meta( $post->ID, 'wAuthor', 1 ) . '</strong>--';
 								}
-									
+								
+								$response_count = ( get_post_meta($post->ID, 'response_count', 1)) ? get_post_meta($post->ID, 'response_count', 1) : 0;
+
+								$r_plural = ( $response_count == 1) ? '' : 's';
+
+								$view_count = ( get_post_meta($post->ID, 'daily_visits', 1)) ? get_post_meta($post->ID, 'daily_visits', 1) : 0;
+								
+								$v_plural = ( $view_count == 1) ? '' : 's';
+								
+								// add response and visit counts
+								echo ' has <strong>' . $response_count . '</strong> response' . $r_plural . ' and <strong>' . $view_count . '</strong> view' . $v_plural;
+								
 								?>
 								
 								</p>
