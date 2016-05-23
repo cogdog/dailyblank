@@ -198,7 +198,7 @@ On the next tab, *Feed Update* enter the following settings to make sure it does
 
 And lastly, on the *Item text tab* you can insert any specific extra text to add to the tweets, e.g. hashtags for all tweets.
 
-![](wp-content/dailyblank/images/dlvrit-item-text.jpgg "Extra Item Text for Feeds")
+![](wp-content/dailyblank/images/dlvrit-item-text.jpg "Extra Item Text for Feeds")
 
 
 No other settings are required for the feed. Now on the right side, under destinations, click *+add*.  Click the twitter icon, and then authenticate with the account you want to be sending out the tweets.
@@ -221,7 +221,7 @@ Existing code bits. I wish I thought of doing this earlier, I lost a few handy o
 
 * Just see what tweets are fetched (used this when first building the site, a way to check if the code is talking to the twitter API [dailyblank-get-tweets gist](https://gist.github.com/cogdog/2934cddc5e1f4f446ff84a44618fff82)
 * A fix for an issue (pre February 2016) where the tags for people who added Daily Blanks were not properly tagged in each post [dailyblank-author-tags gist](https://gist.github.com/cogdog/cf75335cc5d217e1f39382c756c97091)
-* Seed the response counts and generate some random visit counts (for sites before this feature was added, May 23, 206) [dailyblank-seed-counts gist](https://gist.github.com/cogdog/35d2b8c377b568bd7b161316828f89f4)
+* Seed the response counts and generate some random visit counts (for sites before this feature was added, May 23, 2016) [dailyblank-seed-counts gist](https://gist.github.com/cogdog/35d2b8c377b568bd7b161316828f89f4)
 
 
 
