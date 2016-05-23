@@ -186,9 +186,6 @@ function getdailyCount() {
 // ----- short code for number of responses in the site
 add_shortcode('responsecount', 'getResponseCount');
 
-
-
-
 /* ----- shortcode to generate lists of top contributors -------- */
 add_shortcode("dailyleaders", "dailyblank_leaders");  
 
@@ -268,6 +265,48 @@ function dailyblank_second_orderby( $pieces, $taxonomies, $args ) {
 	$pieces['orderby'] = 'ORDER BY tt.count DESC,t.name';
 	return $pieces;
 }
+
+// ----- short code to list the top dailies according to numbers of views and number of response
+//       run  a get_posts based in
+
+add_shortcode('dailytops', 'get_daily_tops');
+
+function get_daily_tops( $atts ) {
+
+		extract( shortcode_atts( array( "number" => 10,  "type" => 'responses' , "showcount" => 1, "showdate" => 1), $atts ) ); 
+	
+		// set metakey to look for known info
+		$metakey = (  $type == 'responses' ) ? 'response_count' : 'daily_visits';
+		
+		// start empty
+		$str = '<ol>';
+		
+		// set up arguments to get posts
+		$args = array(
+			'posts_per_page'   => $number,
+			'post_type'        => 'post',
+			'post_status'      => 'publish',
+			'meta_key'		   =>  $metakey,
+			'orderby'		   => 'meta_value_num',
+		);
+
+		$myposts = get_posts( $args );
+		
+		foreach ( $myposts as $daily ) {
+			setup_postdata( $daily );
+			
+			$str .= '<li><a href="' . get_permalink($daily->ID) . '">' . 
+$daily->post_title . '</a> ';
+			if ( $showcount ) $str .=   ' ('. get_post_meta($daily->ID, $metakey, 1) . ') ';
+			if ( $showdate ) $str .= get_the_date( get_option( 'date_format' ), $daily->ID);
+			$str .=  '</li>';				
+		}
+		
+		$str .= '</ol>';
+		
+		return ( $str );	 
+}
+
 
 # -----------------------------------------------------------------
 # For the Form

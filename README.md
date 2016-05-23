@@ -12,6 +12,10 @@ Look for a working versions at
 
 You can also find some long-winded code laden blog posts on the development http://cogdogblog.com/tag/dailyblank/
 
+
+## New Features
+* Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
+
 ## How to Install
 I will make the big leap in that you have a self hosted Wordpress site and can install themes. The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide the one in this repository  I have used on all sites listed.
 
@@ -151,6 +155,30 @@ List all the twitter names that have contributed new Daily Blanks via the submis
 	[dailyleaders type="contributors"]
 
 
+#### Top Dailies Shortcode
+New code was added (May 23, 2016) to add to each daily meta data that records (and updates) the number of responses and views for each one.  And with that, a new shortcode that you can use to display the most "popular" ones (most responses and/or most views) in a page or a widget. See the Debug Page hacks below for a method to back fill existing items for sites that existed before this featured was added 
+
+List the 10 dailies that have the most responses
+
+	[topdaily]
+
+or specify the number you would like to list
+
+	[topdaily number="20"]
+	
+Suppress the display of the count
+
+	[topdaily showcount="0"]
+	
+Suppress the display of the date of each
+
+	[topdaily showdate="0"]
+	
+List the ones that have the most views (and also add the parameters above):
+
+	[topdaily type="visits"]
+	
+
 #### Automatic Tweeting With dlvr.it
 The site does NOT automatically tweet new Daily Blanks. Numerous plugins offer a capability to autotweet new posts; this is not built into the site.
 
@@ -185,6 +213,18 @@ This is the only setting you should need to make. Your twitter account should au
 We have seen some problems using dlvr.it on the DS106 Daily Create (I think we hit some capacity limit). 
 
 As an alternative, you can [try a recipe we made in IFTTT](https://ifttt.com/recipes/413425-tweeting-daily-blank-challenges) where you can enter your site's RSS feed, any hashtags you want to use. You wiull have to use an IFTTT account authorized to post to the twitter account you want to be tweeting for you.
+
+#### Debugging, One Time Code Fixes
+Most sites will never need this, but in adding features to new sites, sometimes the site may need a one time nudge to update itself, or to do some debugging. I often use this for testing new features. The template `page-debug.php` does absolutely nothing. But if you need to do any of these tasks, get the code listed in the gists below, and insert into the noted places. Upload to your server. Create a page called "Debug" (it needs no content, just a slug of debug. Then go to the URL: http://mydailyblanksite.something/debug and let the script do its thing. When done, remove the code or the template from the theme.
+
+Existing code bits. I wish I thought of doing this earlier, I lost a few handy ones. Oh well...
+
+* Just see what tweets are fetched (used this when first building the site, a way to check if the code is talking to the twitter API [dailyblank-get-tweets gist](https://gist.github.com/cogdog/2934cddc5e1f4f446ff84a44618fff82)
+* A fix for an issue (pre February 2016) where the tags for people who added Daily Blanks were not properly tagged in each post [dailyblank-author-tags gist](https://gist.github.com/cogdog/cf75335cc5d217e1f39382c756c97091)
+* Seed the response counts and generate some random visit counts (for sites before this feature was added, May 23, 206) [dailyblank-seed-counts gist](https://gist.github.com/cogdog/35d2b8c377b568bd7b161316828f89f4)
+
+
+
 
 
 
