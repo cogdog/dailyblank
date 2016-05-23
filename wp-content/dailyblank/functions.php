@@ -1013,8 +1013,10 @@ function dailyblank_update_meta($id, $response_count) {
 	//update visit counts
 	update_post_meta($id,  'daily_visits', $visit_count);
 	
-	// now update the number of examples
-	update_post_meta($id,  'response_count', $response_count);
+	// now update the number of responses IF it is more than the current value
+	if ( $response_count > get_post_meta($post->ID, 'response_count', 1) ) {
+		update_post_meta($id,  'response_count', $response_count);
+	}
 	
 }
 
