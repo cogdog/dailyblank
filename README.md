@@ -134,6 +134,17 @@ Create a Wordpress page with a permalink of *random* (it needs no content); when
 #### All Responses
 Append `/response/` to your site's URL to see a display of all tweeted responses from the most recent listed first.
 
+#### Total Shortcodes
+These are available to use in any Wordpress post, page, widget.
+
+This will generate the total number of Daily Blanks published to date:
+
+	[dailycount]
+
+And this will generate the total  of responses Daily Blanks received to date:
+
+	[responsecount]
+
 #### Leaderboard Shortcode
 These codes can be used in posts or widgets to list the most active participants:
 
