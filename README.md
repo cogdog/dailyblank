@@ -5,7 +5,9 @@ by Alan Levine http://cogdog.info/ or http://cogdogblog.com/
 A Wordpress Theme that provides a site that works like the [ds106 Daily Create](http://tdc.ds106.us) Unlike the TDC where responses needed to be posted to social media sites, for the Daily Blank participation is via sending a tweet to a dedicated account with a  a specific hash tag.
 
 Look for a working versions at 
+
 * [The Daily Blank (first prototype as a SPLOT)](http://splot.ca/dailyblank)
+* [The (new) DS106 Daily Create](http://daily.ds106.us/)
 * [The You Show Daily](http://thedaily.trubox.ca/)
 * [The Daily Stillness](http://daily.stillweb.org/)
 * [UdG Agora Daily Try](http://udg.theagoraonline.net/daily)
