@@ -2,7 +2,7 @@
 by Alan Levine http://cogdog.info/ or http://cogdogblog.com/
 
 ## What is this?
-A Wordpress Theme that provides a site that works like the [ds106 Daily Create](http://tdc.ds106.us) Unlike the TDC where responses needed to be posted to social media sites, for the Daily Blank participation is via sending a tweet to a dedicated account with a  a specific hash tag.
+A Wordpress Theme for a site that works like the [ds106 Daily Create](http://tdc.ds106.us) Unlike thay original TDC where responses needed to be posted to social media sites, for the Daily Blank participation is via sending a tweet to a dedicated account with a specific hashtag for each day's challenge.
 
 Look for a working versions at 
 
@@ -16,10 +16,11 @@ You can also find some long-winded code laden blog posts on the development http
 
 
 ## New Features
+* Updated display of admin options to actually use its busted tabs (July 26, 2016)
 * Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
 
 ## How to Install
-I will make the big leap in that you have a self hosted Wordpress site and can install themes. The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide the one in this repository  I have used on all sites listed.
+I will make the big leap of assumption that you have a self hosted Wordpress site and can install themes. The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide the one in this repository  I have used on all sites listed.
 
 **Very very crucial.** Do not just use the zip of this repo as a theme upload. It will not work. If you are uploading in the wordpress admin, you will need to make separate zips of the two themes and the one plugin inside the `wp-content folder` (*dailyblank* and *wp-bootstrap*, and upload each.) In addition, you must upload the Twitter Oauth For Developers plugin that comes in this repo; it has modifications critical  to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).  
 

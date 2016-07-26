@@ -5,7 +5,7 @@
 
 <p>Information for the matching tweets are saved locally as "Responses" (a custom post type) and identified with a custom taxonomy (hashtags).</p>
 
-<h4>Set Up a Twitter Account and Get the Keys</h4>
+<h2>Set Up a Twitter Account and Get the Keys</h2>
 <p>You will need a new or existing twitter account that acts as the recipient of tweeted responses. It can be an account you use for other purposes. With that account log in to <a href="https://apps.twitter.com" target="_blank">Twitter Apps</a> to create a new one that will provide the necessary API keys. The access is okay with Read Only permissions.</p>
 
 <p>Four of the keys are necessary to configure this site to be able to read the accounts mentions, two Application Keys and Two Access Tokens:</p>
@@ -17,7 +17,7 @@
 	<li>	Access Token Secret</li>
 </ul>
 
-<h4>Configure the Twitter Oauth Plugin</h4>
+<h2>Configure the Twitter Oauth Plugin</h2>
 <p>The Daily Blank uses Twitter Oauth For Developers plugin to access twitter and read mentions of your account; however you must use the modified version that comes with the Daily Blank theme, not the one from Wordpress.org. When the plugin is uploaded, look under Settings for <a href="<?php echo admin_url( 'admin.php?page=options-general.php?page=tdf_settings')?>" target="_blank">Twitter Feed Auth</a>.</p>
 
 Enter your own credentials in the four fields (in general the default cache expiry of 3600, 1 hour, is fine for most sites):
@@ -25,13 +25,13 @@ Enter your own credentials in the four fields (in general the default cache expi
 <img width="600" height="208" alt="twitter-auth-settings" src="<?php echo get_stylesheet_directory_uri(); ?>/images/twitter-auth-settings.jpg">
 
 
-<h4>Useful General Setup Items</h4>
+<h2>Useful General Setup Items</h2>
 <p>Time is important to the Daily, so make sure the <a href="<?php echo admin_url( 'admin.php?page=options-general.php')?>" target="_blank">Time Zone settings</a>  match the reference time you want your site to be publishing new items in.</p>
 
 <p>Now is also a good time to <a href="<?php echo admin_url( 'edit-tags.php?taxonomy=category')?>" target="_blank">create/customize the Default Category</a> (and optionally and other categories) you will want to use for your Daily Blank. The Default category will be applied to ever new Daily Blank, serving as a way to show a complete archive.</p>
 
 
-<h4>Set Daily Blank Options</h4>
+<h2>Set Daily Blank Options</h2>
 <p>Access the Options at any time from the <strong>Daily Blank Options</strong> link from the top admin bar or also under the <strong>Appearance</strong> menu. Here comes the explanation for all settings!</p>
 
 <p><em>(The values in the fields come from the instance of this running as the <a href="https://udg.theagoraonline.net/daily" target="_blank">UdG Agora Daily Try site</a>.</em></p>
@@ -59,7 +59,7 @@ Enter your own credentials in the four fields (in general the default cache expi
 
 <p>Notice also the link for <strong>Look for Tweets</strong> -- the site is set up with its own timer to check twitter once an hour. This is driven by visits to the site; so use this link to force an instant check for new mentions to your account. This also clears the local cache.</p>
 
-<h4>Using the Ajax Load More Plugin</h4>
+<h2>Using the Ajax Load More Plugin</h2>
 <p>Install this plugin to create paginate loadings of twitter responses for busier sites (regularly receiving more than 10 responses). The only critical setting is to customize the <a href="<?php echo admin_url( 'admin.php?page=ajax-load-more-repeaters')?>" target="_blank">Repeater Template</a> so it embeds the tweets the same way the theme does:</p>
 
 <img width="600" height="312" alt="ajax-load-more-templates" src="<?php echo get_stylesheet_directory_uri(); ?>/images/ajax-load-more-templates.jpg">
@@ -72,7 +72,7 @@ Enter your own credentials in the four fields (in general the default cache expi
 </pre>
 
 
-<h4>Creating New Daily Blanks</h2>
+<h2>Creating New Daily Blanks</h2>
 <p>Write new items as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:</p>
 
 <img width="600" height="327" alt="create-daily-blank" src="<?php echo get_stylesheet_directory_uri(); ?>/images/create-daily-blank.jpg">
@@ -91,18 +91,18 @@ Enter your own credentials in the four fields (in general the default cache expi
 
 <p>Scheduled or published Daily Blanks can be edited like any other Wordpress post, at any time. Review the queued ones via <p>Submitted items end up as drafts on the site, which you can review via the <strong>Daily Blanks</strong> menu -&gt; <strong><a href="<?php echo admin_url( 'edit.php?post_status=future&post_type=post')?>" target="_blank">Scheduled Daily Blanks</a></strong>
 
-<h4>Daily Blank Public Submission Form</h4>
+<h2>Daily Blank Public Submission Form</h2>
 <p>If you create a new Wordpress Page with a permalink of <strong>add</strong> it will be published as a form for your site visitors to suggest new Daily Blanks. Any text in the body of the page appears as a prompt.</p>
 
 <p>Submitted items end up as drafts on the site, which you can review via the <strong>Daily Blanks</strong> menu -&gt; <strong><a href="<?php echo admin_url( 'edit.php?post_status=draft&post_type=post')?>" target="_blank">Submitted Daily Blanks</a></strong>. To activate one, simple edit it, save as draft, and it becomes the next one in line.</p>
 
-<h4>Random Daily Blank</h4>
+<h2>Random Daily Blank</h2>
 <p>Create a Wordpress page with a permalink of <strong>random</strong> (it needs no content); when opened, it rediects to a randomly chosen  published Daily Blank.</p>
 
-<h4>All Responses</h4>
+<h2>All Responses</h2>
 <p>Append <strong>/response/</strong> to your site's URL to see a display of all tweeted responses from the most recent listed first.</p>
 
-<h4>Leaderboard Shortcode</h4>
+<h2>Leaderboard Shortcode</h2>
 <p>These codes can be used in posts or widgets to list the most active participants:</p>
 
 <p>List all respondents in order of most active to least</p>
@@ -118,7 +118,7 @@ Enter your own credentials in the four fields (in general the default cache expi
 <p>List all the twitter names that have contributed new Daily Blanks via the submission form </p>
 <pre>[dailyleaders type="contributors"]</pre>
 
-<h4>Automatic Tweeting</h4>
+<h2>Automatic Tweeting</h2>
 <p>The site does NOT automatically tweet new Daily Blanks. Numerous plugins offer a capability to autotweet new posts; this is not built into the site.</p>
 
 <p>The best tool for doing this we have found is to set up a routing on  <a href="https://dlvr.it/" target="_blank">dlvr.it</a> a free web service can be triggered to publish to a twitter account via an RSS feed from your site. Your mileage may/will vary. The examples below are for the <a href="http://daily.ds106.us/" target="_blank">DS106 Daily Create</a> which sends out its creative activities via <a href="https://twitter.com/ds106dc" target="_blank">@ds106dc</a>.</p>
