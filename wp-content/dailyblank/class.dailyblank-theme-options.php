@@ -50,7 +50,7 @@ class dailyblank_Theme_Options {
 	/* HTML to display the theme options page */
 	public function display_page() {
 		echo '<div class="wrap">
-			  <h1>Assignment Bank Options</h1>';
+			  <h1>Daily Blank Options</h1>';
 		
 		if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == true ) {
 			echo '<div class="notice notice-success"><p>' . __( 'Theme options updated.' ) . '</p></div>';
