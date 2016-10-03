@@ -3,7 +3,7 @@
    https://github.com/cogdog/dailyblank
    Alan Levine
    
-   All the functions and then some here
+   All the functions and then some here for the Daily Blank
 
 */
 

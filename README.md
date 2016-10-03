@@ -10,11 +10,13 @@ See the [DS106 Daily Create #TDC1667](http://daily.ds106.us/tdc1667/) shown in t
 
 Look for a working versions at 
 
-* [The Daily Blank (first prototype as a SPLOT)](http://splot.ca/dailyblank) (not active)
 * [The (new) DS106 Daily Create](http://daily.ds106.us/)
-* [The You Show Daily](http://thedaily.trubox.ca/)  (not active)
 * [The Daily Stillness](http://daily.stillweb.org/)
 * [UdG Agora Daily Try](http://udg.theagoraonline.net/daily)
+* [The Daily Headline](http://jmc3353.adamcroom.com/dailyheadline/) University of Oklahoma
+* [The Daily Blank (first prototype as a SPLOT)](http://splot.ca/dailyblank) (not active)
+* [The You Show Daily](http://thedaily.trubox.ca/)  (not active)
+
 
 You can also find some long-winded code laden blog posts on this theme's development http://cogdogblog.com/tag/dailyblank/
 
@@ -36,7 +38,7 @@ The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.c
 
 2. In the Wordpress Dashboard, activate the **dailyblank** theme (you do not have to activate the wp-bootstrap theme)
 
-3. In addition, you must upload the Twitter Oauth For Developers plugin that comes in this repo; it has modifications critical to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).   From the plugins area of your Wordpress dashboard, click the **Ppload Plugin** button and use this file [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
+3. In addition, you must upload the Twitter Oauth For Developers plugin that comes in this repo; it has modifications critical to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).   From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button and use this file [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
 
 
 
