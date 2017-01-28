@@ -14,7 +14,21 @@
 
 add_action( 'init', 'dailyblank_make_post_types' );
 add_action( 'init', 'dailyblank_load_theme_options' );
+add_action( 'init', 'wp_bootstrap_head_cleanup' );
 
+// override what the parent theme is doing -- it strips RSS feeeds from the head, bad mojo
+
+if( !function_exists( "wp_bootstrap_head_cleanup" ) ) {  
+  function wp_bootstrap_head_cleanup() {
+    // remove header links
+    remove_action( 'wp_head', 'rsd_link' );                               // EditURI link
+    remove_action( 'wp_head', 'index_rel_link' );                         // index link
+    remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 );            // previous link
+    remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );             // start link
+    remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 ); // Links for Adjacent Posts
+    remove_action( 'wp_head', 'wp_generator' );                           // WP version
+  }
+}
 
 // ----- run re-writes on theme switch
 add_action( 'after_switch_theme', 'dailyblank_rewrite_flush' );
