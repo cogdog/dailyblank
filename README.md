@@ -13,6 +13,7 @@ Look for a working versions at
 * [The (new) DS106 Daily Create](http://daily.ds106.us/) DS106 spawn of the [original TDC](http://tdc.ds106.us)
 * [Daily Doodle](http://edmedia.tlc.sfu.ca/dailyblank/) Simon Fraser University
 * [Daily Digital Alchemy](http://daily.arganee.world) for the Networked Narratives open course
+* [FLN Book Club Slow Chat](https://bookclub.flippedlearning.org/slowchat/) online book reading club for flipped learning educators
 * [The Daily Stillness](http://daily.stillweb.org/)
 * [UdG Agora Daily Try](http://udg.theagoraonline.net/daily)
 * [The Daily Headline](http://jmc3353.adamcroom.com/dailyheadline/) University of Oklahoma
