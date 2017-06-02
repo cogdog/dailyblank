@@ -1,4 +1,4 @@
-#The Daily Blank Wordpress Theme
+# The Daily Blank Wordpress Theme
 by Alan Levine http://cog.dog/ or http://cogdogblog.com/
 
 ![](images/dailyblank-example.jpg "Example Daily Blank")
