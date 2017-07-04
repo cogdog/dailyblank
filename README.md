@@ -25,6 +25,8 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 
 ## New Features
+
+* New shortcodes for count of people participating and number of responses. Also added an admin dashboard widget that shows activity stats on the site (July 3, 2017)
 * Set up installable zips for both parent and child theme, and the customized plugin (August 3, 2016)
 * Updated display of admin options to actually use its busted tabs (July 26, 2016)
 * Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
@@ -165,9 +167,21 @@ This will generate the total number of Daily Blanks published to date:
 
 	[dailycount]
 
-And this will generate the total  of responses Daily Blanks received to date:
+And this will generate the total of responses Daily Blanks received to date:
 
 	[responsecount]
+	
+This one shows the unique number of people who responded
+
+	[peoplecount]
+
+#### Admin Dashboard widget
+
+This new feature gives you a top glance at the activity on your site from the entry to the Admin Dashboard, with links to edit each kind. It will be added to the bottom of the admin dashboard but you can move it higher. This screenshot is from the [DS106 Daily Create](http://daily.ds106.us/) -- someone needs to go through those submitted items!
+
+![](images/admin-widget.jpg "Admin Dashboard Widget")
+
+
 
 #### Leaderboard Shortcode
 These codes can be used in posts or widgets to list the most active participants:

@@ -131,6 +131,29 @@ function dailyblank_comment_mod( $defaults ) {
 	return $defaults;
 }
 
+
+# -----------------------------------------------------------------
+# Admin Dashboard Widget
+# -----------------------------------------------------------------
+
+
+add_action('wp_dashboard_setup', 'dailyblank_dashboard_widgets');
+ 
+function dailyblank_dashboard_widgets() {
+
+	wp_add_dashboard_widget('dailyblank_admin', 'Stats on the Dailies', 'dailyblank_make_dashboard_widget');
+}
+
+function dailyblank_make_dashboard_widget() {
+	echo '<p>Currently on this site:</p>
+	<ul>
+		<li>There are <strong>' . getdailyCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=publish&post_type=post') . '">published dailies</a></li>
+		<li>In the queue are <strong>' . getScheduledCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=futureh&post_type=post') . '">scheduled dailies</a></li>
+		<li>Waiting for review are <strong>' . getDraftCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=publish&post_type=draft' ) . '">submitted new dailies</a></li>
+		<li>Participation in this site includes <strong>' . getResponseCount() . '</strong> <a href="' . admin_url( 'edit.php?post_type=response' ) . '">responses to dailies</a> from <strong>' . getPeopleCount() . '</strong> unique individuals</li>	
+	 </ul>';
+}
+
 # -----------------------------------------------------------------
 # Plugin Detectors
 # -----------------------------------------------------------------
@@ -197,8 +220,34 @@ function getdailyCount() {
 	return wp_count_posts('post')->publish;
 }
 
+function getDraftCount() {
+	return wp_count_posts('post')->draft;
+}
+
+function getScheduledCount() {
+	return wp_count_posts('post')->future;
+}
+
+
+
 // ----- short code for number of responses in the site
 add_shortcode('responsecount', 'getResponseCount');
+
+// ----- short code for number of people who have responded
+add_shortcode('peoplecount', 'getPeopleCount');
+
+function getPeopleCount() {
+
+	$args = array(
+		'number' => $number,
+		'name__like' => '@'
+	);
+	
+	$terms = get_terms('hashtags',  $args );
+
+	return count($terms);
+}
+
 
 /* ----- shortcode to generate lists of top contributors -------- */
 add_shortcode("dailyleaders", "dailyblank_leaders");  
@@ -778,7 +827,7 @@ add_action( 'admin_notices', 'dailyblank_recycled_admin_notice' );
 
 
 
-// Add a recycling link for hovers on posts that ar epublished
+// Add a recycling link for hovers on posts that are published
 add_filter( 'post_row_actions', 'dailyblank_duplicate_post_link', 10, 2 );
 
 function dailyblank_duplicate_post_link( $actions, $post ) {
@@ -1073,14 +1122,6 @@ function the_slug_exists( $slug ) {
         return false;
     }
 }
-
-// handy dandy debug dumper. Dump this baby
-function cogdogbug($var) {
-	echo '<pre>';
-	var_dump($var);
-	echo '</pre>';
-}
-
 
 /**
  * Changes an ISO 8601 formatted date from GMT/UTC (+00:00) to WordPress' set time or the timezone supplied.
