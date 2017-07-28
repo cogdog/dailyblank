@@ -71,9 +71,11 @@
 								$v_plural = ( $view_count == 1) ? '' : 's';
 								
 								// add response and visit counts
-								echo ' has <strong>' . $response_count . '</strong> response' . $r_plural . ' and <strong>' . $view_count . '</strong> view' . $v_plural;
+								echo ' has <strong>' . $response_count . '</strong> response' . $r_plural . ' and <strong>' . $view_count . '</strong> view' . $v_plural . ' is organized under ';
+								 the_category(', '); 
 									
 								?>
+								
 								
 								</p>
 							</div>

@@ -27,6 +27,7 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+* Categories listed under singly daily metadata (July 28, 2017)
 * New shortcodes for count of people participating and number of responses. Also added an admin dashboard widget that shows activity stats on the site (July 3, 2017)
 * Set up installable zips for both parent and child theme, and the customized plugin (August 3, 2016)
 * Updated display of admin options to actually use its busted tabs (July 26, 2016)
