@@ -152,7 +152,7 @@ class StormTwitter {
     
     $cachename = $screenname."-".$this->getOptionsHash($options);
     
-    $options = array_merge($options, array('screen_name' => $screenname, 'count' => 20));
+    $options = array_merge($options, array('screen_name' => $screenname, 'count' => 20, 'include_rts' => 1, 'tweet_mode' => 'extended'));
     
     if (empty($key)) return array('error'=>'Missing Consumer Key - Check Settings');
     if (empty($secret)) return array('error'=>'Missing Consumer Secret - Check Settings');

@@ -27,6 +27,7 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+* Fixed a bug in the twitter API calls that was resulting in missing tweets (added `tweet_mode=extended`) because API was returning truncated tweets, hence missing hashtags. This can be fixed by updated the plugin [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
 * Categories listed under singly daily metadata (July 28, 2017)
 * New shortcodes for count of people participating and number of responses. Also added an admin dashboard widget that shows activity stats on the site (July 3, 2017)
 * Set up installable zips for both parent and child theme, and the customized plugin (August 3, 2016)
