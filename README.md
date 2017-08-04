@@ -34,7 +34,7 @@ You can also find some long-winded code laden blog posts on this theme's develop
 * Updated display of admin options to actually use its busted tabs (July 26, 2016)
 * Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
 
-## How to Install
+## How to Install The Daily Blank Theme
 I will make the big leap of assumption that you have a self hosted Wordpress site and can install themes. 
 
 The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide a working version  in this repository. 
@@ -47,9 +47,6 @@ The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.c
 2. In the Wordpress Dashboard, activate the **dailyblank** theme (you do not have to activate the wp-bootstrap theme)
 
 3. In addition, you must upload the Twitter Oauth For Developers plugin that comes in this repo; it has modifications critical to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).   From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button and use this file [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
-
-
-
 
 ### Wobbly Documentation
 These are also available internally under the Daily Blank Options menu. I say Wobbly because this is the first draft, and it feels like there are a lot of nitpicky steps I almost can do in my sleep. That does not help you.
@@ -129,9 +126,20 @@ Replace the default code with:
 	<div>
 	<?php echo wp_oembed_get( get_post_meta( get_the_ID(), 'tweet_url', 1 ) );?>					
 	</div>
+	
+#### Daily Blank Public Submission Form
+If you create a new Wordpress Page with a permalink of `add` it will be published as a form for your site visitors to suggest new Daily Blanks. Any text in the body of this Wordpress Page appears as a prompt for people (see the one for the [DS106 Daily Create](http://daily.ds106.us/add/)).
 
-#### Creating New Daily Blanks</h2>
-Write new items as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:
+
+#### Creating Daily Blanks
+
+You can add to your queue of dailies several ways:
+
+* Create a new one from scratch
+* Editing one submitted via your public form
+* Recycling previously published ones
+
+Write new dailies as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:
 
 ![](wp-content/themes/dailyblank/images/create-daily-blank.jpg "Creating a Daily Blank")
 
@@ -142,20 +150,26 @@ Use the body of the post to add anything that might explain the item in more det
 
 Always *Save Draft* first. This does a number of things:
 
-
 * The unique tag is added to the Daily Blank and inserted before the title as a twitter hashtag.
 * Instructions are appended to the Daily Blank indicating the name of the twitter account to reply to and the hashtag
 * The Daily Blank is scheduled to be published 24 hours after the most recently published or scheduled one-- the idea is to schedule these out days or weeks into the future so they are automatically published (check the first one published; a persistent bug is that the very first one on a site is somehow set to be January 1970! The schedule date can always be edited)
 
-
 Scheduled or published Daily Blanks can be edited like any other Wordpress post, at any time. Review the queued ones via Submitted items end up as drafts on the site, which you can review via the `Daily Blanks` menu -&gt; `Scheduled Daily Blanks`
 
-#### Daily Blank Public Submission Form
-If you create a new Wordpress Page with a permalink of `add` it will be published as a form for your site visitors to suggest new Daily Blanks. Any text in the body of the page appears as a prompt.
+![](images/submitted-daily-blanks.jpg "Find submitted Daily Blanks")
 
-Submitted items end up as drafts on the site, which you can review via the `Daily Blanks` menu -&gt; `Submitted Daily Blanks`. To activate one, simple edit it, save as draft, and it becomes the next one in line.
+Daily blanks added via your site's submissions end up as Wordpress Drafts on your site, which you can review via the `Daily Blanks` menu -&gt; `Submitted Daily Blanks`. To activate one, simple edit it, save as draft, and it becomes the next one in line.
 
-For long winded blog posts about its development, see http://cogdogblog.com/tag/dailyblank/
+And finally recycle your past gems! In the dashboard, when viewing a published Daily Blank, look for the recycle link when you hover on a title.
+
+![](images/recycle-link.jpg "Recycle link")
+
+Or, when viewing any published daily, look on the Admin Menu under **Edit Daily Blank** for a **Recycle This Daily Blank** item.
+
+Either way, this will create a new draft for a Daily Blank copying the content, but with new tags. You can modify the content, save, and get it in the queue.  When published a new daily create recycled from a previous one will include a reference to it's source (see the credit on the [DS106 TDC2031](http://daily.ds106.us/tdc2031/) which was recycled from [TDC 1578](http://daily.ds106.us/tdc1578/):
+
+![](images/recycled.jpg "Recycled credit link")
+
 
 #### Random Daily Blank
 Create a Wordpress page with a permalink of *random* (it needs no content); when opened, it rediects to a randomly chosen  published Daily Blank.
