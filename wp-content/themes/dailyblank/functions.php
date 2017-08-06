@@ -967,7 +967,7 @@ function dailyblank_get_tweets( $show_fb = false ) {
 						$new_responses[] = array(
 							'id_str' => $tweet['id_str'], // twitter id for tweet
 							'tweeter' => $tweet['user']['screen_name'], // tweet author
-							'text' => $tweet['text'], // da tweet
+							'full_text' => $tweet['full_text'], // da tweet
 							'url' => $t_url, // full url
 							'tstamp' => $tweet['created_at'], // timestamp
 							'tags' => $hashtags // gimme tags
@@ -993,7 +993,7 @@ function add_dailyblank_responses( $responses ) {
 Utility to add new items to custom post types that represent tweeted responses. Input array includes
 	'id_str' => twitter ID
 	'url'	=> link to tweet
-	'text' => text of the tweet
+	'full_text' => text of the tweet
 	'tweeter' => screen name of tweet author
 	'tstamp' => time stamp converted to unix time
 	'tags' => simple array of hash tags
@@ -1015,7 +1015,7 @@ Utility to add new items to custom post types that represent tweeted responses. 
 		// Create post object
 		$response_type = array(
 			'post_type' 	=> 'response',
-			'post_title'    => $tweet['text'], // use the entire tweet as title
+			'post_title'    => $tweet['full_text'], // use the entire tweet as title
 			'post_name'		=> $tweet['id_str'], // use twitter id as slug
 			'post_date_gmt' => date( 'Y-m-d H:i:s', strtotime( $tweet['tstamp'] ) ),
 			'post_date'		=> iso8601_gmt_to_local( $tweet['tstamp'], $format = 'Y-m-d H:i:s'),
