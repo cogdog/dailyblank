@@ -148,8 +148,8 @@ function dailyblank_make_dashboard_widget() {
 	echo '<p>Currently on this site:</p>
 	<ul>
 		<li>There are <strong>' . getdailyCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=publish&post_type=post') . '">published dailies</a></li>
-		<li>In the queue are <strong>' . getScheduledCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=futureh&post_type=post') . '">scheduled dailies</a></li>
-		<li>Waiting for review are <strong>' . getDraftCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=publish&post_type=draft' ) . '">submitted new dailies</a></li>
+		<li>In the queue are <strong>' . getScheduledCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=future&post_type=post') . '">scheduled dailies</a></li>
+		<li>Waiting for review are <strong>' . getDraftCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=draft&post_type=post' ) . '">submitted new dailies</a></li>
 		<li>Participation in this site includes <strong>' . getResponseCount() . '</strong> <a href="' . admin_url( 'edit.php?post_type=response' ) . '">responses to dailies</a> from <strong>' . getPeopleCount() . '</strong> unique individuals</li>	
 	 </ul>';
 }
