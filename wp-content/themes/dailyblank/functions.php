@@ -131,6 +131,25 @@ function dailyblank_comment_mod( $defaults ) {
 	return $defaults;
 }
 
+/*
+Remove author from the posts display; by default Daily blanks are associated with
+the author id=1, the first admin user. We never use the author, so no need to display
+
+h/t
+https://webdevdoor.com/wordpress/removing-columns-pages-posts
+
+*/
+
+add_filter( 'manage_posts_columns', 'dailyblank_post_columns', 10, 2 );
+
+function dailyblank_post_columns( $columns ) {
+  unset(
+    $columns['author']
+  );
+ 
+  return $columns;
+}
+
 
 # -----------------------------------------------------------------
 # Admin Dashboard Widget
