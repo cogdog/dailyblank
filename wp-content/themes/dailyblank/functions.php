@@ -235,8 +235,35 @@ function dailyblank_load_theme_options() {
 // ----- short code for number of published Daily Blanks (just count posts)
 add_shortcode('dailycount', 'getdailyCount');
 
-function getdailyCount() {
-	return wp_count_posts('post')->publish;
+function getdailyCount( $since = 0 ) {
+
+	if ( $since ) {
+		// to find number of posts since a date, we need a query.
+		
+		$args = array(
+			'date_query' => array(
+				array(
+					'after'    => array(
+						'year'  => date("Y", $since) ,
+						'month' => date("n", $since),
+						'day'   => date("j", $since),
+					),
+					'inclusive' => true,
+				),
+			),
+			'posts_per_page' => -1,
+		);
+		
+		$dailies = new WP_Query( $args );
+		
+		return $dailies->found_posts;
+	
+	} else {
+	
+		// total count is easy, eh?
+		return wp_count_posts('post')->publish;
+		
+	}
 }
 
 function getDraftCount() {
@@ -279,59 +306,168 @@ function dailyblank_leaders ( $atts ) {
 	// we want a number of results we should return (0=all)
 	// and an indicator if we are looking for responders (hashtag taxonony) or contributors (tag tax)
 	// Allow for exclusion based on ID of the hashtag taxonony
- 	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "", "showbars" => 0, "barstyle" => 3 ), $atts ) );  
+ 	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "", "showbars" => 1, "barstyle" => 3, "since" => '' ), $atts ) );  
 
-	// temp filter to use name as secondary sort (first by tag count, then by name)
-	add_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
-	
 	// the class for the bars, must be 1, 2, or 3
 	$barstyle = ($barstyle > 3 or $barstyle < 1) ? 3 : $barstyle;
 
-	// Arguments to search hashtag terms
-	// search for @ in order of highest frequency
-	$args = array(
-		'number' => $number,
-		'exclude' =>  $exclude,
-		'name__like' => '@'
-	);
+
+	if ( empty( $since) ) {
 	
-	if ( $type == 'contributors') {
-		// search for terms in the custom taxonomy for regular tags
-		$terms = get_tags( $args );
-		$taxpath = 'tag';
-	} else {
-		// search for terms in the custom taxonomy for response tags
-		$terms = get_terms('hashtags',  $args );
-		$taxpath = 'hashtags';
-	}
+		// no date cut off, so use wp functions for total counts on terms
+		
+		// temp filter to use name as secondary sort (first by tag count, then by name)
+		add_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
+
+		// Arguments to search hashtag terms
+		// search for @ in order of highest frequency
+		$args = array(
+			'number' => $number,
+			'exclude' =>  $exclude,
+			'name__like' => '@'
+		);
+		
+		$dailycount = getdailyCount();
+	
+		if ( $type == 'contributors') {
+			// search for terms in the custom taxonomy for regular tags
+			$terms = get_tags( $args );
+			$taxpath = 'tag';
+		} else {
+			// search for terms in the custom taxonomy for response tags
+			$terms = get_terms('hashtags',  $args );
+			$taxpath = 'hashtags';
+		}
 	
 
 	
-	// clean up after ourselves
-	remove_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
+		// clean up after ourselves
+		remove_filter( 'terms_clauses', 'dailyblank_second_orderby', 10, 3 );
 	
 	
-	// here come the leaders!
+		// here come the leaders!
 	
-	if ( $showbars) {
-		$out = '<p>So far <strong>' . count($terms) . '</strong> people have responded to <strong>' . getdailyCount() . '</strong> dailies.</p> <ul class="leader-list">';
-		foreach ( $terms as $term) { 
-			$percent = intval( $term->count / count( $terms ) * 100); 
+		if ( $showbars) {
+		
+			if ( $number ) {
+				$out = '<p>Here are the top <strong>' .  $number . '</strong> all time responders to the ';
+			} else {
+				$out = '<p>So far <strong>' . $wpdb->num_rows . '</strong> people have responded to ';
+			}
+
+			$out .= '<strong>' . $dailycount . '</strong> dailies.</p> <ul class="leader-list">';
 			
-			 $out .= '<li class="leader"><h3><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $term->count . ')</a></h3><progress class="leader-' . $barstyle . '" max="100" value="' . $percent . '"><strong>Completion Level: ' . $percent . '%</strong></progress></li>';
-		}
-		$out .= '</ul>';
+			foreach ( $terms as $term) { 
+			
+				$mycount = min( $term->count, $dailycount );
+				
+				$percent = intval( $term->count / $dailycount * 100); 
+			
+				 $out .= '<li class="leader"><h3><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $mycount . ')</a></h3><progress class="leader-' . $barstyle . '" max="100" value="' . $percent . '"><strong>Completion Level: ' . $percent . '%</strong></progress></li>';
+			}
+			$out .= '</ul>';
 	
+		} else {
+			// no progress bars
+			$out = '<ol>';
+			foreach ( $terms as $term) { 
+			
+				$mycount = min( $term->count, $dailycount );
+				
+				$out .= '<li><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $mycount . ')</a></li>';
+			}
+			$out .= '</ol>';
+		}
+		
 	} else {
-		// no progress bars
-		$out = '<ol>';
-		foreach ( $terms as $term) { 
-			$out .= '<li><a href="' . site_url() . "/$taxpath/" . $term->slug  . '">' . $term->name . ' (' . $term->count . ')</a></li>';
+	
+		// we need to do a custom query to get counts since a certain date
+	
+		global $wpdb;
+		
+		
+		if ( $number ) {
+			$limitparam = "LIMIT $number";
+			$limitstr = " Here are the top $number responders.";
 		}
-		$out .= '</ol>';
+		
+		// convert datestring to time
+		
+		if ($since == 'year') {
+			$timestamp = strtotime('first day of january this year');
+		} else {
+			$timestamp = strtotime($since);
+		}
+		
+		// number of dailies since date
+		$dailycount = getdailyCount( $timestamp );
+		
+		// convert time to SQL date; if it is invalid we useall
+		
+		$since_str = ( $timestamp ) ?  "AND p.post_date > '" . date('Y-m-d', $timestamp) . "'" : '';
+		
+		if ( $type == 'contributors') {
+			// search for terms in the custom taxonomy for regular tags
+			$taxpath = 'tag';
+			$ptype = 'post';
+		} else {
+			// search for terms in the custom taxonomy for response tags
+			$taxpath = 'hashtags';
+			$ptype = 'response';
+		}
+		
+		$leaderstuff = $wpdb->get_results( 
+			"
+			SELECT t.name, t.slug, count(*) as cnt 
+			FROM $wpdb->posts p 
+			JOIN $wpdb->term_relationships r 
+				ON p.id=r.object_id 
+			JOIN $wpdb->terms t 
+				ON r.term_taxonomy_id=t.term_id 
+			WHERE p.post_status='publish' and p.post_type='$ptype' and t.name LIKE '@%%' $since_str 
+			GROUP by t.name 
+			ORDER by cnt DESC
+			$limitparam
+			"
+		);
+		
+		if ( $leaderstuff ) {
+		
+				// here come the leaders!
+	
+				if ( $showbars ) {
+				
+					if ( $number ) {
+						$out = '<p>Here are the top <strong>' .  $number . '</strong> responders to the ';
+					} else {
+						$out = '<p>So far <strong>' . $wpdb->num_rows . '</strong> people have responded to ';
+					}
+					$out .= '<strong>' . $dailycount . '</strong> dailies since <strong>' . date('F j, Y ' , $timestamp) . '</strong>.</p> <ul class="leader-list">';
+					
+					foreach ( $leaderstuff as $leader) { 
+					
+					
+						$percent = intval( $leader->cnt / $dailycount * 100); 
+						
+						$mycount = min( $leader->cnt, $dailycount );
+			
+						 $out .= '<li class="leader"><h3><a href="' . site_url() . "/$taxpath/" . $leader->slug  . '">' . $leader->name . ' (' . $mycount . ')</a></h3><progress class="leader-' . $barstyle . '" max="100" value="' . $percent . '"><strong>Completion Level: ' . $percent . '%</strong></progress></li>';
+					}
+					$out .= '</ul>';
+	
+				} else {
+					// no progress bars
+					$out = '<ol>';
+					foreach ( $leaderstuff as $leader) { 
+					
+						$mycount = min( $leader->cnt, $dailycount );
+						
+						$out .= '<li><a href="' . site_url() . "/$taxpath/" . $leader->slug  . '">' . $leader->name . ' (' . $mycount . ')</a></li>';
+					}
+					$out .= '</ol>';
+				}		
+		}
 	}
-	
-	
 	
 	// here ya go!
 	return ($out);

@@ -27,7 +27,8 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
-* Post Author is never used (the theme automatically assigns author to user id=0 which is typoically the first admin user) so Author column now removedfrom dashboard listings of Daily Blanks
+* New options for leaderboard shortcode to restrict to tweets after a specified date
+* Post Author is never used (the theme automatically assigns author to user id=0 which is typoically the first admin user) so Author column now removed from dashboard listings of Daily Blanks
 * Fixed a bug in the twitter API calls that was resulting in missing tweets (added `tweet_mode=extended`) because API was returning truncated tweets, hence missing hashtags. This can be fixed by updated the plugin [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
 * Categories listed under singly daily metadata (July 28, 2017)
 * New shortcodes for count of people participating and number of responses. Also added an admin dashboard widget that shows activity stats on the site (July 3, 2017)
@@ -131,6 +132,93 @@ Replace the default code with:
 #### Daily Blank Public Submission Form
 If you create a new Wordpress Page with a permalink of `add` it will be published as a form for your site visitors to suggest new Daily Blanks. Any text in the body of this Wordpress Page appears as a prompt for people (see the one for the [DS106 Daily Create](http://daily.ds106.us/add/)).
 
+#### Random Daily Blank
+Create a Wordpress page with a permalink of *random* (it needs no content); when opened, it rediects to a randomly chosen  published Daily Blank.
+
+#### All Responses
+Append `/response/` to your site's URL to see a display of all tweeted responses from the most recent listed first.
+
+#### Total Shortcodes
+These are available to use in any Wordpress post, page, widget.
+
+This will generate the total number of Daily Blanks published to date:
+
+	[dailycount]
+
+And this will generate the total of responses Daily Blanks received to date:
+
+	[responsecount]
+	
+This one shows the unique number of people who responded
+
+	[peoplecount]
+
+#### Admin Dashboard widget
+
+This new feature gives you a top glance at the activity on your site from the entry to the Admin Dashboard, with links to edit each kind. It will be added to the bottom of the admin dashboard but you can move it higher. This screenshot is from the [DS106 Daily Create](http://daily.ds106.us/) -- someone needs to go through those submitted items!
+
+![](images/admin-widget.jpg "Admin Dashboard Widget")
+
+#### Leaderboard Shortcode
+These codes can be used in posts or widgets to list the most active participants. 
+
+List all respondents in order of most active to least, for all time
+
+	[dailyleaders]
+	
+The default display is a plain list. To use CSS to style the list with a color bar to represent the individual count as a percentage of all dailies.
+
+![](images/leaderboard-bars.jpg "Leaderboard with bar styles")
+
+	[dailyleaders showbars="1" barstyle="1"]
+
+*  barstyle="1" orange
+*  barstyle="2" green
+*  barstyle="3" red
+
+List the top 10 respondents
+
+	[dailyleaders number="10" showbars="1" barstyle="2"]
+
+List the top 10 respondents and exclude the ones identified in the hashtag taxonomy as ids 8 and 10
+
+	[dailyleaders number="10" exclude="8,10" showbars="1" barstyle="2"]
+	
+List all respondents since a given date (any date expression should work, most reliable is `YYYY-MM-DD`).
+
+	[dailyleaders number="10" since="2017-07-01" showbars="1" barstyle="2"]
+	
+Special value to list all submitted since the beginning of the year
+
+	[dailyleaders number="10" since="year" showbars="1" barstyle="2"]
+	
+List all the twitter names that have contributed new Daily Blanks via the submission form 
+
+	[dailyleaders type="contributors" showbars="0"]
+
+
+#### Top Dailies Shortcode
+New code was added (May 23, 2016) to add to each daily meta data that records (and updates) the number of responses and views for each one.  And with that, a new shortcode that you can use to display the most "popular" ones (most responses and/or most views) in a page or a widget. See the Debug Page hacks below for a method to back fill existing items for sites that existed before this featured was added 
+
+List the 10 dailies that have the most responses
+
+	[topdaily]
+
+or specify the number you would like to list
+
+	[topdaily number="20"]
+	
+Suppress the display of the count
+
+	[topdaily showcount="0"]
+	
+Suppress the display of the date of each
+
+	[topdaily showdate="0"]
+	
+List the ones that have the most views (and also add the parameters above):
+
+	[topdaily type="visits"]
 
 #### Creating Daily Blanks
 
@@ -172,79 +260,29 @@ Either way, this will create a new draft for a Daily Blank copying the content, 
 ![](images/recycled.jpg "Recycled credit link")
 
 
-#### Random Daily Blank
-Create a Wordpress page with a permalink of *random* (it needs no content); when opened, it rediects to a randomly chosen  published Daily Blank.
+#### Attributing Daily Blanks
 
-#### All Responses
-Append `/response/` to your site's URL to see a display of all tweeted responses from the most recent listed first.
+If an item is published after being submitted through the add form, it will already be setup with all the data to credit the source. To add to edit the person a Daily Blank is attributed to, click **Screen Options** in the top right of the Wordpress dashboard and make sure `Custom Fields` is checked.
 
-#### Total Shortcodes
-These are available to use in any Wordpress post, page, widget.
+The credit is given by twitter handle in the wAuthor custom field (with a "@"). If not present, select `wAuthor` from the bottom menu, and enter the twitter handle in the value field:
 
-This will generate the total number of Daily Blanks published to date:
+![](images/author-fields.jpg "Editing the Author credits in a Daily Blank")
 
-	[dailycount]
+Add the twitter name too as a tag; this will make sure they get credit on the leaderboard.
 
-And this will generate the total of responses Daily Blanks received to date:
+#### Adding / Editing Responses
 
-	[responsecount]
-	
-This one shows the unique number of people who responded
+The tweets found as replies to the designated twitter account and having at least one hashtag are stored on the site as a Custom Post type called `Responses`. To examine all fields as shown below, click **Screen Options** in the top right of the Wordpress dashboard and make sure `Custom Fields` is checked.
 
-	[peoplecount]
+![](images/response-parts.jpg "Parts of a Daily Blank Response")	
 
-#### Admin Dashboard widget
-
-This new feature gives you a top glance at the activity on your site from the entry to the Admin Dashboard, with links to edit each kind. It will be added to the bottom of the admin dashboard but you can move it higher. This screenshot is from the [DS106 Daily Create](http://daily.ds106.us/) -- someone needs to go through those submitted items!
-
-![](images/admin-widget.jpg "Admin Dashboard Widget")
+In some cases a person correctly responded to the correct account, but forgot to provide the hashtag. This is fixed by editing the response, and adding it to the Hashtags taxonomy (without the `#`):
 
 
+![](images/add-tag.jpg "Add missing hashtag")	
 
-#### Leaderboard Shortcode
-These codes can be used in posts or widgets to list the most active participants:
+If a tweet intended for the site never appears (likely missing the correct mention), you can create  anew response, and edit all info as shown above.
 
-List all respondents in order of most active to least
-
-	[dailyleaders]
-
-
-List the top 10 respondents
-
-	[dailyleaders number="10"]
-
-List the top 10 respondents and exclude the ones identified in the hashtag taxonomy as ids 8 and 10
-
-	[dailyleaders number="10" exclude="8,10"]
-
-List all the twitter names that have contributed new Daily Blanks via the submission form 
-
-	[dailyleaders type="contributors"]
-
-
-#### Top Dailies Shortcode
-New code was added (May 23, 2016) to add to each daily meta data that records (and updates) the number of responses and views for each one.  And with that, a new shortcode that you can use to display the most "popular" ones (most responses and/or most views) in a page or a widget. See the Debug Page hacks below for a method to back fill existing items for sites that existed before this featured was added 
-
-List the 10 dailies that have the most responses
-
-	[topdaily]
-
-or specify the number you would like to list
-
-	[topdaily number="20"]
-	
-Suppress the display of the count
-
-	[topdaily showcount="0"]
-	
-Suppress the display of the date of each
-
-	[topdaily showdate="0"]
-	
-List the ones that have the most views (and also add the parameters above):
-
-	[topdaily type="visits"]
-	
 
 #### Automatic Tweeting With dlvr.it
 The site does NOT automatically tweet new Daily Blanks. Numerous plugins offer a capability to autotweet new posts; this is not built into the site.
