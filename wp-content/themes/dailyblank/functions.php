@@ -306,7 +306,7 @@ function dailyblank_leaders ( $atts ) {
 	// we want a number of results we should return (0=all)
 	// and an indicator if we are looking for responders (hashtag taxonony) or contributors (tag tax)
 	// Allow for exclusion based on ID of the hashtag taxonony
- 	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "", "showbars" => 1, "barstyle" => 3, "since" => '' ), $atts ) );  
+ 	extract( shortcode_atts( array( "number" => 0,  "type" => 'responders' , "exclude" => "", "showbars" => 0, "barstyle" => 3, "since" => '' ), $atts ) );  
 
 	// the class for the bars, must be 1, 2, or 3
 	$barstyle = ($barstyle > 3 or $barstyle < 1) ? 3 : $barstyle;
