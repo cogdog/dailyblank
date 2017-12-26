@@ -351,11 +351,12 @@ function dailyblank_leaders ( $atts ) {
 		
 			if ( $number ) {
 				$out = '<p>Here are the top <strong>' .  $number . '</strong> all time responders to the ';
+				
 			} else {
-				$out = '<p>So far <strong>' . $wpdb->num_rows . '</strong> people have responded to ';
+				$out = '<p>So far <strong>' . count($terms) . '</strong> people have responded to ';
 			}
 
-			$out .= '<strong>' . $dailycount . '</strong> dailies.</p> <ul class="leader-list">';
+			$out .= '<strong>' . $dailycount . '</strong> dailies since <strong>' . dailyblank_first_date() . '</strong>.</p> <ul class="leader-list">';
 			
 			foreach ( $terms as $term) { 
 			
@@ -442,7 +443,7 @@ function dailyblank_leaders ( $atts ) {
 					} else {
 						$out = '<p>So far <strong>' . $wpdb->num_rows . '</strong> people have responded to ';
 					}
-					$out .= '<strong>' . $dailycount . '</strong> dailies since <strong>' . date('F j, Y ' , $timestamp) . '</strong>.</p> <ul class="leader-list">';
+					$out .= '<strong>' . $dailycount . '</strong> dailies since <strong>' . date('F j, Y' , $timestamp) . '</strong>.</p> <ul class="leader-list">';
 					
 					foreach ( $leaderstuff as $leader) { 
 					
@@ -1084,10 +1085,10 @@ function dailyblank_twitter_button ( $postid ) {
 
 
 // add a scheduler to check for tweets
+// -- okay to use seed time in UTC as it is just an hourly trigger
 
 if ( ! wp_next_scheduled( 'dailyblank_hello_twitter' ) ) {
-	$dt = new DateTime();
-	wp_schedule_event( $dt->getTimestamp(), 'hourly', 'dailyblank_hello_twitter');
+	 wp_schedule_event( time(), 'hourly', 'dailyblank_hello_twitter');
 }
 
 // custom action triggered by event
@@ -1236,6 +1237,32 @@ function dailyblank_update_meta($id, $response_count) {
 		update_post_meta($id,  'response_count', $response_count);
 	}
 	
+}
+
+/**
+ * Get First Post Date Function
+ *
+ * @param  $format Type of date format to return, using PHP date standard, default Y-m-d
+ * @return Date of first post
+ * ------ h/t http://alex.leonard.ie/2010/07/27/wordpress-tip-get-the-date-of-your-first-post/
+ * ------ but nearly every line was improved by me.
+ */
+function dailyblank_first_date( $format = 'F j, Y' ) {
+ // Setup get_posts arguments
+
+ $args = array(
+	'numberposts' => 1,
+	'post_status' => 'publish',
+	'orderby' => 'date',
+	'order' => 'ASC'
+);
+
+ // Get all posts in order of first to last
+ $dailies = get_posts( $args );
+
+ // return date in required format
+ return ( date( $format, strtotime( $dailies[0]->post_date ) ) );
+
 }
 
 
