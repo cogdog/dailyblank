@@ -8,13 +8,14 @@ A Wordpress Theme for a site that works like the [ds106 Daily Create](http://tdc
 
 See the [DS106 Daily Create #TDC1667](http://daily.ds106.us/tdc1667/) shown in the image above.
 
-Look for a working versions at 
+## These Sites Are Doing It Daily
 
 * [The (new) DS106 Daily Create](http://daily.ds106.us/) DS106 spawn of the [original TDC](http://tdc.ds106.us)
 * [Daily Doodle](http://edmedia.tlc.sfu.ca/dailyblank/) Simon Fraser University
 * [Daily Digital Alchemy](http://daily.arganee.world) for the Networked Narratives open course
 * [Daily Extend](https://extend-daily.ecampusontario.ca/) for the eCampus Ontario Expanding Capacity project
 * [FLN Book Club Slow Chat](https://bookclub.flippedlearning.org/slowchat/) online book reading club for flipped learning educators
+* [The Daily Opener](https://muraludg.org/daily) Mural UDG Project at the University of Guadalajara 
 * [The Daily Stillness](http://daily.stillweb.org/)
 * [UdG Agora Daily Try](http://udg.theagoraonline.net/daily)
 * [The Daily Headline](http://jmc3353.adamcroom.com/dailyheadline/) University of Oklahoma
@@ -27,6 +28,7 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+* CSS support for [User Interface Options plugin](https://github.com/fluid-project/uio-wordpress-plugin)
 * New options for leaderboard shortcode to restrict to tweets after a specified date
 * Post Author is never used (the theme automatically assigns author to user id=0 which is typoically the first admin user) so Author column now removed from dashboard listings of Daily Blanks
 * Fixed a bug in the twitter API calls that was resulting in missing tweets (added `tweet_mode=extended`) because API was returning truncated tweets, hence missing hashtags. This can be fixed by updated the plugin [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
@@ -36,11 +38,16 @@ You can also find some long-winded code laden blog posts on this theme's develop
 * Updated display of admin options to actually use its busted tabs (July 26, 2016)
 * Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
 
+## To Be Done (one day)
+* Options for email notification when the supply of scheduled dailies is below a entered threshold
+* Cache the update stats in a theme option/setting
+* Move theme options to Customizer
+* Since the parent theme is no longer updated, merge them together to work as single theme (allowing options for your own child theme overrides)
+
 ## How to Install The Daily Blank Theme
 I will make the big leap of assumption that you have a self hosted Wordpress site and can install themes. 
 
 The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide a working version  in this repository. 
-
 
 **Very very crucial!** : Do not upload the zip for this GitHub repo as an attempt to install the themes. It won't work!
 
@@ -128,6 +135,70 @@ Replace the default code with:
 	<div>
 	<?php echo wp_oembed_get( get_post_meta( get_the_ID(), 'tweet_url', 1 ) );?>					
 	</div>
+
+
+#### Creating Daily Blanks
+
+You can add to your queue of dailies several ways:
+
+* Create a new one from scratch
+* Editing one submitted via your public form
+* Recycling previously published ones
+
+Write new dailies as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:
+
+![](wp-content/themes/dailyblank/images/create-daily-blank.jpg "Creating a Daily Blank")
+
+
+The box in the upper right should never need to be edited. It will let you know the next tag available that is used for your daily blank; in this case, "agoratry69" will be used internally as a tag, and the hashtag "#agoratry69" will be added to the title when saved.
+
+Use the body of the post to add anything that might explain the item in more detail, including media.
+
+Always *Save Draft* first. This does a number of things:
+
+* The unique tag is added to the Daily Blank and inserted before the title as a twitter hashtag.
+* Instructions are appended to the Daily Blank indicating the name of the twitter account to reply to and the hashtag
+* The Daily Blank is scheduled to be published 24 hours after the most recently published or scheduled one-- the idea is to schedule these out days or weeks into the future so they are automatically published (check the first one published; a persistent bug is that the very first one on a site is somehow set to be January 1970! The schedule date can always be edited)
+
+Scheduled or published Daily Blanks can be edited like any other Wordpress post, at any time. Review the queued ones via Submitted items end up as drafts on the site, which you can review via the `Daily Blanks` menu -&gt; `Scheduled Daily Blanks`
+
+![](images/submitted-daily-blanks.jpg "Find submitted Daily Blanks")
+
+Daily blanks added via your site's submissions end up as Wordpress Drafts on your site, which you can review via the `Daily Blanks` menu -&gt; `Submitted Daily Blanks`. To activate one, simple edit it, save as draft, and it becomes the next one in line.
+
+And finally recycle your past gems! In the dashboard, when viewing a published Daily Blank, look for the recycle link when you hover on a title.
+
+![](images/recycle-link.jpg "Recycle link")
+
+Or, when viewing any published daily, look on the Admin Menu under **Edit Daily Blank** for a **Recycle This Daily Blank** item.
+
+Either way, this will create a new draft for a Daily Blank copying the content, but with new tags. You can modify the content, save, and get it in the queue.  When published a new daily create recycled from a previous one will include a reference to it's source (see the credit on the [DS106 TDC2031](http://daily.ds106.us/tdc2031/) which was recycled from [TDC 1578](http://daily.ds106.us/tdc1578/):
+
+![](images/recycled.jpg "Recycled credit link")
+
+
+#### Attributing Daily Blanks
+
+If an item is published after being submitted through the add form, it will already be setup with all the data to credit the source. To add to edit the person a Daily Blank is attributed to, click **Screen Options** in the top right of the Wordpress dashboard and make sure `Custom Fields` is checked.
+
+The credit is given by twitter handle in the wAuthor custom field (with a "@"). If not present, select `wAuthor` from the bottom menu, and enter the twitter handle in the value field:
+
+![](images/author-fields.jpg "Editing the Author credits in a Daily Blank")
+
+Add the twitter name too as a tag; this will make sure they get credit on the leaderboard.
+
+#### Adding / Editing Responses
+
+The tweets found as replies to the designated twitter account and having at least one hashtag are stored on the site as a Custom Post type called `Responses`. To examine all fields as shown below, click **Screen Options** in the top right of the Wordpress dashboard and make sure `Custom Fields` is checked.
+
+![](images/response-parts.jpg "Parts of a Daily Blank Response")	
+
+In some cases a person correctly responded to the correct account, but forgot to provide the hashtag. This is fixed by editing the response, and adding it to the Hashtags taxonomy (without the `#`):
+
+
+![](images/add-tag.jpg "Add missing hashtag")	
+
+If a tweet intended for the site never appears (likely missing the correct mention), you can create  anew response, and edit all info as shown above.
 	
 #### Daily Blank Public Submission Form
 If you create a new Wordpress Page with a permalink of `add` it will be published as a form for your site visitors to suggest new Daily Blanks. Any text in the body of this Wordpress Page appears as a prompt for people (see the one for the [DS106 Daily Create](http://daily.ds106.us/add/)).
@@ -155,7 +226,7 @@ This one shows the unique number of people who responded
 
 #### Admin Dashboard widget
 
-This new feature gives you a top glance at the activity on your site from the entry to the Admin Dashboard, with links to edit each kind. It will be added to the bottom of the admin dashboard but you can move it higher. This screenshot is from the [DS106 Daily Create](http://daily.ds106.us/) -- someone needs to go through those submitted items!
+This gives you a top glance at the activity on your site from the entry to the Admin Dashboard, with links to edit each kind. It will be added to the bottom of the admin dashboard but you can drag it higher in the dashboard. This screenshot is from the [DS106 Daily Create](http://daily.ds106.us/) -- someone needs to go through those submitted items!
 
 ![](images/admin-widget.jpg "Admin Dashboard Widget")
 
@@ -220,68 +291,7 @@ List the ones that have the most views (and also add the parameters above):
 
 	[topdaily type="visits"]
 
-#### Creating Daily Blanks
 
-You can add to your queue of dailies several ways:
-
-* Create a new one from scratch
-* Editing one submitted via your public form
-* Recycling previously published ones
-
-Write new dailies as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:
-
-![](wp-content/themes/dailyblank/images/create-daily-blank.jpg "Creating a Daily Blank")
-
-
-The box in the upper right should never need to be edited. It will let you know the next tag available that is used for your daily blank; in this case, "agoratry69" will be used internally as a tag, and the hashtag "#agoratry69" will be added to the title when saved.
-
-Use the body of the post to add anything that might explain the item in more detail, including media.
-
-Always *Save Draft* first. This does a number of things:
-
-* The unique tag is added to the Daily Blank and inserted before the title as a twitter hashtag.
-* Instructions are appended to the Daily Blank indicating the name of the twitter account to reply to and the hashtag
-* The Daily Blank is scheduled to be published 24 hours after the most recently published or scheduled one-- the idea is to schedule these out days or weeks into the future so they are automatically published (check the first one published; a persistent bug is that the very first one on a site is somehow set to be January 1970! The schedule date can always be edited)
-
-Scheduled or published Daily Blanks can be edited like any other Wordpress post, at any time. Review the queued ones via Submitted items end up as drafts on the site, which you can review via the `Daily Blanks` menu -&gt; `Scheduled Daily Blanks`
-
-![](images/submitted-daily-blanks.jpg "Find submitted Daily Blanks")
-
-Daily blanks added via your site's submissions end up as Wordpress Drafts on your site, which you can review via the `Daily Blanks` menu -&gt; `Submitted Daily Blanks`. To activate one, simple edit it, save as draft, and it becomes the next one in line.
-
-And finally recycle your past gems! In the dashboard, when viewing a published Daily Blank, look for the recycle link when you hover on a title.
-
-![](images/recycle-link.jpg "Recycle link")
-
-Or, when viewing any published daily, look on the Admin Menu under **Edit Daily Blank** for a **Recycle This Daily Blank** item.
-
-Either way, this will create a new draft for a Daily Blank copying the content, but with new tags. You can modify the content, save, and get it in the queue.  When published a new daily create recycled from a previous one will include a reference to it's source (see the credit on the [DS106 TDC2031](http://daily.ds106.us/tdc2031/) which was recycled from [TDC 1578](http://daily.ds106.us/tdc1578/):
-
-![](images/recycled.jpg "Recycled credit link")
-
-
-#### Attributing Daily Blanks
-
-If an item is published after being submitted through the add form, it will already be setup with all the data to credit the source. To add to edit the person a Daily Blank is attributed to, click **Screen Options** in the top right of the Wordpress dashboard and make sure `Custom Fields` is checked.
-
-The credit is given by twitter handle in the wAuthor custom field (with a "@"). If not present, select `wAuthor` from the bottom menu, and enter the twitter handle in the value field:
-
-![](images/author-fields.jpg "Editing the Author credits in a Daily Blank")
-
-Add the twitter name too as a tag; this will make sure they get credit on the leaderboard.
-
-#### Adding / Editing Responses
-
-The tweets found as replies to the designated twitter account and having at least one hashtag are stored on the site as a Custom Post type called `Responses`. To examine all fields as shown below, click **Screen Options** in the top right of the Wordpress dashboard and make sure `Custom Fields` is checked.
-
-![](images/response-parts.jpg "Parts of a Daily Blank Response")	
-
-In some cases a person correctly responded to the correct account, but forgot to provide the hashtag. This is fixed by editing the response, and adding it to the Hashtags taxonomy (without the `#`):
-
-
-![](images/add-tag.jpg "Add missing hashtag")	
-
-If a tweet intended for the site never appears (likely missing the correct mention), you can create  anew response, and edit all info as shown above.
 
 
 #### Automatic Tweeting With dlvr.it
@@ -319,6 +329,12 @@ We have seen some problems using dlvr.it on the DS106 Daily Create (I think we h
 
 As an alternative, you can [try a recipe we made in IFTTT](https://ifttt.com/recipes/413425-tweeting-daily-blank-challenges) where you can enter your site's RSS feed, any hashtags you want to use. You wiull have to use an IFTTT account authorized to post to the twitter account you want to be tweeting for you.
 
+#### Extras / Addons
+
+This theme's stylesheet has been set up to work with the Fluid Project [User Interface Options Wordpress plugin](https://github.com/fluid-project/uio-wordpress-plugin) which adds a series of accessibility options to a site. This are only made available when the plugin is activated.
+
+![](images/daily-ui-options.gif "UI Options features")
+
 #### Debugging, One Time Code Fixes
 Most sites will never need this, but in adding features to new sites, sometimes the site may need a one time nudge to update itself, or to do some debugging. I often use this for testing new features. The template `page-debug.php` does absolutely nothing. But if you need to do any of these tasks, get the code listed in the gists below, and insert into the noted places. Upload to your server. Create a page called "Debug" (it needs no content, just a slug of debug. Then go to the URL: http://mydailyblanksite.something/debug and let the script do its thing. When done, remove the code or the template from the theme.
 
@@ -327,17 +343,5 @@ Existing code bits. I wish I thought of doing this earlier, I lost a few handy o
 * Just see what tweets are fetched (used this when first building the site, a way to check if the code is talking to the twitter API [dailyblank-get-tweets gist](https://gist.github.com/cogdog/2934cddc5e1f4f446ff84a44618fff82)
 * A fix for an issue (pre February 2016) where the tags for people who added Daily Blanks were not properly tagged in each post [dailyblank-author-tags gist](https://gist.github.com/cogdog/cf75335cc5d217e1f39382c756c97091)
 * Seed the response counts and generate some random visit counts (for sites before this feature was added, May 23, 2016) [dailyblank-seed-counts gist](https://gist.github.com/cogdog/35d2b8c377b568bd7b161316828f89f4)
-
-
-
-
-
-
-
-
-
-
-
-
 
 

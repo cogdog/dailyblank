@@ -1,9 +1,95 @@
-body {
-    font-size: 1.8rem;
+/* ------------------------------= UI Prefs =----------------------------------- */
+
+
+
+body, html {
+   font-size: 100%;
 }
 
+
+h1,
+.h1 {
+    font-size: 2.25rem;
+}
+
+h2,
+.h2 {
+    font-size: 1.875rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.625rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.125rem;
+}
+
+h5,
+.h5 {
+    font-size: .875rem
+}
+
+h6,
+.h6 {
+    font-size: 0.75rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+
+}
+
+p {
+    margin: 0 0 0.65rem;
+}
+
+blockquote {
+    padding: 0.625rem 1.25rem;
+    margin: 0 0 1.25rem;
+    font-size: 1.09rem;
+}
+
+
+.lead {
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+}
+
+.page-header {
+    padding-bottom: 0.56rem;
+    margin: 2.5rem 0 1.25rem;
+}
+
+
+@media (min-width:768px) {
+    .lead {
+        font-size: 1.31rem;
+        line-height: 2rem;
+    }
+}  
+
+
+figure {
+    margin: 1rem 2.5rem
+}  
+
+hr {
+    margin-top: 1.25rem;
+    margin-bottom:  1.25rem;
+}  
+
+ul,
+ol {
+    margin-bottom: 0.625rem;
+}
+
+
+
 h1, .h1, h2, .h2, h3, .h3 {
-	margin-top: 1em;
+	margin-top: 1rem;
 	margin-bottom: 0;
 }
 
@@ -12,7 +98,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .page-header {
-	padding-bottom: 9px;
+	padding-bottom: 0.56rem;
 	margin: 0;
 	border:none;
 	margin: 0 -10px;
@@ -22,7 +108,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .page-header h2 {
-	padding: 2px 10px;
+	padding: 0.125rem 0.625rem;
 }
 
 #main .meta {
@@ -44,7 +130,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .btnnav {
-	padding: 18px 0;
+	padding: 1.125rem 0;
 }
 
 .btnnav a {
@@ -54,7 +140,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 
 #commentform textarea {
 	width: 60%;
-	height: 150px;
+	height: 9.375rem;
 }
 
 
@@ -123,17 +209,17 @@ p.tweet-deets {
 text-align: center;
 font-weight: bold;
 background-color: rgb(234, 240, 240);
-padding: 10px;
+padding: 0.625rem;
 width: 75%;
 margin: 1em auto;
 }
 
 .alignleft {
-  margin-right: 10px;
+  margin-right: 0.625rem;
   float: left;
 }
 .alignright {
-  margin-left: 10px;
+  margin-left:  0.625rem;
   float: right;
 }
 .aligncenter {
@@ -149,7 +235,7 @@ progress, progress[role] {
   appearance: none;
   border: none;
   background-size: auto;
-  height: 30px;
+  height: 1.875rem;
   width: 100%;
 }
 
@@ -165,11 +251,11 @@ progress, progress[role] {
 }
 .leader h3 {
   color: #fff;
-  left: 5px;
+  left: 0.3125rem;
   line-height: 1;
   position: absolute;
-  bottom: 12px;
-  font-size: 18px;
+  bottom: 0.75rem;
+  font-size:  1.125rem;
 }
 
 .leader h3 a {
@@ -241,7 +327,7 @@ progress, progress[role] {
 }
 
 #dailyform form-group  {
-	margin: 0 0 20px 0;
+	margin: 0 0 1.25rem 0;
 }
 
 #dailyform  .help-block {

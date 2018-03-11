@@ -223,6 +223,20 @@ class dailyblank_Theme_Options {
 			'type'    => 'heading'
 		);
 		
+		$this->settings['standby'] = array(
+			'section' => 'general',
+			'title'   => __( 'Standby Mode' ),
+			'desc'    => __( 'For an inactive or paused site turning this ON stops it from checking for tweets every hour. It can still be checked manually using the button above' ),
+			'type'    => 'radio',
+			'std'     => 'off',
+			'choices' => array(
+				'off' => 'Off',
+				'on' => 'On',
+			)
+		);	
+		
+		
+		
 		/* Reset
 		===========================================*/
 		
@@ -324,7 +338,7 @@ class dailyblank_Theme_Options {
 					$front_img = wp_get_attachment_image_src( $options[$id], 'wpbs-featured-home' );
 					echo '<img id="previewimage_' . $id . '" src="' . $front_img[0] . '" width="640" height="311" alt="default thumbnail" />';
 				} else {
-					echo '<img id="previewimage_' . $id . '" src="http://placehold.it/640x311" alt="default front image" />';
+					echo '<img id="previewimage_' . $id . '" src="https://placehold.it/640x311" alt="default front image" />';
 				}
 
 				echo '<input type="hidden" name="dailyblank_options[' . $id . ']" id="' . $id . '" value="' . $options[$id]  . '" />

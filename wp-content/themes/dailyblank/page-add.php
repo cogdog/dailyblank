@@ -8,7 +8,7 @@ Template Name: Create a New Daily
 $dailykind = dailyblank_option('dailykind');
 
 // amount of characters available, leave 4 for # and tag number
-$tweetlength = 140 - ( dailyblank_option('basetag') + 4);
+$tweetlength = 140 - ( strlen( dailyblank_option( 'basetag' ) ) + 4 );
 
 // default welcome message
 $feedback_msg = 'Enter your idea for a new Daily ' . $dailykind . '.';

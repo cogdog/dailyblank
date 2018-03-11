@@ -1083,7 +1083,6 @@ function dailyblank_twitter_button ( $postid ) {
 
 }
 
-
 // add a scheduler to check for tweets
 // -- okay to use seed time in UTC as it is just an hourly trigger
 
@@ -1095,8 +1094,13 @@ if ( ! wp_next_scheduled( 'dailyblank_hello_twitter' ) ) {
 add_action( 'dailyblank_hello_twitter', 'dailyblank_get_tweets', 10, 1);
 
 
-function dailyblank_get_tweets( $show_fb = false ) {
+function dailyblank_get_tweets( $show_fb = false, $manual_mode = false ) {
 	 // fetch the twitter account timeline for replies, grab 100 at a time (200 is max), we want replies and user deets
+	 
+	 
+	 // exit stage left if we are in standby mode and not called by admin request
+	 if ( dailyblank_option('standby') == 'on' AND !$manual_mode ) return;
+
 	 
 	 $tweets = getTweets( dailyblank_option('twitteraccount'), 150,  array('exclude_replies'=>false, 'trim_user' => false ) );
 	 	
@@ -1205,7 +1209,7 @@ function prefix_admin_seek_tweets() {
 	cleanTweetCache();
 	
 	// go get some tweets
-	dailyblank_get_tweets(true);
+	dailyblank_get_tweets(true, true);
 }
 
 
