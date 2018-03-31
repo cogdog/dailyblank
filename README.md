@@ -25,6 +25,7 @@ See the [DS106 Daily Create #TDC1667](http://daily.ds106.us/tdc1667/) shown in t
 * [The Daily Opener](https://muraludg.org/daily) Mural UDG Project at the University of Guadalajara 
 * [The Daily Stillness](http://daily.stillweb.org/)
 * [UdG Agora Daily Try](http://udg.theagoraonline.net/daily)
+* [Una foto cada día](http://daily.inf115.com/) Daily Photo Challenges for inf115
 * [The Daily Headline](http://jmc3353.adamcroom.com/dailyheadline/) University of Oklahoma
 * [The Daily Blank (first prototype as a SPLOT)](http://splot.ca/dailyblank) (not active)
 * [The You Show Daily](http://thedaily.trubox.ca/)  (not active)
