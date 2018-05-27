@@ -36,6 +36,7 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+* Theme options to trigger email notification when scheduled supply is below  selected threshold; also a standby mode to pause hourly twitter API checks
 * CSS support for [User Interface Options plugin](https://github.com/fluid-project/uio-wordpress-plugin)
 * New options for leaderboard shortcode to restrict to tweets after a specified date
 * Post Author is never used (the theme automatically assigns author to user id=0 which is typoically the first admin user) so Author column now removed from dashboard listings of Daily Blanks
@@ -93,7 +94,7 @@ The Daily Blank uses Twitter Oauth For Developers plugin to access twitter and r
 
 Enter your own credentials in the four fields (in general the default cache expiry of 3600, 1 hour, is fine for most sites):
 
-![](wp-content/themes/dailyblank/images/twitter-auth-settings.jpg "Twitter Oauth Settings")
+![](images/twitter-auth-settings.jpg "Twitter Oauth Settings")
 
 #### Useful General Setup Items
 Time is important to the Daily, so make sure the `Time Zone settings`  match the reference time you want your site to be publishing new items in.
@@ -109,7 +110,7 @@ Access the Options at any time from the `Daily Blank Options` link from the top 
 
 *(The values in the fields come from the instance of this running as the [UdG Agora Daily Try site](http://udg.theagoraonline.net/daily)*
 
-![](wp-content/themes/dailyblank/images/general-settings-1.jpg "First Part General Settings")
+![](images/general-settings-1.jpg "First Part General Settings")
 
 * **Name For What is Done Daily** (capitalized first letter) This should be the kind of daily activity, written as singular, and without "Daily" in front of it. The example shown is for the Daily Try, so each one is a "Try".
 * **Twitter Account** This is the user name account you are using as a receiver of responses; enter it without the "@". The text below will provide an indicator if the Twitter Oauth plugin is installed and set up correctly.
@@ -123,19 +124,27 @@ Following this is a media selector used to create a background image shown in th
 
 Then two more settings...
 
-![](wp-content/themes/dailyblank/images/general-settings-2.jpg "Second Part General Settings")
+![](images/general-settings-2.jpg "Second Part General Settings")
 
 
 * **Number of Responses to Display at a Time** For a new site, this can be ignored. If your Daily Blank site starts to get regularly more than 10 responses, you may want to consider installing the [Ajax Load More plugin](https://wordpress.org/plugins/ajax-load-more/) (see below for configuration details). This allows the number specified by the value of the field to be loaded, and subsequent sets are appended by ajax.
 * **When to Publish** is the local time (relevant to your site's time zone setting) when items are posted. Enter a value for hour and minute. A new item will be published if they have been pre-written (the site saves them as scheduled posts).
 
+## Look For Tweets
+This section provides a status and it's twitter checking activity. Under regular use, a daily blank site will check the Twitter API once an hour to look for matching tweets. If your site is no longer publishing new challenges, you can put it in "Standby' mode. This turns off regular hourly checking of twitter, but the button allows for a manual check.
 
-Notice also the link for `Look for Tweets` -- the site is set up with its own timer to check twitter once an hour. This is driven by visits to the site; so use this link to force an instant check for new mentions to your account. This also clears the local cache.
+![](images/standby-mode-on.jpg "Standby Mode")
+
+When not in standby mode, you will see an indicator that it is checking every hour, as well as the date of the last date/time it checked twitter (date and time are relevant to the local site options for time zone).
+
+In addition, you can now select a value (1-7) of when to send an email notification when the supply of scheduled dailies falls below a given threshold.
+
+![](images/notify-supply.jpg "Low Supply warning setting")
 
 #### Using the Ajax Load More Plugin
 Install this plugin to create paginate loadings of twitter responses for busier sites (regularly receiving more than 10 responses). The only critical setting is to customize the `Repeater Template` so it embeds the tweets the same way the theme does:
 
-![](wp-content/themes/dailyblank/images/ajax-load-more-templates.jpg "Ajax Load More Template Settings")
+![](images/ajax-load-more-templates.jpg "Ajax Load More Template Settings")
 
 
 Replace the default code with:
@@ -155,7 +164,7 @@ You can add to your queue of dailies several ways:
 
 Write new dailies as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:
 
-![](wp-content/themes/dailyblank/images/create-daily-blank.jpg "Creating a Daily Blank")
+![](images/create-daily-blank.jpg "Creating a Daily Blank")
 
 
 The box in the upper right should never need to be edited. It will let you know the next tag available that is used for your daily blank; in this case, "agoratry69" will be used internally as a tag, and the hashtag "#agoratry69" will be added to the title when saved.
@@ -311,24 +320,24 @@ To use dlvr.it, first create an account on the site. You will create a *Route* w
 
 Under Sources on the left, click *+add*, then click the RSS icon (first on left), then the *Connect Feed* button. This opens the Source Feed Details tab. Enter the RSS feed for your site, which is the full URL of the site with <code>/feed</code> appended to it and give it a name.
 
-![](wp-content/themes/dailyblank/images/dlvrit-source-feed-details.jpg "Feed details")
+![](images/dlvrit-source-feed-details.jpg "Feed details")
 
 
 On the next tab, *Feed Update* enter the following settings to make sure it does one per day.
 
-![](wp-content/themes/dailyblank/images/dlvrit-feed-update.jpg "Feed Update Settings")
+![](images/dlvrit-feed-update.jpg "Feed Update Settings")
 
 
 And lastly, on the *Item text tab* you can insert any specific extra text to add to the tweets, e.g. hashtags for all tweets.
 
-![](wp-content/themes/dailyblank/images/dlvrit-item-text.jpg "Extra Item Text for Feeds")
+![](images/dlvrit-item-text.jpg "Extra Item Text for Feeds")
 
 
 No other settings are required for the feed. Now on the right side, under destinations, click *+add*.  Click the twitter icon, and then authenticate with the account you want to be sending out the tweets.
 
 Under the *Post Content* tab, we suggest tweeting the title and the link:
 
-![](wp-content/themes/dailyblank/images/dlvrit-twitter-destination-account.jpg "Twitter Destination Account")
+![](images/dlvrit-twitter-destination-account.jpg "Twitter Destination Account")
 
 This is the only setting you should need to make. Your twitter account should automatically send out a tweet in an hour after your next scheduled Daily Blank is published.
 

@@ -214,12 +214,23 @@ class dailyblank_Theme_Options {
 		);	
 
 
+		$standby_status = ( dailyblank_option('standby') == 'on') ? '<span style="color:red">Tweet Checking Paused</span>' : 'Checking tweets every hour';
+		
+		// look for date of last twitter check
+		$last_twitter_check =  get_option( 'dailyblank_twitter_check' );
+		
+		
+		
+		
+	
+		$twitter_stamp = ( $last_twitter_check ) ? 'Twitter last checked for tweets ' . date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) , $last_twitter_check ) . '. ' : 'Twitter has not been checked yet for tweets to count. ';
+
 		// ------- give some button power	
 		$this->settings['seeker'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
 			'desc'	 => 'Seek Some Tweets',
-			'std'    => '<a href="' . admin_url('admin-post.php?action=seek_tweets') . '" target="_blank" class="button-secondary">Look for tweets</a>',
+			'std'    => '<strong>STATUS:</strong> ' . $standby_status . '<br /><strong>LAST CHECK:</strong>' .  $twitter_stamp . '<br /><a href="' . admin_url('admin-post.php?action=seek_tweets') . '" target="_blank" class="button-secondary">Look for tweets</a>',
 			'type'    => 'heading'
 		);
 		
@@ -234,7 +245,32 @@ class dailyblank_Theme_Options {
 				'on' => 'On',
 			)
 		);	
+
+		$this->settings['supply'] = array(
+			'section' => 'general',
+			'title'   => __( 'Low Daily Supply Warning Level'),
+			'desc'    => __( 'Send an email notification to addresses below when the supply of dailies reaches this level'),
+			'type'    => 'select',
+			'std'     => 0,
+			'choices' => array(
+				'0' => 'do not notify',
+				'1' => '1',
+				'2' => '2',
+				'3' => '3',
+				'4' => '4',	
+				'5' => '5',	
+				'6' => '6',
+				'7' => '7'	
+			)
+		);	
 		
+		$this->settings['notify'] = array(
+			'title'   => __( 'Notification Emails' ),
+			'desc'    => __( 'Send notifications to these addresses when the supply reaches the levels above. Separate multiple address with commas.' ),
+			'std'     => '',
+			'type'    => 'text',
+			'section' => 'general'
+		);
 		
 		
 		/* Reset
@@ -460,6 +496,24 @@ class dailyblank_Theme_Options {
 					$input['dailytime'] = 'Invalid format! try \'13:00\' or \'1pm\' for 1 o\'clock';
 				}
 				
+			}
+			
+			if ( $input['standy'] == 'on' ) {
+				// standby mode enabled, turn off schedulers
+				// from https://codex.wordpress.org/Function_Reference/wp_unschedule_event
+				
+				// Get the timestamp for the next event.
+				$timestamp = wp_next_scheduled( 'dailyblank_hello_twitter' );
+				
+				// cancel the hourly checks for tweets
+				wp_unschedule_event( $timestamp, 'dailyblank_hello_twitter');
+				
+				// Get the timestamp for the next event.
+				$timestamp = wp_next_scheduled( 'dailyblank_low_supply' );
+
+				// cancel the daily checks for low suplly
+				wp_unschedule_event( $timestamp, 'dailyblank_low_supply');
+
 			}
 			
 			// make sure the basetag is lower case

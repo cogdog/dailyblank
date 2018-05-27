@@ -226,6 +226,22 @@ function dailyblank_load_theme_options() {
 	if ( file_exists( get_stylesheet_directory()  . '/class.dailyblank-theme-options.php' ) ) {
 		include_once( get_stylesheet_directory()  . '/class.dailyblank-theme-options.php' );
 	}
+	
+	// add a scheduler to check for tweets if not in standby mode
+	// -- okay to use seed time in UTC as it is just an hourly trigger
+
+	if ( ! wp_next_scheduled( 'dailyblank_hello_twitter' ) AND dailyblank_option('standby') == 'off' ) {
+		 wp_schedule_event( time(), 'hourly', 'dailyblank_hello_twitter');
+	}
+	
+	// add a schedule to check for low supply of dailies, set the time to be 2 hours after the scheduled time
+	
+	if ( ! wp_next_scheduled( 'dailyblank_low_supply' ) AND dailyblank_option('standby') == 'off' )  {
+		 wp_schedule_event( strtotime( 'today+' . dailyblank_option('dailytime') ) +  3600*2, 'daily', 'dailyblank_low_supply');
+	}
+	
+	
+	
 }
 
 # -----------------------------------------------------------------
@@ -973,6 +989,7 @@ function prefix_admin_dailyblank_recycle() {
 // displays a notice for recycled new posts
 function dailyblank_recycled_admin_notice() {
 
+	if ( !isset ($_GET['recycled']) ) return;
 	if ( $_GET['recycled'] == 1 ) {
 		echo
     	' <div class="updated notice is-dismissible"><p>This is a newly recycled daily blank. Edit as if it were new!</p></div>';
@@ -1018,6 +1035,7 @@ function dailyblank_recycle_adminbar( $wp_admin_bar ) {
 # -----------------------------------------------------------------
 # Twitter Stuff
 # -----------------------------------------------------------------
+
 function dailyblank_twitter_auth() {
 	// Status check for the Oauth Twitter Feed for developers
 	if ( function_exists('getTweets' ) ) {
@@ -1083,20 +1101,12 @@ function dailyblank_twitter_button ( $postid ) {
 
 }
 
-// add a scheduler to check for tweets
-// -- okay to use seed time in UTC as it is just an hourly trigger
 
-if ( ! wp_next_scheduled( 'dailyblank_hello_twitter' ) ) {
-	 wp_schedule_event( time(), 'hourly', 'dailyblank_hello_twitter');
-}
-
-// custom action triggered by event
-add_action( 'dailyblank_hello_twitter', 'dailyblank_get_tweets', 10, 1);
-
+// custom action triggered by event for checking for new tweets
+add_action( 'dailyblank_hello_twitter', 'dailyblank_get_tweets', 10, 0);
 
 function dailyblank_get_tweets( $show_fb = false, $manual_mode = false ) {
 	 // fetch the twitter account timeline for replies, grab 100 at a time (200 is max), we want replies and user deets
-	 
 	 
 	 // exit stage left if we are in standby mode and not called by admin request
 	 if ( dailyblank_option('standby') == 'on' AND !$manual_mode ) return;
@@ -1139,12 +1149,57 @@ function dailyblank_get_tweets( $show_fb = false, $manual_mode = false ) {
 				
 		$new_tweets = add_dailyblank_responses( $new_responses );
 		
+		// save a times stamp for when this happened
+		update_option( "dailyblank_twitter_check", current_time( 'timestamp' ) );
+
 		if ($show_fb) {
-			echo 'Cowabunga! we managed to add <strong>' . $new_tweets . '</strong> fresh ones out of <strong>'  .  count( $new_responses  ) . '</strong> found tweets.';
-			
-			
-			
+			echo 'Cowabunga! we managed to add <strong>' . $new_tweets . '</strong> fresh ones out of <strong>'  .  count( $new_responses  ) . '</strong> found tweets.';			
 		}
+}
+
+
+add_action( 'dailyblank_low_supply', 'dailyblank_check_supply', 10, 0);
+
+function dailyblank_check_supply() {
+
+	if ( dailyblank_option('supply') == 0 ) return;
+	
+	$scheduled_dailies = getScheduledCount();
+	
+	// if we are at critical level
+	if ( $scheduled_dailies <= dailyblank_option('supply') ) dailyblank_notify_low_supply( $scheduled_dailies );
+}
+
+	
+function dailyblank_notify_low_supply( $current ) {
+
+	// Let's do some EMAIL! 
+
+	// who gets mail? They do.
+	$to_recipients = explode( "," ,  dailyblank_option( 'notify' ) );
+	
+	// what's it say?
+	$subject = get_bloginfo('name') . ' is getting low on scheduled dailies';
+	
+	$message = 'The number of scheduled dailies on your site '  . get_bloginfo('name') . ' is currently at ' . $current .  ' and the settings are to warn you when the supply level is at ' . dailyblank_option('supply') . '. Surely you do not want to let it lapse! (And yes, I will keep calling you Shirley).
+	
+Check the queue of scheduled dailies:
+' . admin_url( 'edit.php?post_status=future&post_type=post') . '
+
+You may want to create a few new ones ASAP!
+
+' . admin_url( 'post-new.php');
+
+	if ( getDraftCount() > 0 ) $message.= '
+
+Also there are currently ' . getDraftCount() . ' ones to possibly deploy in the submitted  dailies:
+' .
+
+admin_url( 'edit.php?post_status=draft&post_type=post');
+
+	// mail it!
+	wp_mail( $to_recipients, $subject, $message );
+
 }
 
 

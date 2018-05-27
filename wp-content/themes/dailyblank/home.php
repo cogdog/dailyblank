@@ -17,9 +17,6 @@
 				
 									
 					<?php 
-						// previous post ids for navigation purposes						
-						$prev_post_id = get_previous_post()->ID;
-						
 						// get response count
 						$response_count = ( get_post_meta($post->ID, 'response_count', 1)) ? get_post_meta($post->ID, 'response_count', 1) : 0;
 						$r_plural = ( $response_count == 1) ? '' : 's';
@@ -27,7 +24,11 @@
 									
 				<div class="col-sm-2 btnnav">
 					<?php 
-						if ($prev_post_id) {
+						// previous post ids for navigation purposes
+						$prev_post = get_previous_post();
+						
+						if ( !empty( $prev_post )) {
+							$prev_post_id = get_previous_post()->ID;
 							echo '<a href="' . get_permalink($prev_post_id). '" class="btn btn-primary btn-medium"><span class="glyphicon glyphicon-hand-left" aria-hidden="true"></span> Previous ' . dailyblank_option('dailykind') . '</a>';
 						}
 					?>
