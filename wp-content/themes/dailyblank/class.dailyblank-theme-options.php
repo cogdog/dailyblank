@@ -249,7 +249,7 @@ class dailyblank_Theme_Options {
 		$this->settings['supply'] = array(
 			'section' => 'general',
 			'title'   => __( 'Low Daily Supply Warning Level'),
-			'desc'    => __( 'Send an email notification to addresses below when the supply of dailies reaches this level'),
+			'desc'    => __( 'Send an email notification to addresses below when the supply of dailies reaches this level. Currently there are <strong>' . getScheduledCount() . '</strong> ones scheduled.'),
 			'type'    => 'select',
 			'std'     => 0,
 			'choices' => array(
@@ -508,12 +508,6 @@ class dailyblank_Theme_Options {
 				// cancel the hourly checks for tweets
 				wp_unschedule_event( $timestamp, 'dailyblank_hello_twitter');
 				
-				// Get the timestamp for the next event.
-				$timestamp = wp_next_scheduled( 'dailyblank_low_supply' );
-
-				// cancel the daily checks for low suplly
-				wp_unschedule_event( $timestamp, 'dailyblank_low_supply');
-
 			}
 			
 			// make sure the basetag is lower case
