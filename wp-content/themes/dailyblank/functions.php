@@ -1162,7 +1162,8 @@ add_action( 'dailyblank_low_supply', 'dailyblank_check_supply', 10, 0);
 
 function dailyblank_check_supply() {
 
-	if ( dailyblank_option('supply') == 0 ) return;
+	// no checks if the option set for no reply or if we are in standy mode
+	if ( dailyblank_option('supply') == 0 or dailyblank_option('standby') == 'on' ) return;
 	
 	$scheduled_dailies = getScheduledCount();
 	
