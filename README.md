@@ -36,6 +36,7 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+* Reorganized repo to be the theme only, moved the parent theme and twitter auth plugin to separate repos
 * Theme options to trigger email notification when scheduled supply is below  selected threshold; also a standby mode to pause hourly twitter API checks
 * CSS support for [User Interface Options plugin](https://github.com/fluid-project/uio-wordpress-plugin)
 * New options for leaderboard shortcode to restrict to tweets after a specified date
@@ -48,31 +49,42 @@ You can also find some long-winded code laden blog posts on this theme's develop
 * Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
 
 ## To Be Done (one day)
-* Options for email notification when the supply of scheduled dailies is below a entered threshold
-* Cache the update stats in a theme option/setting
 * Move theme options to Customizer
 * Since the parent theme is no longer updated, merge them together to work as single theme (allowing options for your own child theme overrides)
 
-## How to Install The Daily Blank Theme
-I will make the big leap of assumption that you have a self hosted Wordpress site and can install themes. 
 
-The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly) I provide a working version  in this repository. 
 
-**Very very crucial!** : Do not upload the zip for this GitHub repo as an attempt to install the themes. It won't work!
+## How to Manually Install The Daily Blank Theme
 
-1. Upload the **dailyblank** and the **wp-bootstrap** directories (from wp-content/themes on this distro) to your site's wp-content/themes directory. Or if you wish to install from within the Wordpress Dashboard, from **Appearance** select **Themes** and click the **Upload** links.  A zip of both themes is included with this repo, or you can download directly [installable-dailyblank.zip](https://github.com/cogdog/dailyblank/blob/master/installable-dailyblank.zip) and  [installable-wp-bootstrap.zip](https://github.com/cogdog/dailyblank/blob/master/installable-wp-bootstrap.zip) 
+I will make the big leap of assumption that you have a self hosted Wordpress site and can install themes.
 
-2. In the Wordpress Dashboard, activate the **dailyblank** theme (you do not have to activate the wp-bootstrap theme)
+1. The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly). This theme can be [downloaded as a zip from its repo GitHub](https://github.com/320press/wordpress-bootstrap), then installed into wordpress by uploaded the zip file as a new theme.
 
-3. In addition, you must upload the Twitter Oauth For Developers plugin that comes in this repo; it has modifications critical to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).   From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button and use this file [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
+2. In addition, you must upload a modified version of the Twitter Oauth For Developers plugin; it has modifications critical to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).  I have moved this plugin to [it's own Github repository[(https://github.com/cogdog/oath-twitter-splot), where you should download it as a ZIP file. From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button and select that zip file to upload, and activate the plugin.
 
-### Wobbly Documentation
-These are also available internally under the Daily Blank Options menu. I say Wobbly because this is the first draft, and it feels like there are a lot of nitpicky steps I almost can do in my sleep. That does not help you.
+3. Finally, download the ZIP file for the Daily Blank Theme (click the green **Clone of Download** button and chose the ZIP option.  From the themes area of your Wordpress dashboard, click the **Upload Theme** button,  then select this zip file to upload, and finally  activate the theme.
+
+## WP Pusher Install Option
+
+If all this downloading and uploading is making you dizzy, we are recommending the [WP Pusher plugin](https://wppusher.com/) which makes it easier to install themes and plugins that are published in GitHub. You will need to have or create an account on [GitHub](https://github.com) (free).
+
+You will have to [download this plugin](https://wppusher.com/download) as a ZIP file. From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button, select that zip file to upload, and activate the plugin.
+
+First click the **WP Pusher** option in your Wordpress Dashboard, and then click the **GitHub** tab. Next click the **Obtain a GitHub Token** button to get an authentication token. Copy the one that is generated, paste into the field for it, and finally, click **Save GitHub Token**.
+
+For the first theme this site needs, click the option under **WP Pusher** for **Install Theme**. In the form that appears, for Theme Repository, enter `320press/wordpress-bootstrap` for the WP-Bootstrap theme, then click **Install Theme**.
+
+Next return to  the option under **WP Pusher** for **Install Theme**. Now, for Theme Repository, enter `cogdog/dailyblank` for theDaily Blank theme, also check  the option for **Push-to-Deploy** (this will automatically update your site when the theme is updated, and once more  click **Install Theme**.
+
+Finally, click the option under **WP Pusher** for **Install Plugin**. For the field labeled **Plugin Repository** enter `cogdog/oath-twitter-splot`, then click **Install Plugin**.
+
+
+
+###  Documentation
 
 Follow these steps, oh ye intrepid Daily ______ creator, and your site shall run like butter (no guarantee). 
 
 In running the site, you will want to generate a pre-written list of Daily Blanks, they are saved as scheduled posts that are automatically published the same time every day. The twitter account is checked for replies to the account you are using and also must contain the hashtag associated with the Daily Blank.
-
 
 Information for the matching tweets are saved locally as "Responses" (a custom post type) and identified with a custom taxonomy (hashtags).
 
