@@ -341,11 +341,7 @@ On the next tab, *Feed Update* enter the following settings to make sure it does
 
 ![](images/dlvrit-feed-update.jpg "Feed Update Settings")
 
-
-And lastly, on the *Item text tab* you can insert any specific extra text to add to the tweets, e.g. hashtags for all tweets.
-
-![](images/dlvrit-item-text.jpg "Extra Item Text for Feeds")
-
+(note previously you could add a hashtag to all tweets, but the Twitter API took this away. You can now add them as a Theme Option.
 
 No other settings are required for the feed. Now on the right side, under destinations, click *+add*.  Click the twitter icon, and then authenticate with the account you want to be sending out the tweets.
 
