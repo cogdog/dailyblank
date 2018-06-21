@@ -36,6 +36,7 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+* New admin option to add any text to the title of all published dailies, primarily if the site needs to publish with some other hash tag, and it's easier if these are in the title
 * Reorganized repo to be the theme only, moved the parent theme and twitter auth plugin to separate repos
 * Theme options to trigger email notification when scheduled supply is below  selected threshold; also a standby mode to pause hourly twitter API checks
 * CSS support for [User Interface Options plugin](https://github.com/fluid-project/uio-wordpress-plugin)
@@ -126,6 +127,7 @@ Access the Options at any time from the `Daily Blank Options` link from the top 
 
 * **Name For What is Done Daily** (capitalized first letter) This should be the kind of daily activity, written as singular, and without "Daily" in front of it. The example shown is for the Daily Try, so each one is a "Try".
 * **Twitter Account** This is the user name account you are using as a receiver of responses; enter it without the "@". The text below will provide an indicator if the Twitter Oauth plugin is installed and set up correctly.
+* **Add to Tweets** anything else that should be added to the post title so it gets included when auto tweeted (e.g. a hashtag)
 * **Default Tweet** provides the basic language inserted for the twitter button. The tags will be added automatically, this is just the prompt for a default response.
 * **Base Name for Tags** (lowercase) forms the unique hashtags tags applied to each item, in the example showsn the tags will be #agoratry1, #agoratry2, .... #agoratry11000, etc. A base tag is best if short but you may want to test of it is used elsewhere.
 * **Category for All Daily Blanks** Set to the default category you edited above.

@@ -144,6 +144,15 @@ class dailyblank_Theme_Options {
 			'section' => 'general'
 		);
 		
+		$this->settings['twitterextra'] = array(
+			'title'   => __( 'Add to Tweets' ),
+			'desc'    => __( 'All published dailies will include in the titile @' . dailyblank_option('twitteraccount') . ' but use this to add anything else you want to appear in the title (e.g. a hashtag)'  ),
+			'std'     => '',
+			'type'    => 'text',
+			'section' => 'general'
+		);
+		
+		
 		$this->settings['tweetstr'] = array(
 			'title'   => __( 'Default Tweet' ),
 			'desc'    => __( 'Default text for twitter button (hash tag will be added)' ),

@@ -845,8 +845,10 @@ function dailyblank_update_post( $post_id, $dailyblank_tag, $dailyblank_date ) {
   	$ptitle = get_the_title( $post_id );
   	
   	if ( strpos( $ptitle, ' #' . $dailyblank_tag) === false ) { 
-  		// put hashtag in front of title
-  		$dailyblank_post['post_title'] =  '#' . $dailyblank_tag . ' ' . $ptitle;
+  		// put hashtag in front of title and add any twitter extras
+  	    $add_to_title = ( dailyblank_option('twitterextra') != '' ) ? dailyblank_option('twitterextra') . ' ': '';
+  	    
+  		$dailyblank_post['post_title'] =  '#' . $dailyblank_tag . ' ' . $add_to_title .  $ptitle;
   	}
   	
   	// use the tag for the slug
