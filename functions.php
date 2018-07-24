@@ -552,9 +552,13 @@ add_action('wp_enqueue_scripts', 'add_dailyblank_scripts');
 function add_dailyblank_scripts() {	 
  
  	if ( is_page('add') ) { // use on just our form page
-    		// custom jquery for the uploader on the form
+ 		
+    	// custom jquery for the uploader on the form
 		wp_register_script( 'jquery.dailyblank' , get_stylesheet_directory_uri() . '/js/jquery.add-daily.js', null , '1.0', TRUE );
 		wp_enqueue_script( 'jquery.dailyblank' );
+		
+		 // admin styles for editor
+ 		wp_enqueue_style( 'wp-admin' );
 	}
 
 }
@@ -832,7 +836,7 @@ function dailyblank_update_post( $post_id, $dailyblank_tag, $dailyblank_date ) {
 	$newterms = ( $wAuthor ) ? $dailyblank_tag . ',' .  $wAuthor : $dailyblank_tag;
 		
 	// set the tag that identifies this dailyblank
-	wp_set_post_terms( $post_id, $newterms, 'post_tag' );
+	wp_set_post_terms( $post_id, $newterms, 'post_tag', true );
 	
 	// assign the category to mark all the daily blanks
 	wp_set_post_categories( $post_id, array( dailyblank_option('all_cat') ), true );
