@@ -100,6 +100,30 @@ function dailyblank_scheduled_menu() {
 	add_submenu_page('edit.php', 'Submitted/Draft Daily Blanks', 'Submitted Daily Blanks', 'edit_pages', 'edit.php?post_status=draft&post_type=post' ); 
 }
 
+// edit the post editing admin messages to reflect use of Daily Blank
+// h/t http://www.joanmiquelviade.com/how-to-change-the-wordpress-post-updated-messages-of-the-edit-screen/
+
+function dailyblank_post_updated_messages ( $msg ) {
+    $msg[ 'post' ] = array (
+     0 => '', // Unused. Messages start at index 1.
+	 1 => "Daily Blank updated.",
+	 2 => 'Custom field updated.',  // Probably better do not touch
+	 3 => 'Custom field deleted.',  // Probably better do not touch
+
+	 4 => "Daily Blank updated.",
+	 5 => "Daily Blank restored to revision",
+	 6 => "Daily Blank published.",
+
+	 7 => "Daily Blank saved.",
+	 8 => "Daily Blank submitted.",
+	 9 => "Daily Blank scheduled.",
+	10 => "Daily Blank draft updated.",
+    );
+    return $msg;
+}
+
+add_filter( 'post_updated_messages', 'dailyblank_post_updated_messages', 10, 1 );
+
 
 // There was a reason for this, now I forget. #senility
 add_filter( 'wp_title', 'dailyblank_wp_title_for_home' );
@@ -641,7 +665,32 @@ function dailyblank_make_post_types() {
 // modify the listings to include custom columns
 add_filter( 'manage_edit-responses_columns', 'dailyblank_set_custom_edit_responses_columns' );
 add_action( 'manage_responses_posts_custom_column' , 'dailyblank_custom_responses_column', 10, 2 );
- 
+
+
+// edit the post editing admin messages for Custom Post Types
+// h/t http://www.joanmiquelviade.com/how-to-change-the-wordpress-post-updated-messages-of-the-edit-screen/
+
+function dailyblank_response_updated_messages ( $msg ) {
+    $msg[ 'response' ] = array (
+     0 => '', // Unused. Messages start at index 1.
+	 1 => "Response updated.",
+	 2 => 'Custom field updated.',  // Probably better do not touch
+	 3 => 'Custom field deleted.',  // Probably better do not touch
+
+	 4 => "Response updated.",
+	 5 => "Response restored to revision",
+	 6 => "Response published.",
+
+	 7 => "Response saved.",
+	 8 => "Response submitted.",
+	 9 => "Response scheduled.",
+	10 => "Response draft updated.",
+    );
+    return $msg;
+}
+
+add_filter( 'post_updated_messages', 'dailyblank_response_updated_messages', 10, 1 );
+
 
 function dailyblank_set_custom_edit_responses_columns( $columns ) {
 // Add a column for the twitter author, insert after the hashtags column 
@@ -1330,6 +1379,33 @@ function dailyblank_first_date( $format = 'F j, Y' ) {
  return ( date( $format, strtotime( $dailies[0]->post_date ) ) );
 
 }
+
+function dailyblank_first_response( $hashtag ) {
+ // Setup get_posts arguments
+
+ $args = array(
+	'numberposts' => 1,
+	'post_type' => 'response',
+	'tax_query' => array(
+		array(
+			'taxonomy' => 'hashtags',
+			'field'    => 'slug',
+			'terms'    => $hashtag,
+		),
+	),	
+	'post_status' => 'publish',
+	'orderby' => 'date',
+	'order' => 'ASC'
+);
+
+ // Get all posts in order of first to last
+ $responses = get_posts( $args );
+
+ // return date in required format
+ return ( get_the_date( '',  $responses[0]->ID ) );
+
+}
+
 
 
 function dailyblank_mce_buttons( $buttons ) {	

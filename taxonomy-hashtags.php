@@ -35,12 +35,11 @@ $hashtag_term =	$wp_query->queried_object; // the term being used for this
 					
 						}
 						
-						$first_daily_date =  get_the_date( '', $wp_query->posts[$found_count-1]->ID);
 						
 						?>
 						
 						</h1>
-						<p class="text-center"><strong><?php echo $found_count?></strong> total responses found since <?php echo $first_daily_date?></p>
+						<p class="text-center"><strong><?php echo $found_count?></strong> total responses found since <?php echo dailyblank_first_response( $hashtag_term->name ); ?></p>
 					</div>
 					
 					
