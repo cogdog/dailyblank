@@ -57,11 +57,11 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## How to Manually Install The Daily Blank Theme
 
-I will make the big leap of assumption that you have a self hosted Wordpress site and can install themes.
+I will make the big leap of assumption that you have a self-hosted Wordpress site and that you can install themes by uploading files.
 
 1. The Daily Blank is a child theme based on [Wordpress Bootstrap](https://github.com/320press/wordpress-bootstrap) (sadly no longer maintained, but it works solidly). This theme can be [downloaded as a zip from its repo GitHub](https://github.com/320press/wordpress-bootstrap), then installed into wordpress by uploaded the zip file as a new theme.
 
-2. In addition, you must upload a modified version of the Twitter Oauth For Developers plugin; it has modifications critical to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).  I have moved this plugin to [it's own Github repository[(https://github.com/cogdog/oath-twitter-splot), where you should download it as a ZIP file. From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button and select that zip file to upload, and activate the plugin.
+2. In addition, you must upload a modified version of the Twitter Oauth For Developers plugin; it has modifications critical to make this site work (it looks for mentions rather than timelines, and has a custom function for clearing the cache).  I have moved this plugin to [it's own Github repository](https://github.com/cogdog/oath-twitter-splot), where you should download it as a ZIP file. From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button and select that zip file to upload, and activate the plugin.
 
 3. Finally, download the ZIP file for the Daily Blank Theme (click the green **Clone of Download** button and chose the ZIP option.  From the themes area of your Wordpress dashboard, click the **Upload Theme** button,  then select this zip file to upload, and finally  activate the theme.
 
@@ -326,9 +326,12 @@ List the ones that have the most views (and also add the parameters above):
 
 
 #### Automatic Tweeting With dlvr.it
+
+** Note: As of November 6, 2018, we no longer recommend using this service. They have continued to diminish functionalty of the free service in attempts to upsell to a paid one **
+
 The site does NOT automatically tweet new Daily Blanks. Numerous plugins offer a capability to autotweet new posts; this is not built into the site.
 
-One tool for doing this we have found is to set up a routing on  [dlvr.it](https://dlvr.it/) a free web service can be triggered to publish to a twitter account via an RSS feed from your site. Your mileage may/will vary. The examples below are for the [DS106 Daily Create](http://daily.ds106.us/)  which sends out its creative activities via [@ds106dc](https://twitter.com/ds106dc).
+One tool for doing this we have found is to set up a routing on  [dlvr.it](https://dlvr.it/) a free web service can be triggered to publish to a twitter account via an RSS feed from your site. Your mileage may/will vary. The examples below were for the [DS106 Daily Create](http://daily.ds106.us/)  which sends out its creative activities via [@ds106dc](https://twitter.com/ds106dc).
 
 To use dlvr.it, first create an account on the site. You will create a *Route* which has a source (in this case an RSS Feed) and a *Destination* (in this case a twitter account).  [Go to the routes editor](https://app.dlvr.it/deliveries/routes) and click *+Add Route*. 
 
@@ -341,7 +344,7 @@ On the next tab, *Feed Update* enter the following settings to make sure it does
 
 ![](images/dlvrit-feed-update.jpg "Feed Update Settings")
 
-(note previously you could add a hashtag to all tweets, but the Twitter API took this away. You can now add them as a Theme Option.
+Note: previously you could add a hashtag to all tweets, but the Twitter API took this away. You can now add them as a Theme Option of the Daily Blank (this adds the tag to each item's titlw).
 
 No other settings are required for the feed. Now on the right side, under destinations, click *+add*.  Click the twitter icon, and then authenticate with the account you want to be sending out the tweets.
 
@@ -351,8 +354,11 @@ Under the *Post Content* tab, we suggest tweeting the title and the link:
 
 This is the only setting you should need to make. Your twitter account should automatically send out a tweet in an hour after your next scheduled Daily Blank is published.
 
+#### Automatic Tweeting With JetPack
+
+The [Publicize module of the JetPack plugin](https://jetpack.com/support/publicize/) is currently managing the tweeting of scheduled items for the [DS106 Daily Create](http://daily.ds106.us/). When adding the twitter account to your Social Connections, be sure to enable the option to Allow All Users to use the connection.
+
 #### Automatic Tweeting with IFTTT
-We have seen some problems using dlvr.it on the DS106 Daily Create (I think we hit some capacity limit). 
 
 As an alternative, you can [try a recipe we made in IFTTT](https://ifttt.com/recipes/413425-tweeting-daily-blank-challenges) where you can enter your site's RSS feed, any hashtags you want to use. You wiull have to use an IFTTT account authorized to post to the twitter account you want to be tweeting for you.
 
