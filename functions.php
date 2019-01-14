@@ -363,7 +363,7 @@ function dailyblank_leaders ( $atts ) {
 		// search for @ in order of highest frequency
 		$args = array(
 			'number' => $number,
-			'exclude' =>  $exclude,
+			'exclude' =>  explode(",", $exclude),
 			'name__like' => '@'
 		);
 		
@@ -457,6 +457,19 @@ function dailyblank_leaders ( $atts ) {
 			$ptype = 'response';
 		}
 		
+		
+		$exclude_cond  = '';
+		
+		if ($exclude != '' ) {
+			
+			$exclude_array = explode(",", $exclude);
+
+			foreach ($exclude_array as $exid) {
+				$exclude_cond  .=  " and t.term_id !='" . $exid . "' ";
+			}
+		}
+			 
+		
 		$leaderstuff = $wpdb->get_results( 
 			"
 			SELECT t.name, t.slug, count(*) as cnt 
@@ -465,7 +478,7 @@ function dailyblank_leaders ( $atts ) {
 				ON p.id=r.object_id 
 			JOIN $wpdb->terms t 
 				ON r.term_taxonomy_id=t.term_id 
-			WHERE p.post_status='publish' and p.post_type='$ptype' and t.name LIKE '@%%' $since_str 
+			WHERE p.post_status='publish' and p.post_type='$ptype' and t.name LIKE '@%%' $since_str  $exclude_cond
 			GROUP by t.name 
 			ORDER by cnt DESC
 			$limitparam
