@@ -819,7 +819,7 @@ function dailyblank_get_last_date() {
 		} else {
 		
 			// return today's date at the designated time of day (stored as option like "05:00" for 5am)
-			return ( strtotime('today+' . dailyblank_option('dailytime') ) );
+			return ( strtotime('today+' . dailyblank_option('dailytime')  ) );
 		}
 		
 	}
@@ -861,9 +861,20 @@ function dailyblank_meta_box_cb($post) {
 	// get unix time for last published  daily blank
 	$last_dailyblank_date = strtotime( dailyblank_get_last_date() );
 	
-	// if it's been more than 24 hours since the last published daily blank, set the next date to be on the 
-	// day after current; otherwise, set the next one to be 24 hours after the last published one
-	$next_dailyblank_date = ( ( time() - $last_dailyblank_date ) > 3600*24) ? strtotime('today+' . dailyblank_option('dailytime') ) +  3600*24 :  $last_dailyblank_date + 3600*24;
+	
+	// first do offset  (every X days)
+	
+	$daily_offset = 3600 * 24 * dailyblank_option('frequency');
+	
+
+	/* if it's been more than 24 hours since the last published daily blank, 
+	   set the next date to be on the  day after current; otherwise, set the 
+	   next one to be 24 hours after the last published one.
+	   
+	   Factor in offset for less frequent than daily
+	*/
+	
+	$next_dailyblank_date = ( ( time() - $last_dailyblank_date ) > 3600*24) ? strtotime('today+' . dailyblank_option('dailytime') ) + $daily_offset :  $last_dailyblank_date + $daily_offset;
 	
 	
 	// Output form, including nonce field   
@@ -951,7 +962,7 @@ add_action( 'save_post', 'dailyblank_settings_save' );
 function dailyblank_settings_save( $post_id )
 {
 	
-	if ($_POST['dailyblank_tag'] == '') return; // skip saving if the box not checked, saves over writing
+	if ( isset($_POST['dailyblank_tag']) AND $_POST['dailyblank_tag'] == '') return; // skip saving if the box not checked, saves over writing
 	
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 	

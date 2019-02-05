@@ -222,6 +222,24 @@ class dailyblank_Theme_Options {
 			'section' => 'general'
 		);	
 
+		$this->settings['frequency'] = array(
+			'section' => 'general',
+			'title'   => __( 'Frequency of new Blanks'),
+			'desc'    => __( 'We think daily is best, but maybe you want new ones published every other day, or weekly.'),
+			'type'    => 'select',
+			'std'     => '',
+			'choices' => array(
+				'1' => 'daily',
+				'2' => 'every 2 days',
+				'3' => 'every 3 days',
+				'4' => 'every 4 days',
+				'5' => 'every 5 days',	
+				'6' => 'every 6 days',	
+				'7' => 'every week',
+				'14' => 'every 2 weeks'	
+			)
+		);	
+
 
 		$standby_status = ( dailyblank_option('standby') == 'on') ? '<span style="color:red">Tweet Checking Paused</span>' : 'Checking tweets every hour';
 		

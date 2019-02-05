@@ -36,6 +36,8 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+
+* Daily too much to handle? A new theme option feature lets you schedule your blanks to be every 2,3,4,5,6 days, or every 1 or 2 weeks
 * New admin option to add any text to the title of all published dailies, primarily if the site needs to publish with some other hash tag, and it's easier if these are in the title
 * Reorganized repo to be the theme only, moved the parent theme and twitter auth plugin to separate repos
 * Theme options to trigger email notification when scheduled supply is below  selected threshold; also a standby mode to pause hourly twitter API checks
@@ -144,6 +146,11 @@ Then two more settings...
 * **Number of Responses to Display at a Time** For a new site, this can be ignored. If your Daily Blank site starts to get regularly more than 10 responses, you may want to consider installing the [Ajax Load More plugin](https://wordpress.org/plugins/ajax-load-more/) (see below for configuration details). This allows the number specified by the value of the field to be loaded, and subsequent sets are appended by ajax.
 * **When to Publish** is the local time (relevant to your site's time zone setting) when items are posted. Enter a value for hour and minute. A new item will be published if they have been pre-written (the site saves them as scheduled posts).
 
+And a new feature allows you to schedule less frequently than every day, it can push out the scheduling to every 2,3,4,5, or 6 days, or even to every 1 or 2 weeks (this is how much later a new Daily Blank is set to publish after the last scheduled one).
+
+![](images/frequency.jpg "Adjust frequency of scheduling")
+
+
 ## Look For Tweets
 This section provides a status and it's twitter checking activity. Under regular use, a daily blank site will check the Twitter API once an hour to look for matching tweets. If your site is no longer publishing new challenges, you can put it in "Standby' mode. This turns off regular hourly checking of twitter, but the button allows for a manual check.
 
@@ -154,6 +161,9 @@ When not in standby mode, you will see an indicator that it is checking every ho
 In addition, you can now select a value (1-7) of when to send an email notification when the supply of scheduled dailies falls below a given threshold.
 
 ![](images/notify-supply.jpg "Low Supply warning setting")
+
+
+
 
 #### Using the Ajax Load More Plugin
 Install this plugin to create paginate loadings of twitter responses for busier sites (regularly receiving more than 10 responses). The only critical setting is to customize the `Repeater Template` so it embeds the tweets the same way the theme does:
