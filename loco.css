@@ -86,6 +86,10 @@ ol {
     margin-bottom: 0.625rem;
 }
 
+.home ul, .home ol {
+    text-align: initial;
+}
+
 
 
 h1, .h1, h2, .h2, h3, .h3 {
@@ -341,4 +345,9 @@ progress, progress[role] {
 	font-size: large;
 	font-weight: bold;
 	text-transform: lowercase;
+}
+
+/* fudge for editor link styles box */
+.has-text-field #wp-link .query-results {
+    top: 240px!important;
 }

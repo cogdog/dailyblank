@@ -36,12 +36,25 @@ You can also find some long-winded code laden blog posts on this theme's develop
 
 ## New Features
 
+### v1.2
 
 * Daily too much to handle? A new theme option feature lets you schedule your blanks to be every 2,3,4,5,6 days, or every 1 or 2 weeks
+* For only reasons no one else cares about, the long functions.php file is now broken up into smaller bit size includes.
+
+### v1.1
 * New admin option to add any text to the title of all published dailies, primarily if the site needs to publish with some other hash tag, and it's easier if these are in the title
 * Reorganized repo to be the theme only, moved the parent theme and twitter auth plugin to separate repos
+
+### v1.0
 * Theme options to trigger email notification when scheduled supply is below  selected threshold; also a standby mode to pause hourly twitter API checks
+
+
+### v0.9
+
 * CSS support for [User Interface Options plugin](https://github.com/fluid-project/uio-wordpress-plugin)
+
+### older 
+
 * New options for leaderboard shortcode to restrict to tweets after a specified date
 * Post Author is never used (the theme automatically assigns author to user id=0 which is typoically the first admin user) so Author column now removed from dashboard listings of Daily Blanks
 * Fixed a bug in the twitter API calls that was resulting in missing tweets (added `tweet_mode=extended`) because API was returning truncated tweets, hence missing hashtags. This can be fixed by updated the plugin [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
@@ -54,7 +67,6 @@ You can also find some long-winded code laden blog posts on this theme's develop
 ## To Be Done (one day)
 * Move theme options to Customizer
 * Since the parent theme is no longer updated, merge them together to work as single theme (allowing options for your own child theme overrides)
-
 
 
 ## How to Manually Install The Daily Blank Theme
