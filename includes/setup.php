@@ -9,7 +9,7 @@ add_action( 'init', 'wp_bootstrap_head_cleanup' );
 
 // override what the parent theme is doing -- it strips RSS feeeds from the head, bad mojo
 
-if( !function_exists( "wp_bootstrap_head_cleanup" ) ) {  
+if( !function_exists( "wp_bootstrap_head_cleanup" ) ) {
   function wp_bootstrap_head_cleanup() {
     // remove header links
     remove_action( 'wp_head', 'rsd_link' );                               // EditURI link
@@ -25,7 +25,7 @@ if( !function_exists( "wp_bootstrap_head_cleanup" ) ) {
 add_action( 'after_switch_theme', 'dailyblank_rewrite_flush' );
 
 function dailyblank_rewrite_flush() {
-    flush_rewrite_rules();  
+    flush_rewrite_rules();
 }
 
 
@@ -34,12 +34,12 @@ function dailyblank_rewrite_flush() {
 add_action( 'pre_get_posts', 'dailyblank_query_mods' );
 
 function dailyblank_query_mods( $query ) {
-    
+
     if ( is_archive('response') ) {
         // Display  12 results for response archive
         $query->set( 'posts_per_page', 12 );
         return;
-    }    
+    }
 }
 
 // change the name of admin menu items from "New Posts" to "New Daily Blank" etc
@@ -53,9 +53,9 @@ add_action('admin_menu', 'dailyblank_scheduled_menu');
 function dailyblank_change_post_label() {
     global $menu;
     global $submenu;
-    
+
     $daily_blank_thing = 'Daily Blank';
-    
+
     $menu[5][0] = $daily_blank_thing . 's';
     $submenu['edit.php'][5][0] = 'All ' . $daily_blank_thing . 's';
     $submenu['edit.php'][10][0] = 'Add ' . $daily_blank_thing;
@@ -84,11 +84,11 @@ function dailyblank_change_post_object() {
     $labels->menu_name =  $daily_blank_thing;
     $labels->name_admin_bar =  $daily_blank_thing;
 }
- 
+
 // Add some admin menus for scheduled and drafts, because these are handy to have
 function dailyblank_scheduled_menu() {
-	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'edit_pages', 'edit.php?post_status=future&post_type=post' ); 
-	add_submenu_page('edit.php', 'Submitted/Draft Daily Blanks', 'Submitted Daily Blanks', 'edit_pages', 'edit.php?post_status=draft&post_type=post' ); 
+	add_submenu_page('edit.php', 'Scheduled Daily Blanks', 'Scheduled Daily Blanks', 'edit_pages', 'edit.php?post_status=future&post_type=post' );
+	add_submenu_page('edit.php', 'Submitted/Draft Daily Blanks', 'Submitted Daily Blanks', 'edit_pages', 'edit.php?post_status=draft&post_type=post' );
 }
 
 // edit the post editing admin messages to reflect use of Daily Blank
@@ -133,16 +133,16 @@ add_filter('comment_form_defaults', 'dailyblank_comment_mod');
 
 function dailyblank_comment_mod( $defaults ) {
 	$defaults['logged_in_as'] = '';
-	
+
 	if ( is_single() ) {
 		$defaults['title_reply'] = "Don't Want to Tweet Your Response? Really?";
 		$defaults['title_reply_to'] = 'Add a response ';
-	
+
 		$defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . _x( 'This site works best when you tweet your response as instructed above, but if you prefer you can enter it below as a comment ', 'wordpress-bootstrap' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
-	
+
 		$defaults['label_submit'] = 'Post Response';
 	}
-	
+
 	return $defaults;
 }
 
@@ -161,7 +161,7 @@ function dailyblank_post_columns( $columns ) {
   unset(
     $columns['author']
   );
- 
+
   return $columns;
 }
 
@@ -172,7 +172,7 @@ function dailyblank_post_columns( $columns ) {
 
 
 add_action('wp_dashboard_setup', 'dailyblank_dashboard_widgets');
- 
+
 function dailyblank_dashboard_widgets() {
 
 	wp_add_dashboard_widget('dailyblank_admin', 'Stats on the Dailies', 'dailyblank_make_dashboard_widget');
@@ -184,7 +184,7 @@ function dailyblank_make_dashboard_widget() {
 		<li>There are <strong>' . getdailyCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=publish&post_type=post') . '">published dailies</a></li>
 		<li>In the queue are <strong>' . getScheduledCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=future&post_type=post') . '">scheduled dailies</a></li>
 		<li>Waiting for review are <strong>' . getDraftCount() . '</strong> <a href="' . admin_url( 'edit.php?post_status=draft&post_type=post' ) . '">submitted new dailies</a></li>
-		<li>Participation in this site includes <strong>' . getResponseCount() . '</strong> <a href="' . admin_url( 'edit.php?post_type=response' ) . '">responses to dailies</a> from <strong>' . getPeopleCount() . '</strong> unique individuals</li>	
+		<li>Participation in this site includes <strong>' . getResponseCount() . '</strong> <a href="' . admin_url( 'edit.php?post_type=response' ) . '">responses to dailies</a> from <strong>' . getPeopleCount() . '</strong> unique individuals</li>
 	 </ul>';
 }
 
@@ -195,19 +195,136 @@ function dailyblank_make_dashboard_widget() {
 
 add_action('wp_enqueue_scripts', 'add_dailyblank_scripts');
 
-function add_dailyblank_scripts() {	 
- 
+function add_dailyblank_scripts() {
+
  	if ( is_page('add') ) { // use on just our form page
- 		
+
+
+ 		if (! is_admin() ) wp_enqueue_media();
+
+ 		// Autoembed functionality in rich text editor
+   		// h/t https://wordpress.stackexchange.com/a/287623
+   		wp_enqueue_script( 'mce-view', '', array('tiny_mce'), '', true );
+
+
+		// tinymce mods
+		add_filter("mce_external_plugins", "dailyblank_register_buttons");
+		add_filter('mce_buttons','dailyblank_tinymce_buttons');
+
+
     	// custom jquery for the uploader on the form
-		wp_register_script( 'jquery.dailyblank' , get_stylesheet_directory_uri() . '/js/jquery.add-daily.js', null , '1.0', TRUE );
+		wp_register_script( 'jquery.dailyblank' , get_template_directory_uri() . '/js/jquery.add-daily.js', null , '1.0', TRUE );
 		wp_enqueue_script( 'jquery.dailyblank' );
-		
+
 		 // admin styles for editor
  		wp_enqueue_style( 'wp-admin' );
 	}
 
 }
+
+
+// set the default upload image size to "large' cause medium is puny
+// ----- h/t http://stackoverflow.com/a/20019915/2418186
+
+add_filter( 'pre_option_image_default_size', 'dailyblank_default_image_size' );
+
+function dailyblank_default_image_size () {
+    return 'large';
+}
+
+function dailyblank_register_buttons( $plugin_array ) {
+	$plugin_array['imgbutton'] = get_template_directory_uri() . '/js/image-button.js';
+	return $plugin_array;
+}
+
+// remove  buttons from the visual editor
+
+function dailyblank_tinymce_buttons($buttons) {
+
+	// now add the image button in, and the second one that acts like a label
+	$buttons[] = 'imgbutton';
+
+	return $buttons;
+ }
+
+# -----------------------------------------------------------------
+# Tiny-MCE mods
+# -----------------------------------------------------------------
+
+// this is the handler used in the tiny_mce editor to manage iage upload
+add_action( 'wp_ajax_nopriv_dailyblank_upload_action', 'dailyblank_upload_action' ); //allow on front-end
+add_action( 'wp_ajax_dailyblank_upload_action', 'dailyblank_upload_action' );
+
+function dailyblank_upload_action() {
+
+    $newupload = 0;
+
+    if ( !empty($_FILES) ) {
+        $files = $_FILES;
+        foreach($files as $file) {
+            $newfile = array (
+                    'name' => $file['name'],
+                    'type' => $file['type'],
+                    'tmp_name' => $file['tmp_name'],
+                    'error' => $file['error'],
+                    'size' => $file['size']
+            );
+
+            $_FILES = array('upload'=>$newfile);
+            foreach($_FILES as $file => $array) {
+                $newupload = media_handle_upload( $file, 0);
+            }
+        }
+    }
+    echo json_encode( array('id'=> $newupload, 'location' => wp_get_attachment_image_src( $newupload, 'wpbs-featured' )[0]) );
+    die();
+}
+
+
+
+
+add_filter( 'tiny_mce_before_init', 'dailyblank_tinymce_settings' );
+
+function dailyblank_tinymce_settings( $settings ) {
+
+	$settings['images_upload_handler'] = 'function (blobInfo, success, failure) {
+    var xhr, formData;
+
+    xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.open(\'POST\', \'' . admin_url('admin-ajax.php') . '\');
+
+    xhr.onload = function() {
+      var json;
+
+      if (xhr.status != 200) {
+        failure(\'HTTP Error: \' + xhr.status);
+        return;
+      }
+
+      json = JSON.parse(xhr.responseText);
+
+      if (!json || typeof json.location != \'string\') {
+        failure(\'Invalid JSON: \' + xhr.responseText);
+        return;
+      }
+
+      success(json.location);
+    };
+
+    formData = new FormData();
+    formData.append(\'file\', blobInfo.blob(), blobInfo.filename());
+	formData.append(\'action\', \'dailyblank_upload_action\');
+    xhr.send(formData);
+  }';
+
+
+
+	return $settings;
+}
+
+
+
 
 
 ?>

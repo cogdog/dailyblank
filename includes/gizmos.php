@@ -22,6 +22,8 @@ function dailyblank_update_meta($id, $response_count) {
 // update custom post meta to track the views and the number of responses done for each daily
 // called on each view of a single daily
 
+	global $post;
+
 	// get current value for the visit count post meta, if it does not exist, start with 0
 	$visit_count = ( get_post_meta($id, 'daily_visits', true) ) ? get_post_meta($id, 'daily_visits', true) : 0; 
 	$visit_count++;

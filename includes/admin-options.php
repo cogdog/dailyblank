@@ -26,15 +26,15 @@ function dailyblank_enqueue_options_scripts() {
 	wp_enqueue_media();
 	
 	// custom jquery for the options admin screen
-	wp_register_script( 'dailyblank_options_js' , get_stylesheet_directory_uri() . '/js/jquery.options.js', array( 'jquery' ), '1.0', TRUE );
+	wp_register_script( 'dailyblank_options_js' , get_template_directory_uri() . '/js/jquery.options.js', array( 'jquery' ), '1.0', TRUE );
 	wp_enqueue_script( 'dailyblank_options_js' );
 }
 
 function dailyblank_load_theme_options() {
 	// load theme options Settings
 
-	if ( file_exists( get_stylesheet_directory()  . '/class.dailyblank-theme-options.php' ) ) {
-		include_once( get_stylesheet_directory()  . '/class.dailyblank-theme-options.php' );
+	if ( file_exists( get_template_directory()  . '/class.dailyblank-theme-options.php' ) ) {
+		include_once( get_template_directory()  . '/class.dailyblank-theme-options.php' );
 	}
 	
 	// add a scheduler to check for tweets if not in standby mode

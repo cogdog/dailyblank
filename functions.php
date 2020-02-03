@@ -9,6 +9,7 @@
 
 // Growing up to segmenting a long functions.php into more bite sized bits!
 
+require_once( __DIR__ . '/wp-bootstrap.php'); // what was once parent theme
 require_once( __DIR__ . '/includes/setup.php');
 require_once( __DIR__ . '/includes/admin-options.php');
 require_once( __DIR__ . '/includes/shortcodes.php');

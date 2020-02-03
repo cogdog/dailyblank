@@ -34,39 +34,7 @@ See the [DS106 Daily Create #TDC1667](http://daily.ds106.us/tdc1667/) shown in t
 You can also find some long-winded code laden blog posts on this theme's development http://cogdogblog.com/tag/dailyblank/
 
 
-## New Features
 
-### v1.2
-
-* Daily too much to handle? A new theme option feature lets you schedule your blanks to be every 2,3,4,5,6 days, or every 1 or 2 weeks
-* For only reasons no one else cares about, the long functions.php file is now broken up into smaller bit size includes.
-
-### v1.1
-* New admin option to add any text to the title of all published dailies, primarily if the site needs to publish with some other hash tag, and it's easier if these are in the title
-* Reorganized repo to be the theme only, moved the parent theme and twitter auth plugin to separate repos
-
-### v1.0
-* Theme options to trigger email notification when scheduled supply is below  selected threshold; also a standby mode to pause hourly twitter API checks
-
-
-### v0.9
-
-* CSS support for [User Interface Options plugin](https://github.com/fluid-project/uio-wordpress-plugin)
-
-### older 
-
-* New options for leaderboard shortcode to restrict to tweets after a specified date
-* Post Author is never used (the theme automatically assigns author to user id=0 which is typoically the first admin user) so Author column now removed from dashboard listings of Daily Blanks
-* Fixed a bug in the twitter API calls that was resulting in missing tweets (added `tweet_mode=extended`) because API was returning truncated tweets, hence missing hashtags. This can be fixed by updated the plugin [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
-* Categories listed under singly daily metadata (July 28, 2017)
-* New shortcodes for count of people participating and number of responses. Also added an admin dashboard widget that shows activity stats on the site (July 3, 2017)
-* Set up installable zips for both parent and child theme, and the customized plugin (August 3, 2016)
-* Updated display of admin options to actually use its busted tabs (July 26, 2016)
-* Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
-
-## To Be Done (one day)
-* Move theme options to Customizer
-* Since the parent theme is no longer updated, merge them together to work as single theme (allowing options for your own child theme overrides)
 
 
 ## How to Manually Install The Daily Blank Theme
@@ -398,5 +366,42 @@ Existing code bits. I wish I thought of doing this earlier, I lost a few handy o
 * Just see what tweets are fetched (used this when first building the site, a way to check if the code is talking to the twitter API [dailyblank-get-tweets gist](https://gist.github.com/cogdog/2934cddc5e1f4f446ff84a44618fff82)
 * A fix for an issue (pre February 2016) where the tags for people who added Daily Blanks were not properly tagged in each post [dailyblank-author-tags gist](https://gist.github.com/cogdog/cf75335cc5d217e1f39382c756c97091)
 * Seed the response counts and generate some random visit counts (for sites before this feature was added, May 23, 2016) [dailyblank-seed-counts gist](https://gist.github.com/cogdog/35d2b8c377b568bd7b161316828f89f4)
+
+## New Features
+
+### v1.5
+
+* No longer a child theme, it is a fully stand alone (so you can now create a child theme from it!)
+* Image uploads added to the Add a New Daily ______ form
+
+![](images/dailyblank-add-image.gif)
+
+### v1.2
+
+* Daily too much to handle? A new theme option feature lets you schedule your blanks to be every 2,3,4,5,6 days, or every 1 or 2 weeks
+* For only reasons no one else cares about, the long functions.php file is now broken up into smaller bit size includes.
+
+### v1.1
+* New admin option to add any text to the title of all published dailies, primarily if the site needs to publish with some other hash tag, and it's easier if these are in the title
+* Reorganized repo to be the theme only, moved the parent theme and twitter auth plugin to separate repos
+
+### v1.0
+* Theme options to trigger email notification when scheduled supply is below  selected threshold; also a standby mode to pause hourly twitter API checks
+
+
+### v0.9
+
+* CSS support for [User Interface Options plugin](https://github.com/fluid-project/uio-wordpress-plugin)
+
+### older 
+
+* New options for leaderboard shortcode to restrict to tweets after a specified date
+* Post Author is never used (the theme automatically assigns author to user id=0 which is typoically the first admin user) so Author column now removed from dashboard listings of Daily Blanks
+* Fixed a bug in the twitter API calls that was resulting in missing tweets (added `tweet_mode=extended`) because API was returning truncated tweets, hence missing hashtags. This can be fixed by updated the plugin [installable-oauth-twitter-feed-for-developers.zip](https://github.com/cogdog/dailyblank/blob/master/installable-oauth-twitter-feed-for-developers.zip) 
+* Categories listed under singly daily metadata (July 28, 2017)
+* New shortcodes for count of people participating and number of responses. Also added an admin dashboard widget that shows activity stats on the site (July 3, 2017)
+* Set up installable zips for both parent and child theme, and the customized plugin (August 3, 2016)
+* Updated display of admin options to actually use its busted tabs (July 26, 2016)
+* Response and visit counts tracked and displayed, shortcodes to display in pages/widgets (May 23, 2016)
 
 

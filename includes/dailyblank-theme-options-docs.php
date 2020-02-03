@@ -22,7 +22,7 @@
 
 Enter your own credentials in the four fields (in general the default cache expiry of 3600, 1 hour, is fine for most sites):
 
-<img width="600" height="208" alt="twitter-auth-settings" src="<?php echo get_stylesheet_directory_uri(); ?>/images/twitter-auth-settings.jpg">
+<img width="600" height="208" alt="twitter-auth-settings" src="<?php echo get_template_directory_uri(); ?>/images/twitter-auth-settings.jpg">
 
 
 <h2>Useful General Setup Items</h2>
@@ -36,7 +36,7 @@ Enter your own credentials in the four fields (in general the default cache expi
 
 <p><em>(The values in the fields come from the instance of this running as the <a href="https://udg.theagoraonline.net/daily" target="_blank">UdG Agora Daily Try site</a>.</em></p>
 
-<img width="600" height="288" alt="general-settings-1" src="<?php echo get_stylesheet_directory_uri(); ?>/images/general-settings-1.jpg">
+<img width="600" height="288" alt="general-settings-1" src="<?php echo get_template_directory_uri(); ?>/images/general-settings-1.jpg">
 
 <ul>
 <li><strong>Name For What is Done Daily</strong> (capitalized first letter) This should be the kind of daily activity, written as singular, and without "Daily" in front of it. The example shown is for the Daily Try, so each one is a "Try".</li>
@@ -51,7 +51,7 @@ Enter your own credentials in the four fields (in general the default cache expi
 
 <p>Then two more settings...</p>
 
-<img width="600" height="195" alt="general-settings-2" src="<?php echo get_stylesheet_directory_uri(); ?>/images/general-settings-2.jpg">
+<img width="600" height="195" alt="general-settings-2" src="<?php echo get_template_directory_uri(); ?>/images/general-settings-2.jpg">
 <ul>
 <li><strong>Number of Responses to Display at a Time</strong> For a new site, this can be ignored. If your Daily Blank site starts to get regularly more than 10 responses, you may want to consider installing the <a href="https://wordpress.org/plugins/ajax-load-more/" target="_blank">Ajax Load More plugin</a> (see below for configuration details). This allows the number specified by the value of the field to be loaded, and subsequent sets are appended by ajax.</li>
 <li><strong>When to Publish</strong> is the local time (relevant to your site's time zone setting) when items are posted. Enter a value for hour and minute. A new item will be published if they have been pre-written (the site saves them as scheduled posts).</li>
@@ -62,7 +62,7 @@ Enter your own credentials in the four fields (in general the default cache expi
 <h2>Using the Ajax Load More Plugin</h2>
 <p>Install this plugin to create paginate loadings of twitter responses for busier sites (regularly receiving more than 10 responses). The only critical setting is to customize the <a href="<?php echo admin_url( 'admin.php?page=ajax-load-more-repeaters')?>" target="_blank">Repeater Template</a> so it embeds the tweets the same way the theme does:</p>
 
-<img width="600" height="312" alt="ajax-load-more-templates" src="<?php echo get_stylesheet_directory_uri(); ?>/images/ajax-load-more-templates.jpg">
+<img width="600" height="312" alt="ajax-load-more-templates" src="<?php echo get_template_directory_uri(); ?>/images/ajax-load-more-templates.jpg">
 
 <p>Replace the default code with:</p>
 <pre>
@@ -75,7 +75,7 @@ Enter your own credentials in the four fields (in general the default cache expi
 <h2>Creating New Daily Blanks</h2>
 <p>Write new items as normal posts (in the Dashboard they are referred to as "Daily Blanks"). Keep the title short enough to allow for the inserting of the incremental hashtag:</p>
 
-<img width="600" height="327" alt="create-daily-blank" src="<?php echo get_stylesheet_directory_uri(); ?>/images/create-daily-blank.jpg">
+<img width="600" height="327" alt="create-daily-blank" src="<?php echo get_template_directory_uri(); ?>/images/create-daily-blank.jpg">
 
 <p>The box in the upper right should never need to be edited. It will let you know the next tag available that is used for your daily blank; in this case, "agoratry69" will be used internally as a tag, and the hashtag "#agoratry69" will be added to the title when saved.</p>
 
@@ -128,21 +128,21 @@ Enter your own credentials in the four fields (in general the default cache expi
 <p>Under Sources on the left, click <strong>+add</strong>, then click the RSS icon (first on left), then the <strong>Connect Feed</strong> button. This opens the Source Feed Details tab. Enter the RSS feed for your site, which is the full URL of the site with <code>/feed</code> appended to it and give it a name.</p>
 
 
-<img width="600" height="350" alt="Feed details" src="<?php echo get_stylesheet_directory_uri(); ?>/images/dlvrit-source-feed-details.jpg">
+<img width="600" height="350" alt="Feed details" src="<?php echo get_template_directory_uri(); ?>/images/dlvrit-source-feed-details.jpg">
 
 <p>On the next tab, <strong>Feed Update</strong> enter the following settings to make sure it does one per day.</p>
 
-<img width="600" height="451" alt="Feed Update Settings" src="<?php echo get_stylesheet_directory_uri(); ?>/images/dlvrit-feed-update.jpg">
+<img width="600" height="451" alt="Feed Update Settings" src="<?php echo get_template_directory_uri(); ?>/images/dlvrit-feed-update.jpg">
 
 <p>And lastly, on the <strong>Item text tab</strong> you can insert any specific extra text to add to the tweets, e.g. hashtags for all tweets.</p>
 
-<img width="600" height="487" alt="Extra Item Text for Feeds" src="<?php echo get_stylesheet_directory_uri(); ?>/images/dlvrit-item-text.jpg">
+<img width="600" height="487" alt="Extra Item Text for Feeds" src="<?php echo get_template_directory_uri(); ?>/images/dlvrit-item-text.jpg">
 
 <p>No other settings are required for the feed. Now on the right side, under destinations, click <strong>+add</strong>.  Click the twitter icon, and then authenticate with the account you want to be sending out the tweets.</p>
 
 <p>Under the <strong>Post Content</strong> tab, we suggest tweeting the title and the link:</p>
 
-<img width="600" height="515" alt="dlvrit-twitter-destination-account" src="<?php echo get_stylesheet_directory_uri(); ?>/images/dlvrit-twitter-destination-account.jpg">
+<img width="600" height="515" alt="dlvrit-twitter-destination-account" src="<?php echo get_template_directory_uri(); ?>/images/dlvrit-twitter-destination-account.jpg">
 
 <p>This is the only setting you should need to make. Your twitter account should automatically send out a tweet in an hour after your next scheduled Daily Blank is published.</p>
 

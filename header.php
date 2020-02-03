@@ -19,7 +19,7 @@
 		<!-- end of wordpress head -->
 		
 		<!-- last and not least, any override css we might need because loco is crazy -->
-		<?php echo '<link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/loco.css?v=0.55" type="text/css" media="all">'?>
+		<?php echo '<link rel="stylesheet" href="' . get_stylesheet_directory_uri() . '/loco.css?v=0.8" type="text/css" media="all">'?>
 	
 		<!-- IE8 fallback moved below head to work properly. Added respond as well. Tested to work. -->
 			<!-- media-queries.js (fallback) -->

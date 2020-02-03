@@ -16,7 +16,7 @@ function dailyblank_twitter_auth() {
 		// ping twitter for current user name
 		$test_tweets = getTweets( dailyblank_option('twitteraccount'), 1 );
 	
-		if ( $test_tweets["error"] ) {
+		if ( isset($test_tweets["error"]) ) {
 			$fb_str .= 'Uh oh, we have a problem Houston accessing tweets from @' . dailyblank_option('twitteraccount') . ': ' .  $test_tweets["error"] . ' Maybe check the <a href="' . admin_url( 'admin.php?page=options-general.php?page=tdf_settings') .'">Twitter Oauth Settings</a>?'; ;
 		} else {
 			$fb_str .= 'Successful connection to collect tweets replied to <a href="http://twitter.com/' . dailyblank_option('twitteraccount') . '"  target="_blank">@' . dailyblank_option('twitteraccount') . '</a>. This site is ready to collect responses.';
@@ -104,7 +104,7 @@ function dailyblank_get_tweets( $show_fb = false, $manual_mode = false ) {
 						$new_responses[] = array(
 							'id_str' => $tweet['id_str'], // twitter id for tweet
 							'tweeter' => $tweet['user']['screen_name'], // tweet author
-							'full_text' => $tweet['full_text'], // da tweet
+							'text' => $tweet['text'], // da tweet
 							'url' => $t_url, // full url
 							'tstamp' => $tweet['created_at'], // timestamp
 							'tags' => $hashtags // gimme tags
@@ -151,7 +151,7 @@ Utility to add new items to custom post types that represent tweeted responses. 
 		// Create post object
 		$response_type = array(
 			'post_type' 	=> 'response',
-			'post_title'    => $tweet['full_text'], // use the entire tweet as title
+			'post_title' 	=> mb_strimwidth( $tweet['text'], 0, 140, '...'), // trim tweet for title
 			'post_name'		=> $tweet['id_str'], // use twitter id as slug
 			'post_date_gmt' => date( 'Y-m-d H:i:s', strtotime( $tweet['tstamp'] ) ),
 			'post_date'		=> iso8601_gmt_to_local( $tweet['tstamp'], $format = 'Y-m-d H:i:s'),

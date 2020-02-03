@@ -2,15 +2,369 @@
 Theme Name: 	The Daily Blank
 Theme URI: 		https://github.com/cogdog/dailyblank
 Description: 	Daily Challenge site based on wordpress-bootstrap
-Version: 		1.2
-Template:       wp-bootstrap
+Version: 		1.5
 Author: 		CogDog
 Author URI: 	http://cogdogblog.com/
 Tags: one-column, two-columns, flexible-width, custom-background, custom-colors, custom-menu, full-width-template, theme-options
 License: GNU General Public License v2.0 & Apache License 2.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/licenses/LICENSE-2.0
 
-    Do not import parent style sheet since it is progreammed in already via the parent theme.       
+    Do not import parent style sheet since it is progreammed in already via the parent theme.
 
-    Any custom CSS should be added to loco.css so it becomes last to load
-    If it is added here, a bootstrap theme might override your precious CSS.  */
+*/
+
+
+/* ------------------------------= UI Prefs =----------------------------------- */
+
+
+
+body, html {
+   font-size: 100%;
+}
+
+
+h1,
+.h1 {
+    font-size: 2.25rem;
+}
+
+h2,
+.h2 {
+    font-size: 1.875rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.625rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.125rem;
+}
+
+h5,
+.h5 {
+    font-size: .875rem
+}
+
+h6,
+.h6 {
+    font-size: 0.75rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+
+}
+
+p {
+    margin: 0 0 0.65rem;
+}
+
+blockquote {
+    padding: 0.625rem 1.25rem;
+    margin: 0 0 1.25rem;
+    font-size: 1.09rem;
+}
+
+
+.lead {
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+}
+
+.page-header {
+    padding-bottom: 0.56rem;
+    margin: 2.5rem 0 1.25rem;
+}
+
+
+@media (min-width:768px) {
+    .lead {
+        font-size: 1.31rem;
+        line-height: 2rem;
+    }
+}
+
+
+figure {
+    margin: 1rem 2.5rem
+}
+
+hr {
+    margin-top: 1.25rem;
+    margin-bottom:  1.25rem;
+}
+
+ul,
+ol {
+    margin-bottom: 0.625rem;
+}
+
+.home ul, .home ol {
+    text-align: initial;
+}
+
+
+
+h1, .h1, h2, .h2, h3, .h3 {
+	margin-top: 1rem;
+	margin-bottom: 0;
+}
+
+.jumbotron {
+	background-color:transparent;
+}
+
+.page-header {
+	padding-bottom: 0.56rem;
+	margin: 0;
+	border:none;
+	margin: 0 -10px;
+	background-color: #fff;
+	opacity: 0.8;
+
+}
+
+.page-header h2 {
+	padding: 0.125rem 0.625rem;
+}
+
+#main .meta {
+	color: #808080;
+	background-color: #fff;
+	opacity: 0.8;
+	font-weight: 400;
+	margin: 0 -10px;
+}
+
+
+.page-header h1, .page-header .meta {
+	margin: 0;
+	text-align:center;
+}
+
+.centertext {
+	text-align:center;
+}
+
+.btnnav {
+	padding: 1.125rem 0;
+}
+
+.btnnav a {
+	text-align:center;
+	width:90%;
+}
+
+#commentform textarea {
+	width: 60%;
+	height: 9.375rem;
+}
+
+
+.lead {
+    margin-bottom: 2em;
+}
+
+@media (min-width: 768px)
+.lead {
+    font-size: 2.4rem;
+}
+
+
+.twitter-tweet-rendered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+/* --------------------------= Images Be Responsive =----------------------------- */
+/* h/t http://wordpress.stackexchange.com/a/37768/14945                            */
+
+.entry-content img,
+.comment-content img,
+.widget img {
+    max-width: 97.5%; /* Fluid images for posts, comments, and widgets */
+}
+img[class*="align"],
+img[class*="wp-image-"] {
+    height: auto; /* Make sure images with WordPress-added height and width >attributes are scaled correctly */
+}
+img.size-full {
+    max-width: 97.5%;
+    width: auto; /* Prevent stretching of full-size images with height and >>width attributes in IE8 */
+}
+
+.wp-caption { max-width: 100%; }
+
+p.wp-caption-text {
+    color: #969393;
+    font-weight: bold;
+    font-size: 90%;
+    padding-bottom: 2px;
+    border-bottom: 2px dotted rgb(234, 240, 240)
+}
+
+
+
+/* ----------------------------= Footer Widgets =------------------------------ */
+
+
+#widget-footer li {
+  word-wrap: break-word;
+}
+
+
+.widget ul, .widget ol {
+    margin: 0;
+}
+
+
+/* ----------------------------= Tweet Button =------------------------------ */
+p.tweet-deets {
+text-align: center;
+font-weight: bold;
+background-color: rgb(234, 240, 240);
+padding: 0.625rem;
+width: 75%;
+margin: 1em auto;
+}
+
+.alignleft {
+  margin-right: 0.625rem;
+  float: left;
+}
+.alignright {
+  margin-left:  0.625rem;
+  float: right;
+}
+.aligncenter {
+  display: block;
+  margin: 2em auto;
+}
+
+/* ----------------------------= Progress bars =------------------------------------- */
+
+progress, progress[role] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-size: auto;
+  height: 1.875rem;
+  width: 100%;
+}
+
+.leader-list {
+  list-style: none;
+  margin: 0;
+  padding: 1em;
+}
+
+.leader {
+  margin-bottom: 1em;
+  position: relative;
+}
+.leader h3 {
+  color: #fff;
+  left: 0.3125rem;
+  line-height: 1;
+  position: absolute;
+  bottom: 0.75rem;
+  font-size:  1.125rem;
+}
+
+.leader h3 a {
+	color: #fff;
+}
+
+.leader ::-webkit-progress-value {
+  -webkit-animation: bar-fill 2s;
+  width: 0px;
+}
+.leader ::-webkit-progress-bar {
+  background-color: #D3D3D3;
+}
+.leader ::-moz-progress-bar {
+  background-color: #D3D3D3;
+}
+
+.leader-1::-webkit-progress-value {
+  background: #ff9e2c;
+}
+
+.leader-1::-moz-progress-bar {
+  background: #ff9e2c;
+}
+
+.leader-2::-webkit-progress-value {
+  background: #4ecdc4;
+}
+
+.leader-2::-moz-progress-bar {
+  background: #4ecdc4;
+}
+
+.leader-3::-webkit-progress-value {
+  background: #ff6b6b;
+}
+
+.leader-3::-moz-progress-bar {
+  background: #ff6b6b;
+}
+
+@-webkit-keyframes bar-fill {
+  0% {
+    width: 0;
+  }
+}
+@keyframes bar-fill {
+  0% {
+    width: 0;
+  }
+}
+
+
+
+* ----------------------------= Forms =------------------------------------- */
+
+#dailyform {
+	margin:2em 0;
+	background-color: #f8f8f8;
+	padding: 2em;
+	border: 8px solid #fff;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+}
+
+
+#dailyform input[type="text"], #dailyform textarea {
+	width:100%;
+}
+
+#dailyform form-group  {
+	margin: 0 0 1.25rem 0;
+}
+
+#dailyform  .help-block {
+  line-height: 1.1;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+#dailyform label {
+	font-variant: small-caps;
+	font-size: large;
+	font-weight: bold;
+	text-transform: lowercase;
+}
+
+/* fudge for editor link styles box */
+.has-text-field #wp-link .query-results {
+    top: 240px!important;
+}
+
