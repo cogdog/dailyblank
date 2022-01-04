@@ -16,10 +16,10 @@ class dailyblank_Theme_Options {
 		// This will keep track of the checkbox options for the validate_settings function.
 		$this->checkboxes = array();
 		$this->settings = array();
-		
+
 		//$this->bank106_init();
 		$this->get_settings();
-		
+
 		$this->sections['general'] = __( 'General Settings' );
 		$this->sections['reset']   = __( 'Reset Options to Defaults' );
 
@@ -30,10 +30,10 @@ class dailyblank_Theme_Options {
 
 		// enqueue scripts for media uploader
         add_action( 'admin_enqueue_scripts', 'dailyblank_enqueue_options_scripts' );
-		
+
 		add_action( 'admin_menu', array( &$this, 'add_pages' ) );
 		add_action( 'admin_init', array( &$this, 'register_settings' ) );
-		
+
 		if ( ! get_option( 'dailyblank_options' ) )
 			$this->initialize_settings();
 	}
@@ -41,43 +41,43 @@ class dailyblank_Theme_Options {
 	/* Add page(s) to the admin menu */
 	public function add_pages() {
 		$admin_page = add_theme_page( 'Daily Blank Options', 'Daily Blank Options', 'manage_options', 'dailyblank-options', array( &$this, 'display_page' ) );
-		
-		// documents page, but don't add to menu		
+
+		// documents page, but don't add to menu
 		$docs_page = add_theme_page( 'Daily Blank Documentation', '', 'manage_options', 'dailyblank-docs', array( &$this, 'display_docs' ) );
-		
+
 	}
 
 	/* HTML to display the theme options page */
 	public function display_page() {
 		echo '<div class="wrap">
 			  <h1>Daily Blank Options</h1>';
-		
+
 		if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == true ) {
 			echo '<div class="notice notice-success"><p>' . __( 'Theme options updated.' ) . '</p></div>';
 		}
-		
+
 		echo '<form action="options.php" method="post" enctype="multipart/form-data">';
-			
+
 		settings_fields( 'dailyblank_options' );
-		
-		
+
+
 		echo  '<h2 class="nav-tab-wrapper"><a class="nav-tab nav-tab-active" href="?page=ds106bank-options">Settings</a>
 		<a class="nav-tab" href="?page=dailyblank-docs">Documentation</a></h2>';
 
 		do_settings_sections( $_GET['page'] );
-		
+
 			echo '<p class="submit"><input name="Submit" type="submit" class="button-primary" value="' . __( 'Save Changes' ) . '" /></p>
 
 		</div>
-		
+
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
-			
+
 			$("input[type=text], textarea").each(function() {
 				if ($(this).val() == $(this).attr("placeholder") || $(this).val() == "")
 					$(this).css("color", "#999");
 			});
-			
+
 			$("input[type=text], textarea").focus(function() {
 				if ($(this).val() == $(this).attr("placeholder") || $(this).val() == "") {
 					$(this).val("");
@@ -89,7 +89,7 @@ class dailyblank_Theme_Options {
 					$(this).css("color", "#999");
 				}
 			});
-			
+
 			// This will make the "warning" checkbox class really stand out when checked.
 			// I use it here for the Reset checkbox.
 			$(".warning").change(function() {
@@ -99,22 +99,22 @@ class dailyblank_Theme_Options {
 					$(this).parent().css("background", "none").css("color", "inherit").css("fontWeight", "normal");
 			});
 		});
-		</script>';	
+		</script>';
 	}
-			
+
 	/*  display documentation in a tab */
-	public function display_docs() {	
-		// This displays on the "Documentation" tab. 
-		
+	public function display_docs() {
+		// This displays on the "Documentation" tab.
+
 	 	echo '<div class="wrap">
 		<h1>Daily Blank Documentation</h1>
 		<h2 class="nav-tab-wrapper">
 		<a class="nav-tab" href="?page=dailyblank-options">Settings</a>
 		<a class="nav-tab nav-tab-active" href="?page=dailyblank-docs">Documentation</a></h2>';
-		
+
 		include( get_stylesheet_directory() . '/includes/dailyblank-theme-options-docs.php');
-		
-		echo '</div>';		
+
+		echo '</div>';
 	}
 
 
@@ -122,7 +122,7 @@ class dailyblank_Theme_Options {
 
 	/* Define all settings and their defaults */
 	public function get_settings() {
-	
+
 		/* General Settings
 		===========================================*/
 
@@ -135,7 +135,7 @@ class dailyblank_Theme_Options {
 			'section' => 'general'
 		);
 
-	
+
 		$this->settings['twitteraccount'] = array(
 			'title'   => __( 'Twitter Account' ),
 			'desc'    => __( 'User name (without the @) that replies will be sent to.' . dailyblank_twitter_auth() ),
@@ -143,7 +143,7 @@ class dailyblank_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);
-		
+
 		$this->settings['twitterextra'] = array(
 			'title'   => __( 'Add to Tweets' ),
 			'desc'    => __( 'All published dailies will include in the titile @' . dailyblank_option('twitteraccount') . ' but use this to add anything else you want to appear in the title (e.g. a hashtag)'  ),
@@ -151,8 +151,8 @@ class dailyblank_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);
-		
-		
+
+
 		$this->settings['tweetstr'] = array(
 			'title'   => __( 'Default Tweet' ),
 			'desc'    => __( 'Default text for twitter button (hash tag will be added)' ),
@@ -160,7 +160,7 @@ class dailyblank_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);
-		
+
 		$this->settings['basetag'] = array(
 			'section' => 'general',
 			'title'   => __( 'Base Name for Tags' ),
@@ -168,15 +168,15 @@ class dailyblank_Theme_Options {
 			'std'     => 'td',
 			'type'    => 'text',
 			'section' => 'general'
-		);	
-		
+		);
+
   		// Build array to hold options for select, an array of post categories
-		// Walk those cats, store as array index=ID 
-	  	$all_cats = get_categories('hide_empty=0'); 
+		// Walk those cats, store as array index=ID
+	  	$all_cats = get_categories('hide_empty=0');
 		foreach ( $all_cats as $item ) {
   			$cat_options[$item->term_id] =  $item->name;
   		}
- 
+
 		$this->settings['all_cat'] = array(
 			'section' => 'general',
 			'title'   => __( 'Category for All Daily Blanks'),
@@ -184,8 +184,8 @@ class dailyblank_Theme_Options {
 			'type'    => 'select',
 			'std'     => 0,
 			'choices' => $cat_options
-		);	
- 
+		);
+
 		$this->settings['startnum'] = array(
 			'section' => 'general',
 			'title'   => __( 'Start Tag Numbers at' ),
@@ -193,8 +193,8 @@ class dailyblank_Theme_Options {
 			'std'     => '1',
 			'type'    => 'text',
 			'section' => 'general'
-		);	
-		
+		);
+
 		$this->settings['frontimg'] = array(
 			'title'   => __( 'Front Image' ),
 			'desc'    => __( 'Used on home page as background for listing of recent item. Upload an image at least 640 x 311' ),
@@ -210,8 +210,8 @@ class dailyblank_Theme_Options {
 			'std'     => '8',
 			'type'    => 'text',
 			'section' => 'general'
-		);	
-			
+		);
+
 
 		$this->settings['dailytime'] = array(
 			'section' => 'general',
@@ -220,7 +220,7 @@ class dailyblank_Theme_Options {
 			'std'     => '08:00',
 			'type'    => 'text',
 			'section' => 'general'
-		);	
+		);
 
 		$this->settings['frequency'] = array(
 			'section' => 'general',
@@ -233,26 +233,26 @@ class dailyblank_Theme_Options {
 				'2' => 'every 2 days',
 				'3' => 'every 3 days',
 				'4' => 'every 4 days',
-				'5' => 'every 5 days',	
-				'6' => 'every 6 days',	
+				'5' => 'every 5 days',
+				'6' => 'every 6 days',
 				'7' => 'every week',
-				'14' => 'every 2 weeks'	
+				'14' => 'every 2 weeks'
 			)
-		);	
+		);
 
 
 		$standby_status = ( dailyblank_option('standby') == 'on') ? '<span style="color:red">Tweet Checking Paused</span>' : 'Checking tweets every hour';
-		
+
 		// look for date of last twitter check
 		$last_twitter_check =  get_option( 'dailyblank_twitter_check' );
-		
-		
-		
-		
-	
+
+
+
+
+
 		$twitter_stamp = ( $last_twitter_check ) ? 'Twitter last checked for tweets ' . date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) , $last_twitter_check ) . '. ' : 'Twitter has not been checked yet for tweets to count. ';
 
-		// ------- give some button power	
+		// ------- give some button power
 		$this->settings['seeker'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
@@ -260,7 +260,7 @@ class dailyblank_Theme_Options {
 			'std'    => '<strong>STATUS:</strong> ' . $standby_status . '<br /><strong>LAST CHECK:</strong>' .  $twitter_stamp . '<br /><a href="' . admin_url('admin-post.php?action=seek_tweets') . '" target="_blank" class="button-secondary">Look for tweets</a>',
 			'type'    => 'heading'
 		);
-		
+
 		$this->settings['standby'] = array(
 			'section' => 'general',
 			'title'   => __( 'Standby Mode' ),
@@ -271,7 +271,7 @@ class dailyblank_Theme_Options {
 				'off' => 'Off',
 				'on' => 'On',
 			)
-		);	
+		);
 
 		$this->settings['supply'] = array(
 			'section' => 'general',
@@ -284,13 +284,13 @@ class dailyblank_Theme_Options {
 				'1' => '1',
 				'2' => '2',
 				'3' => '3',
-				'4' => '4',	
-				'5' => '5',	
+				'4' => '4',
+				'5' => '5',
 				'6' => '6',
-				'7' => '7'	
+				'7' => '7'
 			)
-		);	
-		
+		);
+
 		$this->settings['notify'] = array(
 			'title'   => __( 'Notification Emails' ),
 			'desc'    => __( 'Send notifications to these addresses when the supply reaches the levels above. Separate multiple address with commas.' ),
@@ -298,11 +298,11 @@ class dailyblank_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);
-		
-		
+
+
 		/* Reset
 		===========================================*/
-		
+
 		$this->settings['reset_theme'] = array(
 			'section' => 'reset',
 			'title'   => __( 'Reset Options' ),
@@ -312,20 +312,20 @@ class dailyblank_Theme_Options {
 			'desc'    => __( 'Check this box and click "Save Changes" below to reset bank options to their defaults.' )
 		);
 
-		
+
 	}
-	
+
 	public function display_general() {
 		// section heading for general setttings
-	
-		echo '<p>These settings manaage the behavior and appearance of your Daily Blank site. There are quite a few of them!</p>';		
+
+		echo '<p>These settings manaage the behavior and appearance of your Daily Blank site. There are quite a few of them!</p>';
 	}
 
 
 	public function display_reset() {
 		// section heading for reset section setttings
 	}
-	
+
 	/* HTML output for individual settings */
 	public function display_setting( $args = array() ) {
 
@@ -339,14 +339,14 @@ class dailyblank_Theme_Options {
 			$options[$id] = 0;
 
 		$options['new_types'] = 'New Type Name'; // always reset
-		
+
 		$field_class = '';
 		if ( $class != '' )
 			$field_class = ' ' . $class;
-			
-			
+
+
 		switch ( $type ) {
-		
+
 			case 'heading':
 				echo '<tr><td colspan="2" class="alternate"><h3>' . $desc . '</h3><p>' . $std . '</p></td></tr>';
 				break;
@@ -371,10 +371,10 @@ class dailyblank_Theme_Options {
 				break;
 
 			case 'radio':
-			
+
 				if ( $desc != '' )
 					echo '<span class="description">' . $desc . '</span><br /><br />';
-			
+
 				$i = 0;
 				foreach ( $choices as $value => $label ) {
 					echo '<input class="radio' . $field_class . '" type="radio" name="dailyblank_options[' . $id . ']" id="' . $id . $i . '" value="' . esc_attr( $value ) . '" ' . checked( $options[$id], $value, false ) . '> <label for="' . $id . $i . '">' . $label . '</label>';
@@ -392,22 +392,22 @@ class dailyblank_Theme_Options {
 					echo '<br /><span class="description">' . $desc . '</span>';
 
 				break;
-				
+
 			case 'medialoader':
-			
+
 				echo '<div id="uploader_' . $id . '">';
-				
+
 				if ( $options[$id] )  {
 					$front_img = wp_get_attachment_image_src( $options[$id], 'wpbs-featured-home' );
 					echo '<img id="previewimage_' . $id . '" src="' . $front_img[0] . '" width="640" height="311" alt="default thumbnail" />';
 				} else {
-					echo '<img id="previewimage_' . $id . '" src="https://placehold.it/640x311" alt="default front image" />';
+					echo '<img id="previewimage_' . $id . '" src="https://place-hold.it/640x311" alt="default front image" />';
 				}
 
 				echo '<input type="hidden" name="dailyblank_options[' . $id . ']" id="' . $id . '" value="' . $options[$id]  . '" />
   <br /><input type="button" class="upload_image_button button-primary" name="_dailyblank_button' . $id .'" id="_dailyblank_button' . $id .'" data-options_id="' . $id  . '" data-uploader_title="Set Front Image" data-uploader_button_text="Select Image" value="Set/Change Image" />
 </div><!-- uploader -->';
-				
+
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
 
@@ -426,29 +426,29 @@ class dailyblank_Theme_Options {
 				echo '<input class="regular-text' . $field_class . '" type="text" id="' . $id . '" name="dailyblank_options[' . $id . ']" placeholder="' . $std . '" value="' . esc_attr( $options[$id] ) . '" />';
 
 				if ( $desc != '' ) {
-				
+
 					if ($id == 'def_thumb') $desc .= '<br /><a href="' . $options[$id] . '" target="_blank"><img src="' . $options[$id] . '" style="overflow: hidden;" width="' . $options["index_thumb_w"] . '"></a>';
 					echo '<br /><span class="description">' . $desc . '</span>';
 				}
 
 				break;
 		}
-	}	
-			
+	}
+
 
 
 
 	/* Initialize settings to their default values */
 	public function initialize_settings() {
-	
+
 		$default_settings = array();
 		foreach ( $this->settings as $id => $setting ) {
 			if ( $setting['type'] != 'heading' )
 				$default_settings[$id] = $setting['std'];
 		}
-	
+
 		update_option( 'dailyblank_options', $default_settings );
-	
+
 	}
 
 
@@ -458,20 +458,20 @@ class dailyblank_Theme_Options {
 		register_setting( 'dailyblank_options', 'dailyblank_options', array ( &$this, 'validate_settings' ) );
 
 		foreach ( $this->sections as $slug => $title ) {
-		
+
 			add_settings_section( $slug, $title, array( &$this, $this->section_callbacks[$slug] ), 'dailyblank-options' );
 		}
 
 		$this->get_settings();
-	
+
 		foreach ( $this->settings as $id => $setting ) {
 			$setting['id'] = $id;
 			$this->create_setting( $setting );
 		}
 
 	}
-	
-	
+
+
 	/* tool to create settings fields */
 	public function create_setting( $args = array() ) {
 
@@ -500,59 +500,59 @@ class dailyblank_Theme_Options {
 
 		if ( $type == 'checkbox' )
 			$this->checkboxes[] = $id;
-				
+
 
 		add_settings_field( $id, $title, array( $this, 'display_setting' ), 'dailyblank-options', $section, $field_args );
 
 	}
-		
+
 	public function validate_settings( $input ) {
-		
+
 		if ( ! isset( $input['reset_theme'] ) ) {
 			$options = get_option( 'dailyblank_options' );
-				
+
 			if ( $input['dailytime'] !=  $options['dailytime']  ) {
 				// time setting change, let's format it nicely
-				
+
 				$timeofday = strtotime( $input['dailytime'] );
-				
+
 				if ($timeofday) {
-					// valid time of day 				
+					// valid time of day
 					$input['dailytime'] = date('H:i', $timeofday);
 				} else {
 					$input['dailytime'] = 'Invalid format! try \'13:00\' or \'1pm\' for 1 o\'clock';
 				}
-				
+
 			}
-			
+
 			if ( $input['standy'] == 'on' ) {
 				// standby mode enabled, turn off schedulers
 				// from https://codex.wordpress.org/Function_Reference/wp_unschedule_event
-				
+
 				// Get the timestamp for the next event.
 				$timestamp = wp_next_scheduled( 'dailyblank_hello_twitter' );
-				
+
 				// cancel the hourly checks for tweets
 				wp_unschedule_event( $timestamp, 'dailyblank_hello_twitter');
-				
+
 			}
-			
+
 			// make sure the basetag is lower case
 			$input['basetag']  =  strtolower( $input['basetag'] );
-				
+
 			foreach ( $this->checkboxes as $id ) {
 				if ( isset( $options[$id] ) && ! isset( $input[$id] ) )
 					unset( $options[$id] );
 			}
-			
+
 			return $input;
 		}
-		
+
 		return false;
-		
+
 	}
  }
- 
+
 $theme_options = new dailyblank_Theme_Options();
 
 function dailyblank_option( $option ) {
