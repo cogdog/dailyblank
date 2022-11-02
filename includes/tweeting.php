@@ -16,10 +16,14 @@ function dailyblank_twitter_auth() {
 		// ping twitter for current user name
 		$test_tweets = getTweets( dailyblank_option('twitteraccount'), 1 );
 
-		if ( $test_tweets["error"] ) {
-			$fb_str .= 'Uh oh, we have a problem Houston accessing tweets from @' . dailyblank_option('twitteraccount') . ': ' .  $test_tweets["error"] . ' Maybe check the <a href="' . admin_url( 'admin.php?page=options-general.php?page=tdf_settings') .'">Twitter Oauth Settings</a>?'; ;
+		if ( sizeof($test_tweets) == 0  ){
+			$fb_str = 'getTweets() returns null';
 		} else {
-			$fb_str .= 'Successful connection to collect tweets replied to <a href="http://twitter.com/' . dailyblank_option('twitteraccount') . '"  target="_blank">@' . dailyblank_option('twitteraccount') . '</a>. This site is ready to collect responses.';
+			if ( $test_tweets["error"] ) {
+				$fb_str .= 'Uh oh, we have a problem Houston accessing tweets from @' . dailyblank_option('twitteraccount') . ': ' .  $test_tweets["error"] . ' Maybe check the <a href="' . admin_url( 'admin.php?page=options-general.php?page=tdf_settings') .'">Twitter Oauth Settings</a>?'; ;
+			} else {
+				$fb_str .= 'Successful connection to collect tweets replied to <a href="http://twitter.com/' . dailyblank_option('twitteraccount') . '"  target="_blank">@' . dailyblank_option('twitteraccount') . '</a>. This site is ready to collect responses.';
+			}
 		}
 
 

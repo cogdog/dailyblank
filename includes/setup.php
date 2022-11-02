@@ -190,6 +190,22 @@ function dailyblank_make_dashboard_widget() {
 
 
 # -----------------------------------------------------------------
+# For Some Randomness in Categories
+# -----------------------------------------------------------------
+
+
+/* ----- add allowable url parameter for urls */
+add_filter('query_vars', 'dailyblank_parameter_queryvars' );
+ 
+function dailyblank_parameter_queryvars( $qvars )
+// allow  parameters to be passed in wordpress query strings
+{
+	$qvars[] = 'c';			// when we need to pass a category
+	return $qvars;
+}
+
+
+# -----------------------------------------------------------------
 # For the Form
 # -----------------------------------------------------------------
 
