@@ -8,6 +8,8 @@ by Alan Levine http://cog.dog/ or http://cogdogblog.com/
 
 ----- 
 
+**Note:** Due to the demolishing of Twitter's usable API, as of June 16, future versions of the Daily Blank will be rewritten and updated to work solely with Mastodon. The last working Twitter version of this theme has been shuttled over to the [Dead Bird Branch](https://github.com/cogdog/dailyblank/tree/Dead-Bird). Thanks for nothing, Elmo.
+
 ![](images/dailyblank-example.jpg "Example Daily Blank")
 
 ## What is this?
