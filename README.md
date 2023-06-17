@@ -1,6 +1,8 @@
 # The Daily Blank Wordpress Theme
 by Alan Levine http://cog.dog/ or http://cogdogblog.com/
 
+**NOTE:** This is the last version that worked with Twitter. Because of their decision in 2023 to charge way too much money for its API and mostly breaking functionality that worked here since 2015, support for Twitter is removed. The current code and future developments will be recoded to work with Mastodon. This branch is left for... well maybe just as a sad commentary.
+
 -----
 *If this kind of stuff has any value to you, please consider supporting me so I can do more!*
 
