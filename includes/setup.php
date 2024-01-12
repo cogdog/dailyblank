@@ -339,8 +339,4 @@ function dailyblank_tinymce_settings( $settings ) {
 	return $settings;
 }
 
-
-
-
-
 ?>
